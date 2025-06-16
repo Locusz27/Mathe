@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Materials | Mathe</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-logo">
+        <a href="index.html" class="logo">Mathe</a>
+      </div>
+      
+      <nav class="navbar-menu">
+        <a href="index.html" class="navbar-link">Home</a>
+        <a href="learning-materials.html" class="navbar-link active">Learning Materials</a>
+        <a href="worksheets.html" class="navbar-link">Worksheets</a>
+        <a href="quiz.html" class="navbar-link">Quiz</a>
+        <a href="about.html" class="navbar-link">About</a>
+      </nav>
+      
+      <div class="navbar-actions">
+        <a href="login.html" class="btn btn-ghost">Login</a>
+        <a href="login.html?tab=register" class="btn btn-primary">Register</a>
+      </div>
+      
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="learning-materials.html" class="mobile-link active">Learning Materials</a>
+      <a href="worksheets.html" class="mobile-link">Worksheets</a>
+      <a href="quiz.html" class="mobile-link">Quiz</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <div class="mobile-actions">
+        <a href="login.html" class="btn btn-outline btn-full">Login</a>
+        <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Learning Materials</h1>
+          <p class="page-description">Browse our collection of math learning resources</p>
+        </div>
+
+        <div id="teacher-actions" class="hidden">
+          <button class="btn btn-primary" id="upload-material-btn">
+            <i data-lucide="plus" class="btn-icon"></i> Upload Material
+          </button>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="search-materials" class="search-input" placeholder="Search by title, description, or subject...">
+        </div>
+        
+        <div class="filter-container">
+          <div class="filter-group">
+            <label for="subject-filter" class="filter-label">Subject:</label>
+            <select id="subject-filter" class="filter-select">
+              <option value="all">All Subjects</option>
+              <option value="algebra">Algebra</option>
+              <option value="geometry">Geometry</option>
+              <option value="arithmetic">Arithmetic</option>
+              <option value="trigonometry">Trigonometry</option>
+              <option value="statistics">Statistics</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="level-filter" class="filter-label">Level:</label>
+            <select id="level-filter" class="filter-select">
+              <option value="all">All Levels</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="materials-grid" id="materials-grid">
+        <!-- Materials will be populated by JavaScript -->
+      </div>
+
+      <div id="no-results" class="no-results hidden">
+        <p>No learning materials found. Try a different search term or filter.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Upload Material Modal -->
+  <div class="modal" id="upload-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Upload New Learning Material</h3>
+        <button class="modal-close" id="close-upload-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="upload-form" class="form">
+          <div class="form-group">
+            <label for="material-title">Title</label>
+            <input type="text" id="material-title" placeholder="e.g., Introduction to Calculus" required>
+          </div>
+          <div class="form-group">
+            <label for="material-description">Description</label>
+            <textarea id="material-description" placeholder="Brief description of the material" rows="3" required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="material-subject">Subject</label>
+              <input type="text" id="material-subject" placeholder="e.g., Algebra" required>
+            </div>
+            <div class="form-group">
+              <label for="material-level">Level</label>
+              <input type="text" id="material-level" placeholder="e.g., Beginner" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="material-file">Upload File</label>
+            <input type="file" id="material-file" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3 class="footer-title">Mathe</h3>
+          <p class="footer-text">
+            Free basic math education platform for learners without access to school.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Resources</h3>
+          <ul class="footer-links">
+            <li><a href="learning-materials.html">Learning Materials</a></li>
+            <li><a href="worksheets.html">Worksheets</a></li>
+            <li><a href="quiz.html">Quizzes</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">About</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Our Mission</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Contact</h3>
+          <ul class="footer-links">
+            <li>Email: info@mathe-education.org</li>
+            <li><a href="#">Contact Form</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="learning-materials.js"></script>
+</body>
+</html>

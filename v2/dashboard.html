@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Mathe</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-logo">
+        <a href="index.html" class="logo">Mathe</a>
+      </div>
+      
+      <nav class="navbar-menu">
+        <a href="index.html" class="navbar-link">Home</a>
+        <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
+        <a href="worksheets.html" class="navbar-link">Worksheets</a>
+        <a href="quiz.html" class="navbar-link">Quiz</a>
+        <a href="about.html" class="navbar-link">About</a>
+      </nav>
+      
+      <div class="navbar-actions">
+        <a href="dashboard.html" class="btn btn-primary active">Dashboard</a>
+      </div>
+      
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
+      <a href="worksheets.html" class="mobile-link">Worksheets</a>
+      <a href="quiz.html" class="mobile-link">Quiz</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <div class="mobile-actions">
+        <a href="dashboard.html" class="btn btn-primary btn-full active">Dashboard</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-title">Welcome, John Doe!</h1>
+          <p class="dashboard-description" id="role-description">Access your learning materials and track your progress.</p>
+        </div>
+
+        <div class="role-switcher">
+          <div class="tabs tabs-small">
+            <div class="tabs-list">
+              <button class="tab-trigger active" data-tab="student" data-role="student">Student View</button>
+              <button class="tab-trigger" data-tab="teacher" data-role="teacher">Teacher View</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid" id="student-dashboard">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="book-open"></i>
+            </div>
+            <h3 class="card-title">Learning Materials</h3>
+            <p class="card-description">Access your learning materials</p>
+          </div>
+          <div class="card-footer">
+            <a href="learning-materials.html" class="btn btn-primary">Browse Materials</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="file-text"></i>
+            </div>
+            <h3 class="card-title">Worksheets</h3>
+            <p class="card-description">Download practice worksheets</p>
+          </div>
+          <div class="card-footer">
+            <a href="worksheets.html" class="btn btn-primary">Get Worksheets</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="brain"></i>
+            </div>
+            <h3 class="card-title">Quizzes</h3>
+            <p class="card-description">Test your knowledge</p>
+          </div>
+          <div class="card-footer">
+            <a href="quiz.html" class="btn btn-primary">Take Quiz</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="help-circle"></i>
+            </div>
+            <h3 class="card-title">Request Help</h3>
+            <p class="card-description">Get hints and assistance</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Request Hints</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid hidden" id="teacher-dashboard">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="upload"></i>
+            </div>
+            <h3 class="card-title">Upload Materials</h3>
+            <p class="card-description">Add new learning materials</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Upload</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="file-text"></i>
+            </div>
+            <h3 class="card-title">Manage Worksheets</h3>
+            <p class="card-description">Create and edit worksheets</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Manage</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="plus"></i>
+            </div>
+            <h3 class="card-title">Create Quiz</h3>
+            <p class="card-description">Create new quizzes</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Create</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon text-primary">
+              <i data-lucide="settings"></i>
+            </div>
+            <h3 class="card-title">Settings</h3>
+            <p class="card-description">Manage your account</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Settings</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="recent-activity">
+        <h2 class="section-title">Recent Activity</h2>
+        <div class="card">
+          <div class="card-content">
+            <p class="text-center text-muted" id="activity-message">
+              You haven't completed any activities yet. Start learning!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3 class="footer-title">Mathe</h3>
+          <p class="footer-text">
+            Free basic math education platform for learners without access to school.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Resources</h3>
+          <ul class="footer-links">
+            <li><a href="learning-materials.html">Learning Materials</a></li>
+            <li><a href="worksheets.html">Worksheets</a></li>
+            <li><a href="quiz.html">Quizzes</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">About</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Our Mission</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Contact</h3>
+          <ul class="footer-links">
+            <li>Email: info@mathe-education.org</li>
+            <li><a href="#">Contact Form</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
