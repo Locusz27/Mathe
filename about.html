@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | Mathe</title>
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  /* About page specific styles */
+  .about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .about-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .about-description {
+    font-size: 1.125rem;
+    color: var(--muted-foreground);
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+  }
+  
+  .mission-section {
+    margin-bottom: 3rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+    color: var(--foreground);
+  }
+  
+  .mission-text {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  .sdg-card {
+    background-color: rgba(59, 130, 246, 0.05);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .sdg-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+  
+  .sdg-description {
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+  
+  .sdg-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sdg-list-item {
+    display: flex;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+  
+  .sdg-list-bullet {
+    color: var(--primary);
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+  }
+  
+  .features-section {
+    margin-bottom: 3rem;
+  }
+  
+  .features-title {
+    font-size: 1.75rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    background-color: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: var(--primary);
+  }
+  
+  .feature-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+  
+  .feature-title {
+    font-size: 1.25rem;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .feature-description {
+    text-align: center;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+  }
+  
+  .join-section {
+    background-color: rgba(59, 130, 246, 0.05);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .join-title {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .join-description {
+    color: var(--muted-foreground);
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+  }
+  
+  @media (min-width: 640px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .about-container {
+      padding: 0 2rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+<header class="navbar">
+  <div class="container">
+    <div class="navbar-logo">
+      <a href="index.html" class="logo">Mathe</a>
+    </div>
+    
+    <nav class="navbar-menu">
+      <a href="index.html" class="navbar-link">Home</a>
+      <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
+      <a href="worksheets.html" class="navbar-link">Worksheets</a>
+      <a href="quiz.html" class="navbar-link">Quiz</a>
+      <a href="about.html" class="navbar-link active">About</a>
+    </nav>
+    
+    <div class="navbar-actions">
+      <a href="login.html" class="btn btn-ghost">Login</a>
+      <a href="login.html?tab=register" class="btn btn-primary">Register</a>
+    </div>
+    
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <i data-lucide="menu"></i>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu">
+  <nav class="mobile-nav">
+    <a href="index.html" class="mobile-link">Home</a>
+    <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
+    <a href="worksheets.html" class="mobile-link">Worksheets</a>
+    <a href="quiz.html" class="mobile-link">Quiz</a>
+    <a href="about.html" class="mobile-link active">About</a>
+    <div class="mobile-actions">
+      <a href="login.html" class="btn btn-outline btn-full">Login</a>
+      <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
+    </div>
+  </nav>
+</div>
+
+<main>
+  <div class="about-container">
+    <div class="about-header">
+      <h1 class="about-title">About Mathe</h1>
+      <p class="about-description">Our mission is to provide free, high-quality math education to learners worldwide.</p>
+    </div>
+
+    <section class="mission-section">
+      <h2 class="section-title">Our Mission</h2>
+      <p class="mission-text">
+        Mathe was founded with a simple yet powerful mission: to make quality math education accessible to everyone,
+        regardless of their location or economic status. We believe that education is a fundamental right, and we're
+        committed to breaking down barriers to learning.
+      </p>
+      <p class="mission-text">
+        Our platform supports SDG 4: Quality Education by providing free, inclusive, and equitable educational
+        resources that promote lifelong learning opportunities for all.
+      </p>
+      
+      <div class="sdg-card">
+        <h3 class="sdg-title">SDG 4: Quality Education</h3>
+        <p class="sdg-description">
+          Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all.
+        </p>
+        <ul class="sdg-list">
+          <li class="sdg-list-item">
+            <span class="sdg-list-bullet">•</span>
+            <span>Ensure equal access to affordable technical, vocational and higher education</span>
+          </li>
+          <li class="sdg-list-item">
+            <span class="sdg-list-bullet">•</span>
+            <span>Substantially increase the number of youth and adults who have relevant skills for employment</span>
+          </li>
+          <li class="sdg-list-item">
+            <span class="sdg-list-bullet">•</span>
+            <span>Eliminate gender disparities in education and ensure equal access for the vulnerable</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <h2 class="features-title">What Makes Us Different</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="book-open" width="32" height="32"></i>
+          </div>
+          <h3 class="feature-title">Quality Content</h3>
+          <p class="feature-description">All our materials are created by experienced educators and follow established curricula.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="users" width="32" height="32"></i>
+          </div>
+          <h3 class="feature-title">Community Focus</h3>
+          <p class="feature-description">We build connections between students and teachers to create a supportive learning environment.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="globe" width="32" height="32"></i>
+          </div>
+          <h3 class="feature-title">Global Access</h3>
+          <p class="feature-description">Our platform is designed to be accessible from anywhere, even with limited internet connectivity.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="award" width="32" height="32"></i>
+          </div>
+          <h3 class="feature-title">Continuous Improvement</h3>
+          <p class="feature-description">We regularly update our content based on feedback and educational research.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="join-section">
+      <h2 class="join-title">Join Our Mission</h2>
+      <p class="join-description">
+        Whether you're a student looking to learn, a teacher wanting to contribute, or an organization interested in
+        partnering with us, we'd love to have you join our community.
+      </p>
+      <a href="login.html" class="btn btn-primary btn-lg">Get Started Today</a>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3 class="footer-title">Mathe</h3>
+        <p class="footer-text">
+          Free basic math education platform for learners without access to school.
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h3 class="footer-title">Resources</h3>
+        <ul class="footer-links">
+          <li><a href="learning-materials.html">Learning Materials</a></li>
+          <li><a href="worksheets.html">Worksheets</a></li>
+          <li><a href="quiz.html">Quiz</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3 class="footer-title">About</h3>
+        <ul class="footer-links">
+          <li><a href="about.html">Our Mission</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Partners</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3 class="footer-title">Contact</h3>
+        <ul class="footer-links">
+          <li>Email: info@mathe-education.org</li>
+          <li><a href="#">Contact Form</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

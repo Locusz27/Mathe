@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Mathe</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-logo">
+        <a href="index.html" class="logo">Mathe</a>
+      </div>
+      
+      <nav class="navbar-menu">
+        <a href="index.html" class="navbar-link">Home</a>
+        <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
+        <a href="worksheets.html" class="navbar-link">Worksheets</a>
+        <a href="quiz.html" class="navbar-link">Quiz</a>
+        <a href="about.html" class="navbar-link">About</a>
+      </nav>
+      
+      <div class="navbar-actions">
+        <a href="login.html" class="btn btn-ghost active">Login</a>
+        <a href="login.html?tab=register" class="btn btn-primary">Register</a>
+      </div>
+      
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
+      <a href="worksheets.html" class="mobile-link">Worksheets</a>
+      <a href="quiz.html" class="mobile-link">Quiz</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <div class="mobile-actions">
+        <a href="login.html" class="btn btn-outline btn-full active">Login</a>
+        <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="auth-container">
+        <div class="card auth-card">
+          <div class="card-header">
+            <h2 class="card-title">Welcome to Mathe</h2>
+            <p class="card-description">Enter your credentials to access your account</p>
+          </div>
+          <div class="card-content">
+            <div class="tabs">
+              <div class="tabs-list">
+                <button class="tab-trigger active" data-tab="login">Login</button>
+                <button class="tab-trigger" data-tab="register">Register</button>
+              </div>
+
+              <div class="tab-content active" id="login-tab">
+                <form id="login-form" class="auth-form">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="name@example.com" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full">Login</button>
+                </form>
+              </div>
+
+              <div class="tab-content" id="register-tab">
+                <form id="register-form" class="auth-form">
+                  <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" placeholder="johndoe" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="name@example.com" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                  </div>
+                  <div class="form-group">
+                    <label>I am a:</label>
+                    <div class="radio-group">
+                      <div class="radio-item">
+                        <input type="radio" id="student" name="role" value="student" checked>
+                        <label for="student">Student</label>
+                      </div>
+                      <div class="radio-item">
+                        <input type="radio" id="teacher" name="role" value="teacher">
+                        <label for="teacher">Teacher</label>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-full">Register</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <p class="terms-text">
+              By continuing, you agree to our
+              <a href="#" class="link">Terms of Service</a>
+              and
+              <a href="#" class="link">Privacy Policy</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3 class="footer-title">Mathe</h3>
+          <p class="footer-text">
+            Free basic math education platform for learners without access to school.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Resources</h3>
+          <ul class="footer-links">
+            <li><a href="learning-materials.html">Learning Materials</a></li>
+            <li><a href="worksheets.html">Worksheets</a></li>
+            <li><a href="quiz.html">Quizzes</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">About</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Our Mission</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Contact</h3>
+          <ul class="footer-links">
+            <li>Email: info@mathe-education.org</li>
+            <li><a href="#">Contact Form</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

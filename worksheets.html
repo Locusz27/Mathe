@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worksheets | Mathe</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Worksheets specific styles */
+    .worksheets-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .worksheets-header {
+      margin-bottom: 2rem;
+    }
+    
+    .worksheets-title {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .worksheets-description {
+      color: var(--muted-foreground);
+      max-width: 600px;
+    }
+    
+    .worksheets-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .worksheet-card {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .worksheet-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-color: var(--primary);
+    }
+    
+    .worksheet-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .worksheet-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .worksheet-icon {
+      color: var(--primary);
+    }
+    
+    .worksheet-description {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    
+    .worksheet-content {
+      padding: 1.5rem;
+    }
+    
+    .worksheet-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .worksheet-tag {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--muted);
+      color: var(--muted-foreground);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+    }
+    
+    .worksheet-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    /*.worksheet-preview {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+      background-color: var(--muted);
+      border-radius: var(--radius);
+      padding: 1rem;
+      height: 150px;
+      overflow: hidden;
+    }
+    
+    .worksheet-preview img {
+      max-height: 100%;
+      object-fit: contain;
+    }*/
+    
+    .search-container {
+      margin-bottom: 2rem;
+    }
+    
+    .search-input-wrapper {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted-foreground);
+    }
+    
+    .search-input {
+      width: 100%;
+      height: 2.5rem;
+      padding: 0 0.75rem 0 2.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--input);
+      background-color: var(--background);
+      font-size: 0.875rem;
+    }
+    
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .filter-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .filter-select {
+      height: 2.25rem;
+      padding: 0 0.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--input);
+      background-color: var(--background);
+      font-size: 0.875rem;
+    }
+    
+    @media (min-width: 640px) {
+      .worksheets-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .worksheets-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-logo">
+        <a href="index.html" class="logo">Mathe</a>
+      </div>
+      
+      <nav class="navbar-menu">
+        <a href="index.html" class="navbar-link">Home</a>
+        <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
+        <a href="worksheets.html" class="navbar-link active">Worksheets</a>
+        <a href="quiz.html" class="navbar-link">Quiz</a>
+        <a href="about.html" class="navbar-link">About</a>
+      </nav>
+      
+      <div class="navbar-actions">
+        <a href="login.html" class="btn btn-ghost">Login</a>
+        <a href="login.html?tab=register" class="btn btn-primary">Register</a>
+      </div>
+      
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
+      <a href="worksheets.html" class="mobile-link active">Worksheets</a>
+      <a href="quiz.html" class="mobile-link">Quiz</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <div class="mobile-actions">
+        <a href="login.html" class="btn btn-outline btn-full">Login</a>
+        <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <div class="worksheets-container">
+      <div class="worksheets-header">
+        <h1 class="worksheets-title">Worksheets</h1>
+        <p class="worksheets-description">Download practice worksheets to reinforce your learning.</p>
+      </div>
+
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="search-worksheets" class="search-input" placeholder="Search by title, description, or subject...">
+        </div>
+        
+        <div class="filter-container">
+          <div class="filter-group">
+            <label for="subject-filter" class="filter-label">Subject:</label>
+            <select id="subject-filter" class="filter-select">
+              <option value="all">All Subjects</option>
+              <option value="algebra">Algebra</option>
+              <option value="geometry">Geometry</option>
+              <option value="arithmetic">Arithmetic</option>
+              <option value="trigonometry">Trigonometry</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="level-filter" class="filter-label">Level:</label>
+            <select id="level-filter" class="filter-select">
+              <option value="all">All Levels</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="worksheets-grid" id="worksheets-grid">
+        <!-- Algebra Basics -->
+        <div class="worksheet-card">
+          <div class="worksheet-header">
+            <h2 class="worksheet-title">
+              <i data-lucide="file-text" class="worksheet-icon"></i>
+              Algebra Basics Worksheet
+            </h2>
+            <p class="worksheet-description">Practice exercises on variables, expressions, and basic equations.</p>
+          </div>
+          <div class="worksheet-content">
+            <div class="worksheet-meta">
+              <span class="worksheet-tag">Algebra</span>
+              <span class="worksheet-tag">Beginner</span>
+            </div>
+            
+            <div class="worksheet-actions">
+              <a href="pdfs/worksheets/Algebra Basics Worksheets.pdf" class="btn btn-primary" target="_blank">
+                <i data-lucide="file-text" class="btn-icon"></i> View PDF
+              </a>
+              <a href="pdfs/worksheets/Algebra Basics Worksheets.pdf" class="btn btn-outline" download>
+                <i data-lucide="download" class="btn-icon"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Geometry Angles -->
+        <div class="worksheet-card">
+          <div class="worksheet-header">
+            <h2 class="worksheet-title">
+              <i data-lucide="file-text" class="worksheet-icon"></i>
+              Geometry Angles Worksheet
+            </h2>
+            <p class="worksheet-description">Practice problems on identifying, measuring, and calculating angles.</p>
+          </div>
+          <div class="worksheet-content">
+            <div class="worksheet-meta">
+              <span class="worksheet-tag">Geometry</span>
+              <span class="worksheet-tag">Beginner</span>
+            </div>
+            
+            <div class="worksheet-actions">
+              <a href="pdfs/worksheets/Geometry Angles Worksheets.pdf" class="btn btn-primary" target="_blank">
+                <i data-lucide="file-text" class="btn-icon"></i> View PDF
+              </a>
+              <a href="pdfs/worksheets/Geometry Angles Worksheets.pdf" class="btn btn-outline" download>
+                <i data-lucide="download" class="btn-icon"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fractions Practice -->
+        <div class="worksheet-card">
+          <div class="worksheet-header">
+            <h2 class="worksheet-title">
+              <i data-lucide="file-text" class="worksheet-icon"></i>
+              Fractions Practice Worksheet
+            </h2>
+            <p class="worksheet-description">Practice problems on adding, subtracting, multiplying, and dividing fractions.</p>
+          </div>
+          <div class="worksheet-content">
+            <div class="worksheet-meta">
+              <span class="worksheet-tag">Arithmetic</span>
+              <span class="worksheet-tag">Beginner</span>
+            </div>
+            
+            <div class="worksheet-actions">
+              <a href="pdfs/worksheets/Fractions Practice Worksheets.pdf" class="btn btn-primary" target="_blank">
+                <i data-lucide="file-text" class="btn-icon"></i> View PDF
+              </a>
+              <a href="pdfs/worksheets/Fractions Practice Worksheets.pdf" class="btn btn-outline" download>
+                <i data-lucide="download" class="btn-icon"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quadratic Equations -->
+        <div class="worksheet-card">
+          <div class="worksheet-header">
+            <h2 class="worksheet-title">
+              <i data-lucide="file-text" class="worksheet-icon"></i>
+              Quadratic Equations Worksheet
+            </h2>
+            <p class="worksheet-description">Practice solving quadratic equations using various methods.</p>
+          </div>
+          <div class="worksheet-content">
+            <div class="worksheet-meta">
+              <span class="worksheet-tag">Algebra</span>
+              <span class="worksheet-tag">Intermediate</span>
+            </div>
+            
+            <div class="worksheet-actions">
+              <a href="pdfs/worksheets/Quadratic Equations Worksheets.pdf" class="btn btn-primary" target="_blank">
+                <i data-lucide="file-text" class="btn-icon"></i> View PDF
+              </a>
+              <a href="pdfs/worksheets/Quadratic Equations Worksheets.pdf" class="btn btn-outline" download>
+                <i data-lucide="download" class="btn-icon"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trigonometric Functions -->
+        <div class="worksheet-card">
+          <div class="worksheet-header">
+            <h2 class="worksheet-title">
+              <i data-lucide="file-text" class="worksheet-icon"></i>
+              Trigonometric Functions Worksheet
+            </h2>
+            <p class="worksheet-description">Practice problems on trigonometric functions and their applications.</p>
+          </div>
+          <div class="worksheet-content">
+            <div class="worksheet-meta">
+              <span class="worksheet-tag">Trigonometry</span>
+              <span class="worksheet-tag">Intermediate</span>
+            </div>
+            
+            <div class="worksheet-actions">
+              <a href="pdfs/worksheets/Trigonometric Functions Worksheets.pdf" class="btn btn-primary" target="_blank">
+                <i data-lucide="file-text" class="btn-icon"></i> View PDF
+              </a>
+              <a href="pdfs/worksheets/Trigonometric Functions Worksheets.pdf" class="btn btn-outline" download>
+                <i data-lucide="download" class="btn-icon"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3 class="footer-title">Mathe</h3>
+          <p class="footer-text">
+            Free basic math education platform for learners without access to school.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Resources</h3>
+          <ul class="footer-links">
+            <li><a href="learning-materials.html">Learning Materials</a></li>
+            <li><a href="worksheets.html">Worksheets</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">About</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Our Mission</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Contact</h3>
+          <ul class="footer-links">
+            <li>Email: info@mathe-education.org</li>
+            <li><a href="#">Contact Form</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Lucide icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      
+      // Search functionality
+      const searchInput = document.getElementById('search-worksheets');
+      const subjectFilter = document.getElementById('subject-filter');
+      const levelFilter = document.getElementById('level-filter');
+      const worksheetCards = document.querySelectorAll('.worksheet-card');
+      
+      function filterWorksheets() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const subjectValue = subjectFilter.value.toLowerCase();
+        const levelValue = levelFilter.value.toLowerCase();
+        
+        worksheetCards.forEach(card => {
+          const title = card.querySelector('.worksheet-title').textContent.toLowerCase();
+          const description = card.querySelector('.worksheet-description').textContent.toLowerCase();
+          const subjectTags = Array.from(card.querySelectorAll('.worksheet-tag')).map(tag => tag.textContent.toLowerCase());
+          
+          const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
+          const matchesSubject = subjectValue === 'all' || subjectTags.some(tag => tag === subjectValue);
+          const matchesLevel = levelValue === 'all' || subjectTags.some(tag => tag === levelValue);
+          
+          if (matchesSearch && matchesSubject && matchesLevel) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+      
+      if (searchInput) {
+        searchInput.addEventListener('input', filterWorksheets);
+      }
+      
+      if (subjectFilter) {
+        subjectFilter.addEventListener('change', filterWorksheets);
+      }
+      
+      if (levelFilter) {
+        levelFilter.addEventListener('change', filterWorksheets);
+      }
+    });
+  </script>
+</body>
+</html>
