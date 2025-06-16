@@ -220,6 +220,12 @@
       display: none !important;
     }
 
+    .material-date {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-top: 0.5rem;
+    }
+
     @media (min-width: 640px) {
       .materials-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -303,6 +309,7 @@
               <option value="arithmetic">Arithmetic</option>
               <option value="trigonometry">Trigonometry</option>
               <option value="statistics">Statistics</option>
+              <option value="calculus">Calculus</option>
             </select>
           </div>
           
@@ -318,136 +325,15 @@
         </div>
       </div>
 
+      <!-- Loading state -->
+      <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading learning materials...</p>
+      </div>
+
+      <!-- Materials grid - will be populated by JavaScript -->
       <div class="materials-grid" id="materials-grid">
-        <!-- Algebra Basics -->
-        <div class="material-card" data-subject="algebra" data-level="beginner" data-title="algebra basics" data-description="learn the fundamental concepts of algebra including variables, expressions, and equations">
-          <div class="material-header">
-            <h2 class="material-title">
-              <i data-lucide="book-open" class="material-icon"></i>
-              Algebra Basics
-            </h2>
-            <p class="material-description">Learn the fundamental concepts of algebra including variables, expressions, and equations.</p>
-          </div>
-          <div class="material-content">
-            <div class="material-meta">
-              <span class="material-tag">Algebra</span>
-              <span class="material-tag">Beginner</span>
-            </div>
-            
-            <div class="material-actions">
-              <a href="pdfs/learning-materials/Algebra Basics Learning Materials.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/learning-materials/Algebra Basics Learning Materials.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Geometry Angles -->
-        <div class="material-card" data-subject="geometry" data-level="beginner" data-title="geometry angles" data-description="understand different types of angles, their properties, and how to measure them">
-          <div class="material-header">
-            <h2 class="material-title">
-              <i data-lucide="book-open" class="material-icon"></i>
-              Geometry Angles
-            </h2>
-            <p class="material-description">Understand different types of angles, their properties, and how to measure them.</p>
-          </div>
-          <div class="material-content">
-            <div class="material-meta">
-              <span class="material-tag">Geometry</span>
-              <span class="material-tag">Beginner</span>
-            </div>
-            
-            <div class="material-actions">
-              <a href="pdfs/learning-materials/Geometry Angles Learning Materials.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/learning-materials/Geometry Angles Learning Materials.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fractions Practice -->
-        <div class="material-card" data-subject="arithmetic" data-level="beginner" data-title="fractions practice" data-description="learn how to work with fractions, including addition, subtraction, multiplication, and division">
-          <div class="material-header">
-            <h2 class="material-title">
-              <i data-lucide="book-open" class="material-icon"></i>
-              Fractions Practice
-            </h2>
-            <p class="material-description">Learn how to work with fractions, including addition, subtraction, multiplication, and division.</p>
-          </div>
-          <div class="material-content">
-            <div class="material-meta">
-              <span class="material-tag">Arithmetic</span>
-              <span class="material-tag">Beginner</span>
-            </div>
-            
-            <div class="material-actions">
-              <a href="pdfs/learning-materials/Fractions Practice Learning Materials.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/learning-materials/Fractions Practice Learning Materials.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quadratic Equations -->
-        <div class="material-card" data-subject="algebra" data-level="intermediate" data-title="quadratic equations" data-description="master solving quadratic equations using factoring, completing the square, and the quadratic formula">
-          <div class="material-header">
-            <h2 class="material-title">
-              <i data-lucide="book-open" class="material-icon"></i>
-              Quadratic Equations
-            </h2>
-            <p class="material-description">Master solving quadratic equations using factoring, completing the square, and the quadratic formula.</p>
-          </div>
-          <div class="material-content">
-            <div class="material-meta">
-              <span class="material-tag">Algebra</span>
-              <span class="material-tag">Intermediate</span>
-            </div>
-            
-            <div class="material-actions">
-              <a href="pdfs/learning-materials/Quadratic Equations Learning Materials.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/learning-materials/Quadratic Equations Learning Materials.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trigonometric Functions -->
-        <div class="material-card" data-subject="trigonometry" data-level="intermediate" data-title="trigonometric functions" data-description="explore sine, cosine, tangent, and other trigonometric functions and their applications">
-          <div class="material-header">
-            <h2 class="material-title">
-              <i data-lucide="book-open" class="material-icon"></i>
-              Trigonometric Functions
-            </h2>
-            <p class="material-description">Explore sine, cosine, tangent, and other trigonometric functions and their applications.</p>
-          </div>
-          <div class="material-content">
-            <div class="material-meta">
-              <span class="material-tag">Trigonometry</span>
-              <span class="material-tag">Intermediate</span>
-            </div>
-            
-            <div class="material-actions">
-              <a href="pdfs/learning-materials/Trigonometric Functions Learning Materials.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/learning-materials/Trigonometric Functions Learning Materials.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
+        <!-- Materials will be loaded here -->
       </div>
 
       <div id="no-results" class="no-results hidden">
@@ -508,6 +394,7 @@
   </footer>
 
   <script src="js/auth.js"></script>
+  <script src="learning-materials.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

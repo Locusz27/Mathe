@@ -1,179 +1,5 @@
-// Quiz data
-const quizzes = [
-  {
-    id: 1,
-    title: "Basic Algebra Adventure",
-    description: "Solve algebraic puzzles to unlock the secrets of the ancient temple",
-    subject: "Algebra",
-    level: "Beginner",
-    backgroundTheme: "temple",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "As you approach the temple entrance, you notice ancient symbols carved into the stone. The door is sealed with a magical lock that requires solving an equation.",
-        question: "To unlock the first door, you must solve for x: 2x + 5 = 13",
-        options: ["x = 3", "x = 4", "x = 5", "x = 6"],
-        correctAnswer: "x = 4",
-        hint: "Subtract 5 from both sides, then divide by 2.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext:
-          "Inside the temple, you find a series of levers. According to the ancient text, you must pull the lever that corresponds to the correct value.",
-        question: "Find the value of y in the equation: 3y - 7 = 14",
-        options: ["y = 5", "y = 6", "y = 7", "y = 8"],
-        correctAnswer: "y = 7",
-        hint: "Add 7 to both sides, then divide by 3.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext:
-          "You've reached the inner chamber. A final challenge awaits - a series of symbols that form an equation.",
-        question: "Solve for z: 4z + 8 = 2z - 4",
-        options: ["z = -6", "z = -5", "z = -4", "z = -3"],
-        correctAnswer: "z = -6",
-        hint: "Subtract 2z from both sides, then subtract 8 from both sides.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 10,
-    timeLimit: 60, // seconds per question
-    totalPoints: 30,
-  },
-  {
-    id: 2,
-    title: "Geometry Quest",
-    description: "Navigate through the enchanted forest by solving geometry problems",
-    subject: "Geometry",
-    level: "Intermediate",
-    backgroundTheme: "forest",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "You enter the enchanted forest and come across a peculiar tree with geometric shapes carved into its trunk.",
-        question: "What is the area of a circle with radius 5 units?",
-        options: ["25π square units", "10π square units", "25 square units", "50 square units"],
-        correctAnswer: "25π square units",
-        hint: "The area of a circle is πr².",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext:
-          "A magical bridge appears before you, but to cross it safely, you must answer the guardian's question.",
-        question: "In a right triangle, if one angle is 30° and another is 60°, what is the third angle?",
-        options: ["30°", "60°", "90°", "120°"],
-        correctAnswer: "90°",
-        hint: "The sum of all angles in a triangle is 180°.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext:
-          "You reach a clearing with a mysterious stone tablet. It shows a rectangle with specific dimensions.",
-        question: "What is the perimeter of a rectangle with length 8 units and width 5 units?",
-        options: ["13 units", "26 units", "40 units", "30 units"],
-        correctAnswer: "26 units",
-        hint: "Perimeter = 2(length + width).",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 15,
-    timeLimit: 45,
-    totalPoints: 45,
-  },
-  {
-    id: 3,
-    title: "Arithmetic Kingdom",
-    description: "Help the kingdom solve arithmetic challenges to defeat the dragon",
-    subject: "Arithmetic",
-    level: "Beginner",
-    backgroundTheme: "kingdom",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "The kingdom is under threat from a dragon. The royal mathematician has devised a plan, but you need to solve the first calculation.",
-        question:
-          "If the dragon flies at 45 mph and the castle is 135 miles away, how many hours will it take the dragon to reach the castle?",
-        options: ["2 hours", "3 hours", "4 hours", "5 hours"],
-        correctAnswer: "3 hours",
-        hint: "Use the formula: time = distance ÷ speed.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext:
-          "The royal armory needs to distribute shields to the knights. Each knight needs exactly 2 shields.",
-        question:
-          "If there are 85 knights and the armory has 200 shields, how many shields will be left after distribution?",
-        options: ["15 shields", "20 shields", "25 shields", "30 shields"],
-        correctAnswer: "30 shields",
-        hint: "Calculate 85 × 2 = 170, then subtract from 200.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext: "The royal treasurer needs to calculate the cost of the feast to celebrate the dragon's defeat.",
-        question: "If each guest consumes food worth $25 and there are 120 guests, what is the total cost of food?",
-        options: ["$2,500", "$3,000", "$3,500", "$4,000"],
-        correctAnswer: "$3,000",
-        hint: "Multiply the cost per guest by the number of guests.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 10,
-    timeLimit: 30,
-    totalPoints: 30,
-  },
-  {
-    id: 4,
-    title: "Trigonometry Mountain",
-    description: "Scale the mountain peaks by mastering trigonometric concepts",
-    subject: "Trigonometry",
-    level: "Advanced",
-    backgroundTheme: "mountain",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "You begin your ascent of the mathematical mountain. The first challenge involves calculating the height of a peak.",
-        question:
-          "From a point 100 meters from the base of a mountain, the angle of elevation to the peak is 30°. How tall is the mountain?",
-        options: ["50 meters", "57.7 meters", "100 meters", "173.2 meters"],
-        correctAnswer: "57.7 meters",
-        hint: "Use the tangent function: tan(30°) = height/100.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext: "Halfway up the mountain, you encounter a trigonometric puzzle carved into the rock face.",
-        question: "What is the value of sin(45°)?",
-        options: ["0.5", "0.707", "0.866", "1"],
-        correctAnswer: "0.707",
-        hint: "sin(45°) = 1/√2 ≈ 0.707.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext: "Near the summit, a final challenge awaits. A mysterious triangle is drawn in the snow.",
-        question:
-          "In a right triangle, if one angle is 60° and the hypotenuse is 10 units, what is the length of the side opposite to the 60° angle?",
-        options: ["5 units", "8.66 units", "7.5 units", "10 units"],
-        correctAnswer: "8.66 units",
-        hint: "Use the sine function: sin(60°) = opposite/hypotenuse.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 20,
-    timeLimit: 60,
-    totalPoints: 60,
-  },
-]
+// Quiz data - will be loaded from database
+let quizzes = []
 
 // Remove the fake leaderboard data and replace with empty array
 const leaderboardData = []
@@ -253,19 +79,75 @@ const lucide = {
   },
 }
 
+// Fetch quizzes from database
+async function fetchQuizzes() {
+  try {
+    const response = await fetch("api/quizzes.php")
+    const result = await response.json()
+
+    if (result.success && result.data) {
+      // Transform database quiz format to match frontend expectations
+      quizzes = result.data.map((quiz) => ({
+        id: quiz.id,
+        title: quiz.title,
+        description: quiz.description,
+        subject: quiz.subject,
+        level: quiz.level,
+        backgroundTheme: quiz.background_theme || "default",
+        questions: quiz.questions.map((q, index) => ({
+          id: index + 1,
+          storyContext: q.story_context || "",
+          question: q.question,
+          options: q.options,
+          correctAnswer: q.correct_answer,
+          hint: q.hint || "",
+          image: "/placeholder.svg?height=200&width=300",
+        })),
+        pointsPerQuestion: Number.parseInt(quiz.points_per_question) || 10,
+        timeLimit: Number.parseInt(quiz.time_limit) || 60,
+        totalPoints: quiz.totalPoints || quiz.questions.length * (Number.parseInt(quiz.points_per_question) || 10),
+      }))
+
+      console.log("Loaded quizzes from database:", quizzes)
+      return quizzes
+    } else {
+      console.error("Failed to fetch quizzes:", result.message)
+      return []
+    }
+  } catch (error) {
+    console.error("Error fetching quizzes:", error)
+    return []
+  }
+}
+
 // Initialize the app
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // Initialize Lucide icons
   lucide.createIcons()
 
   // Load user data from localStorage
   loadUserData()
 
+  // Load quizzes from database
+  const loadedQuizzes = await fetchQuizzes()
+
+  if (loadedQuizzes.length === 0) {
+    // Show message if no quizzes available
+    quizzesGrid.innerHTML = `
+      <div class="no-results">
+        <i data-lucide="book-open" style="width: 3rem; height: 3rem; opacity: 0.3; margin-bottom: 1rem;"></i>
+        <p>No quizzes available yet.</p>
+        <p>Teachers can create quizzes from the dashboard.</p>
+      </div>
+    `
+    lucide.createIcons()
+  } else {
+    // Render quizzes from database
+    renderQuizzes(quizzes)
+  }
+
   // Update UI with user data
   updateUserStatsDisplay()
-
-  // Render quizzes
-  renderQuizzes(quizzes)
 
   // Set up event listeners
   setupEventListeners()
@@ -273,6 +155,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Update current year in footer
   document.getElementById("current-year").textContent = new Date().getFullYear()
 })
+
+// Refresh quizzes from database
+async function refreshQuizzes() {
+  const loadedQuizzes = await fetchQuizzes()
+  renderQuizzes(loadedQuizzes)
+}
 
 // Load user data from localStorage
 function loadUserData() {

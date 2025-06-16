@@ -1,7 +1,7 @@
 /* 
- * Combined Stylesheet
- * Merges quiz-specific styles with general website styles
- */
+* Combined Stylesheet
+* Merges quiz-specific styles with general website styles
+*/
 
 :root {
   /* Core colors */
@@ -2154,97 +2154,6 @@ input[type="password"]:focus {
   .materials-grid,
   .worksheets-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Quiz Progress Styles */
-.quiz-progress-section {
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.stat-item:last-child {
-  border-bottom: none;
-}
-
-.stat-label {
-  font-weight: 500;
-  color: var(--muted-foreground);
-}
-
-.stat-value {
-  font-weight: 600;
-  color: var(--primary-color);
-}
-
-.quiz-activity-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.quiz-activity-item:last-child {
-  border-bottom: none;
-}
-
-.quiz-activity-title {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-}
-
-.quiz-activity-score {
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-}
-
-.quiz-activity-date {
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
-}
-
-@media (min-width: 768px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Fix for materials and worksheets display */
-.materials-grid,
-.worksheets-grid {
-  display: grid !important;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .materials-grid,
-  .worksheets-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  .materials-grid,
-  .worksheets-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
 

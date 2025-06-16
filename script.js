@@ -217,6 +217,9 @@ function initDashboardPage() {
       // Set up role switching functionality
       setupRoleSwitching()
 
+      // Remove call to loadTeacherStats()
+      //loadTeacherStats();
+
       // Add immediate debugging with delay
       setTimeout(() => {
         console.log("=== Post-setup Debug ===")

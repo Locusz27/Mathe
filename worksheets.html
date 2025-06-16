@@ -183,6 +183,21 @@
       display: none !important;
     }
 
+    .error-state {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-light);
+    }
+
+    .retry-btn {
+      margin-top: 1rem;
+    }
+
+    .upload-date {
+      color: var(--muted-foreground);
+      font-size: 0.75rem;
+    }
+
     @media (min-width: 640px) {
       .worksheets-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -281,138 +296,29 @@
         </div>
       </div>
 
-      <div class="worksheets-grid" id="worksheets-grid">
-        <!-- Algebra Basics -->
-        <div class="worksheet-card" data-subject="algebra" data-level="beginner" data-title="algebra basics worksheet" data-description="practice exercises on variables, expressions, and basic equations">
-          <div class="worksheet-header">
-            <h2 class="worksheet-title">
-              <i data-lucide="file-text" class="worksheet-icon"></i>
-              Algebra Basics Worksheet
-            </h2>
-            <p class="worksheet-description">Practice exercises on variables, expressions, and basic equations.</p>
-          </div>
-          <div class="worksheet-content">
-            <div class="worksheet-meta">
-              <span class="worksheet-tag">Algebra</span>
-              <span class="worksheet-tag">Beginner</span>
-            </div>
-            
-            <div class="worksheet-actions">
-              <a href="pdfs/worksheets/Algebra Basics Worksheets.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/worksheets/Algebra Basics Worksheets.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Geometry Angles -->
-        <div class="worksheet-card" data-subject="geometry" data-level="beginner" data-title="geometry angles worksheet" data-description="practice problems on identifying, measuring, and calculating angles">
-          <div class="worksheet-header">
-            <h2 class="worksheet-title">
-              <i data-lucide="file-text" class="worksheet-icon"></i>
-              Geometry Angles Worksheet
-            </h2>
-            <p class="worksheet-description">Practice problems on identifying, measuring, and calculating angles.</p>
-          </div>
-          <div class="worksheet-content">
-            <div class="worksheet-meta">
-              <span class="worksheet-tag">Geometry</span>
-              <span class="worksheet-tag">Beginner</span>
-            </div>
-            
-            <div class="worksheet-actions">
-              <a href="pdfs/worksheets/Geometry Angles Worksheets.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/worksheets/Geometry Angles Worksheets.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fractions Practice -->
-        <div class="worksheet-card" data-subject="arithmetic" data-level="beginner" data-title="fractions practice worksheet" data-description="practice problems on adding, subtracting, multiplying, and dividing fractions">
-          <div class="worksheet-header">
-            <h2 class="worksheet-title">
-              <i data-lucide="file-text" class="worksheet-icon"></i>
-              Fractions Practice Worksheet
-            </h2>
-            <p class="worksheet-description">Practice problems on adding, subtracting, multiplying, and dividing fractions.</p>
-          </div>
-          <div class="worksheet-content">
-            <div class="worksheet-meta">
-              <span class="worksheet-tag">Arithmetic</span>
-              <span class="worksheet-tag">Beginner</span>
-            </div>
-            
-            <div class="worksheet-actions">
-              <a href="pdfs/worksheets/Fractions Practice Worksheets.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/worksheets/Fractions Practice Worksheets.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quadratic Equations -->
-        <div class="worksheet-card" data-subject="algebra" data-level="intermediate" data-title="quadratic equations worksheet" data-description="practice solving quadratic equations using various methods">
-          <div class="worksheet-header">
-            <h2 class="worksheet-title">
-              <i data-lucide="file-text" class="worksheet-icon"></i>
-              Quadratic Equations Worksheet
-            </h2>
-            <p class="worksheet-description">Practice solving quadratic equations using various methods.</p>
-          </div>
-          <div class="worksheet-content">
-            <div class="worksheet-meta">
-              <span class="worksheet-tag">Algebra</span>
-              <span class="worksheet-tag">Intermediate</span>
-            </div>
-            
-            <div class="worksheet-actions">
-              <a href="pdfs/worksheets/Quadratic Equations Worksheets.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/worksheets/Quadratic Equations Worksheets.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trigonometric Functions -->
-        <div class="worksheet-card" data-subject="trigonometry" data-level="intermediate" data-title="trigonometric functions worksheet" data-description="practice problems on trigonometric functions and their applications">
-          <div class="worksheet-header">
-            <h2 class="worksheet-title">
-              <i data-lucide="file-text" class="worksheet-icon"></i>
-              Trigonometric Functions Worksheet
-            </h2>
-            <p class="worksheet-description">Practice problems on trigonometric functions and their applications.</p>
-          </div>
-          <div class="worksheet-content">
-            <div class="worksheet-meta">
-              <span class="worksheet-tag">Trigonometry</span>
-              <span class="worksheet-tag">Intermediate</span>
-            </div>
-            
-            <div class="worksheet-actions">
-              <a href="pdfs/worksheets/Trigonometric Functions Worksheets.pdf" class="btn btn-primary" target="_blank">
-                <i data-lucide="file-text" class="btn-icon"></i> View PDF
-              </a>
-              <a href="pdfs/worksheets/Trigonometric Functions Worksheets.pdf" class="btn btn-outline" download>
-                <i data-lucide="download" class="btn-icon"></i> Download
-              </a>
-            </div>
-          </div>
-        </div>
+      <!-- Loading State -->
+      <div id="loading-state" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading worksheets...</p>
       </div>
 
+      <!-- Error State -->
+      <div id="error-state" class="error-state hidden">
+        <i data-lucide="alert-circle" style="width: 48px; height: 48px; opacity: 0.5; margin-bottom: 1rem;"></i>
+        <h3>Failed to load worksheets</h3>
+        <p id="error-message">Something went wrong while loading the worksheets.</p>
+        <button class="btn btn-primary retry-btn" onclick="loadWorksheets()">
+          <i data-lucide="refresh-cw"></i>
+          Try Again
+        </button>
+      </div>
+
+      <!-- Worksheets Grid -->
+      <div class="worksheets-grid" id="worksheets-grid">
+        <!-- Worksheets will be loaded here dynamically -->
+      </div>
+
+      <!-- No Results -->
       <div id="no-results" class="no-results hidden">
         <i data-lucide="search-x" style="width: 48px; height: 48px; opacity: 0.5; margin-bottom: 1rem;"></i>
         <h3>No worksheets found</h3>
@@ -472,5 +378,6 @@
 
   <script src="js/auth.js"></script>
   <script src="script.js"></script>
+  <script src="js/worksheets.js"></script>
 </body>
 </html>
