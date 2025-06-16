@@ -448,7 +448,6 @@ function renderQuizzes(quizzesToRender) {
       <div class="card-content">
         <div class="quiz-info">
           <span>${quiz.questions.length} Questions</span>
-          <span>${quiz.totalPoints} Points</span>
         </div>
       </div>
       <div class="card-footer">
@@ -554,8 +553,8 @@ function renderIntroStory(quizState) {
             <span>${quiz.questions.length}</span>
           </div>
           <div class="intro-story-detail">
-            <span class="intro-story-detail-label">Points:</span>
-            <span>${quiz.totalPoints}</span>
+            <span class="intro-story-detail-label">Points per Question:</span>
+            <span>${quiz.pointsPerQuestion}</span>
           </div>
           <div class="intro-story-detail">
             <span class="intro-story-detail-label">Time per Question:</span>
@@ -743,24 +742,14 @@ function checkAnswer(quizState, selectedAnswer) {
   let pointsEarned = 0
   if (isCorrect) {
     pointsEarned = quiz.pointsPerQuestion
-
-    // Time bonus (up to 50% extra for answering quickly)
-    const timePercentage = quizState.timeRemaining / quiz.timeLimit
-    const timeBonus = Math.round(quiz.pointsPerQuestion * 0.5 * timePercentage)
-    pointsEarned += timeBonus
-
-    // Hint penalty (50% reduction if hint was used for this question)
-    if (quizState.hintsUsedThisQuestion) {
-      pointsEarned = Math.round(pointsEarned * 0.5)
-    }
+    // Add points to total score immediately
+    quizState.score += pointsEarned
   }
 
-  // Update quiz state
-  // Check if the question has already been answered
+  // Store the answer
   const existingAnswerIndex = quizState.answers.findIndex((answer) => answer.questionIndex === questionIndex)
 
   if (existingAnswerIndex === -1) {
-    // If the question hasn't been answered, add the new answer
     quizState.answers.push({
       questionIndex,
       selectedAnswer,
@@ -770,7 +759,10 @@ function checkAnswer(quizState, selectedAnswer) {
       hintsUsed: quizState.hintsUsedThisQuestion || false,
     })
   } else {
-    // If the question has already been answered, update the existing answer
+    // If question already answered, update the existing answer
+    const previousPoints = quizState.answers[existingAnswerIndex].pointsEarned
+    quizState.score = quizState.score - previousPoints + pointsEarned
+
     quizState.answers[existingAnswerIndex] = {
       questionIndex,
       selectedAnswer,
@@ -803,8 +795,12 @@ function checkAnswer(quizState, selectedAnswer) {
   // Change submit button to continue button
   const submitButton = document.getElementById("submit-answer-btn")
   submitButton.textContent = questionIndex < quiz.questions.length - 1 ? "Continue" : "See Results"
-  submitButton.removeEventListener("click", null)
-  submitButton.addEventListener("click", () => {
+
+  // Remove existing event listeners and add new one
+  const newSubmitButton = submitButton.cloneNode(true)
+  submitButton.parentNode.replaceChild(newSubmitButton, submitButton)
+
+  newSubmitButton.addEventListener("click", () => {
     if (questionIndex < quiz.questions.length - 1) {
       quizState.currentQuestionIndex++
       renderQuestion(quizState)
@@ -887,25 +883,47 @@ function timeUp(quizState) {
 // Show hint confirm modal
 function showHintConfirmModal(quizState) {
   const modal = document.getElementById("hint-confirm-modal")
-  const hintsRemaining = document.getElementById("hints-remaining")
+  if (!modal) {
+    console.error("Hint modal not found")
+    return
+  }
 
-  hintsRemaining.textContent = 2 - quizState.hintsUsed
+  const hintsRemaining = document.getElementById("hints-remaining")
+  if (hintsRemaining) {
+    hintsRemaining.textContent = 2 - quizState.hintsUsed
+  }
 
   modal.classList.add("active")
 
-  // Add event listeners
-  document.getElementById("cancel-hint-button").addEventListener("click", () => {
-    modal.classList.remove("active")
-  })
+  // Remove existing event listeners and add new ones
+  const cancelButton = document.getElementById("cancel-hint-button")
+  const cancelAction = document.getElementById("cancel-hint-action")
+  const confirmButton = document.getElementById("confirm-hint-button")
 
-  document.getElementById("cancel-hint-action").addEventListener("click", () => {
-    modal.classList.remove("active")
-  })
+  if (cancelButton) {
+    const newCancelButton = cancelButton.cloneNode(true)
+    cancelButton.parentNode.replaceChild(newCancelButton, cancelButton)
+    newCancelButton.addEventListener("click", () => {
+      modal.classList.remove("active")
+    })
+  }
 
-  document.getElementById("confirm-hint-button").addEventListener("click", () => {
-    modal.classList.remove("active")
-    showHint(quizState)
-  })
+  if (cancelAction) {
+    const newCancelAction = cancelAction.cloneNode(true)
+    cancelAction.parentNode.replaceChild(newCancelAction, cancelAction)
+    newCancelAction.addEventListener("click", () => {
+      modal.classList.remove("active")
+    })
+  }
+
+  if (confirmButton) {
+    const newConfirmButton = confirmButton.cloneNode(true)
+    confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton)
+    newConfirmButton.addEventListener("click", () => {
+      modal.classList.remove("active")
+      showHint(quizState)
+    })
+  }
 }
 
 // Show hint

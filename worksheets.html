@@ -197,6 +197,14 @@
   </style>
 </head>
 <body>
+  <!-- Add this script right after the opening body tag -->
+  <script>
+  // Immediate access check for guests
+  if (!localStorage.getItem('currentUser')) {
+    alert('Please log in to access worksheets.');
+    window.location.href = 'login.html';
+  }
+  </script>
   <header class="navbar">
     <div class="container">
       <div class="navbar-logo">

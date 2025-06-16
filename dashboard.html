@@ -1,291 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Mathe</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Dashboard | Mathe</title>
+ <link rel="stylesheet" href="styles.css">
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-  <header class="navbar">
-    <div class="container">
-      <div class="navbar-logo">
-        <a href="index.html" class="logo">Mathe</a>
-      </div>
-      
-      <nav class="navbar-menu">
-        <a href="index.html" class="navbar-link">Home</a>
-        <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
-        <a href="worksheets.html" class="navbar-link">Worksheets</a>
-        <a href="quiz.html" class="navbar-link">Quiz</a>
-        <a href="about.html" class="navbar-link">About</a>
-        <a href="dashboard.html" class="navbar-link active">Dashboard</a>
-      </nav>
-      
-      <div class="navbar-actions">
-        <!-- This will be updated by AuthManager -->
-      </div>
-      
-      <button class="menu-toggle" aria-label="Toggle menu">
-        <i data-lucide="menu"></i>
-      </button>
-    </div>
-  </header>
+ <header class="navbar">
+   <div class="container">
+     <div class="navbar-logo">
+       <a href="index.html" class="logo">Mathe</a>
+     </div>
+     
+     <nav class="navbar-menu">
+       <a href="index.html" class="navbar-link">Home</a>
+       <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
+       <a href="worksheets.html" class="navbar-link">Worksheets</a>
+       <a href="quiz.html" class="navbar-link">Quiz</a>
+       <a href="about.html" class="navbar-link">About</a>
+       <a href="dashboard.html" class="navbar-link active">Dashboard</a>
+     </nav>
+     
+     <div class="navbar-actions">
+       <!-- This will be updated by AuthManager -->
+     </div>
+     
+     <button class="menu-toggle" aria-label="Toggle menu">
+       <i data-lucide="menu"></i>
+     </button>
+   </div>
+ </header>
 
-  <div class="mobile-menu">
-    <nav class="mobile-nav">
-      <a href="index.html" class="mobile-link">Home</a>
-      <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
-      <a href="worksheets.html" class="mobile-link">Worksheets</a>
-      <a href="quiz.html" class="mobile-link">Quiz</a>
-      <a href="about.html" class="mobile-link">About</a>
-      <a href="dashboard.html" class="mobile-link active">Dashboard</a>
-      <div class="mobile-actions">
-        <!-- This will be updated by AuthManager -->
-      </div>
-    </nav>
-  </div>
+ <div class="mobile-menu">
+   <nav class="mobile-nav">
+     <a href="index.html" class="mobile-link">Home</a>
+     <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
+     <a href="worksheets.html" class="mobile-link">Worksheets</a>
+     <a href="quiz.html" class="mobile-link">Quiz</a>
+     <a href="about.html" class="mobile-link">About</a>
+     <a href="dashboard.html" class="mobile-link active">Dashboard</a>
+     <div class="mobile-actions">
+       <!-- This will be updated by AuthManager -->
+     </div>
+   </nav>
+ </div>
 
-  <main>
-    <div class="container">
-      <div class="dashboard-header">
-        <div class="dashboard-header-content">
-          <h1 class="dashboard-title">Welcome to Your Dashboard</h1>
-          <p class="dashboard-description" id="role-description">Access your learning materials and track your progress.</p>
-        </div>
-        <div class="role-switcher" id="teacher-role-switcher" style="display: none;">
-          <div class="tabs-small">
-            <div class="tabs-list">
-              <button class="tab-trigger active" data-tab="student" data-role="student">Student View</button>
-              <button class="tab-trigger" data-tab="teacher" data-role="teacher">Teacher View</button>
-            </div>
-          </div>
-        </div>
-      </div>
+ <main>
+   <div class="container">
+     <div class="dashboard-header">
+       <div class="dashboard-header-content">
+         <h1 class="dashboard-title">Welcome to Your Dashboard</h1>
+         <p class="dashboard-description" id="role-description">Access your learning materials and track your progress.</p>
+       </div>
+       <div class="role-switcher" id="teacher-role-switcher" style="display: none;">
+         <div class="tabs-small">
+           <div class="tabs-list">
+             <button class="tab-trigger active" data-tab="student" data-role="student" type="button">Student View</button>
+             <button class="tab-trigger" data-tab="teacher" data-role="teacher" type="button">Teacher View</button>
+           </div>
+         </div>
+       </div>
+     </div>
 
-      <!-- Student Dashboard -->
-      <section id="student-dashboard">
-        <div class="dashboard-grid">
-          <a href="learning-materials.html" class="card dashboard-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="book-open"></i>
-              </div>
-              <h3 class="card-title">Learning Materials</h3>
-            </div>
-            <div class="card-content">
-              <p class="card-description">Access comprehensive learning materials designed by expert educators.</p>
-            </div>
-          </a>
+     <!-- Student Dashboard -->
+     <section id="student-dashboard">
+       <div class="dashboard-grid dashboard-grid-centered">
+         <a href="learning-materials.html" class="card dashboard-card">
+           <div class="card-header">
+             <div class="card-icon">
+               <i data-lucide="book-open"></i>
+             </div>
+             <h3 class="card-title">Learning Materials</h3>
+           </div>
+           <div class="card-content">
+             <p class="card-description">Access comprehensive learning materials designed by expert educators.</p>
+           </div>
+         </a>
 
-          <a href="worksheets.html" class="card dashboard-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="file-text"></i>
-              </div>
-              <h3 class="card-title">Worksheets</h3>
-            </div>
-            <div class="card-content">
-              <p class="card-description">Download practice worksheets to reinforce your learning.</p>
-            </div>
-          </a>
+         <a href="worksheets.html" class="card dashboard-card">
+           <div class="card-header">
+             <div class="card-icon">
+               <i data-lucide="file-text"></i>
+             </div>
+             <h3 class="card-title">Worksheets</h3>
+           </div>
+           <div class="card-content">
+             <p class="card-description">Download practice worksheets to reinforce your learning.</p>
+           </div>
+         </a>
 
-          <a href="quiz.html" class="card dashboard-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="brain"></i>
-              </div>
-              <h3 class="card-title">Interactive Quiz</h3>
-            </div>
-            <div class="card-content">
-              <p class="card-description">Test your knowledge with our interactive quiz system.</p>
-            </div>
-          </a>
+         <a href="quiz.html" class="card dashboard-card">
+           <div class="card-header">
+             <div class="card-icon">
+               <i data-lucide="brain"></i>
+             </div>
+             <h3 class="card-title">Interactive Quiz</h3>
+           </div>
+           <div class="card-content">
+             <p class="card-description">Test your knowledge with our interactive quiz system.</p>
+           </div>
+         </a>
+       </div>
+     </section>
 
-          <div class="card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="target"></i>
-              </div>
-              <h3 class="card-title">Quiz Progress</h3>
-            </div>
-            <div class="card-content">
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <div class="stat-value" id="total-quizzes">0</div>
-                  <div class="stat-label">Quizzes Completed</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-value" id="average-score">0%</div>
-                  <div class="stat-label">Average Score</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-value" id="perfect-scores-count">0</div>
-                  <div class="stat-label">Perfect Scores</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-value" id="quiz-streak">0 days</div>
-                  <div class="stat-label">Current Streak</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+     <!-- Teacher Dashboard -->
+     <section id="teacher-dashboard" class="hidden">
+       <div class="dashboard-grid dashboard-grid-centered">
+         <div class="card dashboard-card">
+           <div class="card-header">
+             <div class="card-icon">
+               <i data-lucide="upload"></i>
+             </div>
+             <h3 class="card-title">Upload Materials</h3>
+           </div>
+           <div class="card-content">
+             <p class="card-description">Add new learning materials for students to access and study.</p>
+             <div class="feature-coming-soon">
+               <p class="feature-coming-soon-text">
+                 <i data-lucide="clock"></i>
+                 Feature in development
+               </p>
+             </div>
+           </div>
+         </div>
 
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">
-              <i data-lucide="clock"></i>
-              Recent Quiz Activity
-            </h3>
-          </div>
-          <div class="card-content">
-            <div id="recent-quiz-activity">
-              <p class="text-muted">Loading quiz activity...</p>
-            </div>
-          </div>
-        </div>
-      </section>
+         <div class="card dashboard-card">
+           <div class="card-header">
+             <div class="card-icon">
+               <i data-lucide="edit"></i>
+             </div>
+             <h3 class="card-title">Manage Worksheets</h3>
+           </div>
+           <div class="card-content">
+             <p class="card-description">Create and edit worksheets for student practice and assessment.</p>
+             <div class="feature-coming-soon">
+               <p class="feature-coming-soon-text">
+                 <i data-lucide="clock"></i>
+                 Feature in development
+               </p>
+             </div>
+           </div>
+         </div>
 
-      <!-- Teacher Dashboard -->
-      <section id="teacher-dashboard" class="hidden">
-        <div class="dashboard-grid">
-          <div class="card dashboard-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="upload"></i>
-              </div>
-              <h3 class="card-title">Upload Materials</h3>
-            </div>
-            <div class="card-content">
-              <p class="card-description">Upload and manage learning materials for students.</p>
-              <div class="card-footer">
-                <button class="btn btn-outline btn-full" onclick="alert('Teacher features are still in progress')">
-                  Coming Soon
-                </button>
-              </div>
-            </div>
-          </div>
+         <div class="card dashboard-card">
+           <div class="card-header">
+             <div class="card-icon">
+               <i data-lucide="plus-circle"></i>
+             </div>
+             <h3 class="card-title">Create Quiz</h3>
+           </div>
+           <div class="card-content">
+             <p class="card-description">Create new quizzes to test student knowledge and understanding.</p>
+             <div class="feature-coming-soon">
+               <p class="feature-coming-soon-text">
+                 <i data-lucide="clock"></i>
+                 Feature in development
+               </p>
+             </div>
+           </div>
+         </div>
+       </div>
 
-          <div class="card dashboard-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="edit"></i>
-              </div>
-              <h3 class="card-title">Manage Worksheets</h3>
-            </div>
-            <div class="card-content">
-              <p class="card-description">Create and manage practice worksheets for students.</p>
-              <div class="card-footer">
-                <button class="btn btn-outline btn-full" onclick="alert('Teacher features are still in progress')">
-                  Coming Soon
-                </button>
-              </div>
-            </div>
-          </div>
+       <div class="card">
+         <div class="card-header">
+           <h3 class="card-title">
+             <i data-lucide="activity"></i>
+            Quiz Activity
+           </h3>
+         </div>
+         <div class="card-content">
+           <div class="feature-coming-soon">
+             <p class="feature-coming-soon-text">
+               <i data-lucide="clock"></i>
+               Quiz activity tracking will be available soon
+             </p>
+           </div>
+         </div>
+       </div>
+     </section>
+   </div>
+ </main>
 
-          <div class="card dashboard-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="plus-circle"></i>
-              </div>
-              <h3 class="card-title">Create Quiz</h3>
-            </div>
-            <div class="card-content">
-              <p class="card-description">Design interactive quizzes for student assessment.</p>
-              <div class="card-footer">
-                <button class="btn btn-outline btn-full" onclick="alert('Teacher features are still in progress')">
-                  Coming Soon
-                </button>
-              </div>
-            </div>
-          </div>
+ <footer class="footer">
+   <div class="container">
+     <div class="footer-grid">
+       <div class="footer-section">
+         <h3 class="footer-title">Mathe</h3>
+         <p class="footer-text">
+           Free basic math education platform for learners without access to school.
+         </p>
+       </div>
 
-          <div class="card dashboard-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <i data-lucide="users"></i>
-              </div>
-              <h3 class="card-title">Student Progress</h3>
-            </div>
-            <div class="card-content">
-              <p class="card-description">Monitor and track student learning progress.</p>
-              <div class="card-footer">
-                <button class="btn btn-outline btn-full" onclick="alert('Teacher features are still in progress')">
-                  Coming Soon
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+       <div class="footer-section">
+         <h3 class="footer-title">Resources</h3>
+         <ul class="footer-links">
+           <li><a href="learning-materials.html">Learning Materials</a></li>
+           <li><a href="worksheets.html">Worksheets</a></li>
+           <li><a href="quiz.html">Quiz</a></li>
+         </ul>
+       </div>
 
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">
-              <i data-lucide="activity"></i>
-              Teaching Activity
-            </h3>
-          </div>
-          <div class="card-content">
-            <p class="text-muted">Teacher activity tracking will be available soon.</p>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
+       <div class="footer-section">
+         <h3 class="footer-title">About</h3>
+         <ul class="footer-links">
+           <li><a href="about.html">Our Mission</a></li>
+           <li><a href="#">Team</a></li>
+           <li><a href="#">Partners</a></li>
+         </ul>
+       </div>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-section">
-          <h3 class="footer-title">Mathe</h3>
-          <p class="footer-text">
-            Free basic math education platform for learners without access to school.
-          </p>
-        </div>
+       <div class="footer-section">
+         <h3 class="footer-title">Contact</h3>
+         <ul class="footer-links">
+           <li>Email: info@mathe-education.org</li>
+           <li><a href="#">Contact Form</a></li>
+           <li><a href="#">Support</a></li>
+         </ul>
+       </div>
+     </div>
 
-        <div class="footer-section">
-          <h3 class="footer-title">Resources</h3>
-          <ul class="footer-links">
-            <li><a href="learning-materials.html">Learning Materials</a></li>
-            <li><a href="worksheets.html">Worksheets</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
-          </ul>
-        </div>
+     <div class="footer-bottom">
+       <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+       <div class="footer-legal">
+         <a href="#">Privacy Policy</a>
+         <a href="#">Terms of Service</a>
+         <a href="#">Cookie Policy</a>
+       </div>
+     </div>
+   </div>
+ </footer>
 
-        <div class="footer-section">
-          <h3 class="footer-title">About</h3>
-          <ul class="footer-links">
-            <li><a href="about.html">Our Mission</a></li>
-            <li><a href="#">Team</a></li>
-            <li><a href="#">Partners</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section">
-          <h3 class="footer-title">Contact</h3>
-          <ul class="footer-links">
-            <li>Email: info@mathe-education.org</li>
-            <li><a href="#">Contact Form</a></li>
-            <li><a href="#">Support</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
-        <div class="footer-legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Cookie Policy</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="js/auth.js"></script>
-  <script src="script.js"></script>
+ <script src="js/auth.js"></script>
+ <script src="script.js"></script>
+ <!-- Add the role switcher script -->
+ <script src="js/role-switcher.js"></script>
+ <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
 </body>
 </html>

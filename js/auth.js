@@ -92,9 +92,9 @@ class AuthManager {
         localStorage.setItem("currentUser", JSON.stringify(data.user))
         this.updateUI()
 
-        // Redirect to dashboard after successful login
+        // Handle post-login redirect
         setTimeout(() => {
-          window.location.href = "dashboard.html"
+          this.handlePostLoginRedirect()
         }, 1000)
 
         return { success: true, message: data.message }
@@ -463,6 +463,36 @@ class AuthManager {
     if (window.lucide) {
       window.lucide.createIcons()
     }
+  }
+
+  requireLogin(redirectMessage = "Please log in to access this feature.") {
+    if (!this.isLoggedIn()) {
+      // Store the current page to redirect back after login
+      localStorage.setItem("redirectAfterLogin", window.location.href)
+
+      // Show notification
+      alert(redirectMessage)
+
+      // Redirect to login page
+      window.location.href = "login.html"
+      return false
+    }
+    return true
+  }
+
+  // Add method to handle redirect after login
+  handlePostLoginRedirect() {
+    const redirectUrl = localStorage.getItem("redirectAfterLogin")
+    if (redirectUrl && redirectUrl !== window.location.href) {
+      localStorage.removeItem("redirectAfterLogin")
+      // Only redirect if it's not the login page itself
+      if (!redirectUrl.includes("login.html")) {
+        window.location.href = redirectUrl
+        return
+      }
+    }
+    // Default redirect to dashboard
+    window.location.href = "dashboard.html"
   }
 }
 

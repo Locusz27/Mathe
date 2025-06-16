@@ -668,6 +668,96 @@ input[type="password"]:focus {
   margin-bottom: 3rem;
 }
 
+.dashboard-card {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure teacher dashboard cards are properly styled */
+#teacher-dashboard .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#teacher-dashboard .card-content {
+  flex: 1;
+}
+
+#teacher-dashboard .card-footer {
+  margin-top: auto;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+/* Role switcher styles */
+.tabs-small {
+  display: inline-block;
+}
+
+.tabs-small .tabs-list {
+  display: flex;
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+  width: auto;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.tabs-small .tab-trigger {
+  padding: 0.5rem 1rem;
+  border-radius: calc(var(--radius) - 0.25rem);
+  font-size: 0.875rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--muted-foreground);
+}
+
+.tabs-small .tab-trigger.active {
+  background-color: var(--background);
+  color: var(--primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Role switcher specific fixes */
+.role-switcher {
+  margin-top: 1rem;
+  z-index: 1;
+  position: relative;
+}
+
+.role-switcher .tab-trigger {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.role-switcher .tab-trigger:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.role-switcher .tab-trigger:active {
+  transform: scale(0.98);
+}
+
+/* Ensure the tabs container doesn't interfere */
+.tabs-small .tabs-list {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+}
+
 .recent-activity {
   margin-top: 3rem;
 }
@@ -903,7 +993,7 @@ input[type="password"]:focus {
 .quiz-background.mountain {
   background-color: #f0f4f9;
   background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
-    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236b7280' fill-opacity='0.2'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236b7280' fill-opacity='0.2'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .quiz-background.laboratory {
@@ -2172,4 +2262,104 @@ input[type="password"]:focus {
 .card-content,
 .card-footer {
   display: block !important;
+}
+
+/* Centered dashboard grid for student view */
+.dashboard-grid-centered {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-grid-centered .card {
+  flex: 0 0 300px;
+  max-width: 300px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid-centered {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid-centered {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dashboard-grid-centered .card {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+/* Enhanced access denied styling */
+.access-denied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  min-height: 60vh;
+}
+
+.access-denied-icon {
+  width: 5rem;
+  height: 5rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.access-denied-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.access-denied-description {
+  color: var(--muted-foreground);
+  margin-bottom: 2.5rem;
+  max-width: 32rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.access-denied-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.access-denied-card {
+  background-color: var(--card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Feature coming soon styling */
+.feature-coming-soon {
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.feature-coming-soon-text {
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 0.875rem;
 }
