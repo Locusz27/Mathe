@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("current-year").textContent = new Date().getFullYear()
 })
 
-// Load quizzes from database
+// Load quizzes from database - FIXED to handle ID conflicts
 async function loadQuizzesFromDatabase() {
   try {
     console.log("Loading quizzes from database...")
@@ -283,10 +283,13 @@ async function loadQuizzesFromDatabase() {
 
     console.log("Quiz API response:", result)
 
+    let allQuizzes = [...quizzes] // Start with static quizzes
+
     if (result.success && result.data) {
-      // Convert database format to expected format
+      // Convert database format to expected format and add prefix to avoid ID conflicts
       const databaseQuizzes = result.data.map((quiz) => ({
-        id: quiz.id,
+        id: `db_${quiz.id}`, // Add prefix to database quiz IDs
+        originalId: quiz.id, // Keep original ID for database operations
         title: quiz.title,
         description: quiz.description,
         subject: quiz.subject,
@@ -296,23 +299,26 @@ async function loadQuizzesFromDatabase() {
         pointsPerQuestion: quiz.points_per_question || 10,
         timeLimit: quiz.time_limit || 60,
         totalPoints: (quiz.questions || []).length * (quiz.points_per_question || 10),
+        isDatabase: true, // Flag to identify database quizzes
       }))
 
-      console.log("Processed quizzes:", databaseQuizzes)
+      console.log("Processed database quizzes:", databaseQuizzes)
 
-      // Combine with static quizzes
-      const allQuizzes = [...quizzes, ...databaseQuizzes]
-
-      // Render all quizzes
-      renderQuizzes(allQuizzes)
+      // Add database quizzes to the list
+      allQuizzes = [...allQuizzes, ...databaseQuizzes]
     } else {
       console.log("No database quizzes found or error:", result.message)
-      // Just render static quizzes
-      renderQuizzes(quizzes)
     }
+
+    // Store the complete quiz list globally for use in startQuiz
+    window.allQuizzes = allQuizzes
+
+    // Render all quizzes
+    renderQuizzes(allQuizzes)
   } catch (error) {
     console.error("Error loading quizzes from database:", error)
     // Fallback to static quizzes
+    window.allQuizzes = quizzes
     renderQuizzes(quizzes)
   }
 }
@@ -355,9 +361,27 @@ async function fetchUserProfile() {
   }
 }
 
-// Update user stats display
+// Update user stats display - UPDATED to fetch from database
 async function updateUserStatsDisplay() {
-  // Fetch user profile to get username
+  // Fetch real user profile data from database
+  const profileData = await fetchUserProfileData()
+
+  if (profileData) {
+    // Update userData with database values
+    userData = {
+      points: profileData.total_points || 0,
+      level: Math.floor((profileData.total_points || 0) / POINTS_PER_LEVEL) + 1,
+      currentStreak: profileData.current_streak || 0,
+      longestStreak: profileData.longest_streak || 0,
+      lastQuizDate: profileData.last_quiz_date,
+      quizzesCompleted: profileData.total_quizzes || 0,
+      perfectScores: profileData.perfect_scores || 0,
+      earnedBadges: profileData.badges || [],
+      averageScore: profileData.average_score || 0,
+    }
+  }
+
+  // Get username from user profile
   const userProfile = await fetchUserProfile()
   const username = userProfile ? userProfile.username : "MathExplorer"
 
@@ -409,12 +433,38 @@ async function updateUserStatsDisplay() {
   updateBadgesDisplay()
 }
 
-// Update badges display
+// Fetch user profile data from database
+async function fetchUserProfileData() {
+  if (!window.authManager || !window.authManager.isLoggedIn()) {
+    // Return localStorage data for guests
+    return userData
+  }
+
+  try {
+    const response = await fetch("api/quizzes.php?action=user_progress", {
+      method: "GET",
+      credentials: "include",
+    })
+    const result = await response.json()
+
+    if (result.success && result.data) {
+      return result.data
+    } else {
+      console.error("Failed to fetch user profile data:", result.message)
+      return userData // Fallback to localStorage
+    }
+  } catch (error) {
+    console.error("Error fetching user profile data:", error)
+    return userData // Fallback to localStorage
+  }
+}
+
+// Update badges display - UPDATED to use database badges
 function updateBadgesDisplay() {
   const noBadgesContainer = document.getElementById("no-badges-container")
   const badgesGrid = document.getElementById("badges-grid")
 
-  // Check for newly earned badges
+  // Check for newly earned badges based on current stats
   checkForNewBadges()
 
   if (userData.earnedBadges.length === 0) {
@@ -428,18 +478,28 @@ function updateBadgesDisplay() {
     badgesGrid.innerHTML = ""
 
     // Add earned badges
-    userData.earnedBadges.forEach((badgeId) => {
-      const badge = badges.find((b) => b.id === badgeId)
+    userData.earnedBadges.forEach((badgeData) => {
+      // Handle both old format (just ID) and new format (object with details)
+      let badge, earnedDate
+      if (typeof badgeData === "string") {
+        badge = badges.find((b) => b.id === badgeData)
+        earnedDate = null
+      } else {
+        badge = badges.find((b) => b.id === badgeData.badge_id) || badgeData
+        earnedDate = badgeData.earned_at
+      }
+
       if (badge) {
         const badgeElement = document.createElement("div")
         badgeElement.className = "badge-item"
         badgeElement.innerHTML = `
           <div class="badge-icon">
-            <i data-lucide="${badge.icon}"></i>
+            <i data-lucide="${badge.icon || "award"}"></i>
           </div>
           <div class="badge-info">
-            <div class="badge-name">${badge.name}</div>
-            <div class="badge-description">${badge.description}</div>
+            <div class="badge-name">${badge.name || badge.badge_name}</div>
+            <div class="badge-description">${badge.description || badge.badge_description}</div>
+            ${earnedDate ? `<div class="badge-date">Earned: ${new Date(earnedDate).toLocaleDateString()}</div>` : ""}
           </div>
         `
         badgesGrid.appendChild(badgeElement)
@@ -484,6 +544,7 @@ function renderQuizzes(quizzesToRender) {
         <div class="tags">
           <div class="tag">${quiz.subject}</div>
           <div class="tag">${quiz.level}</div>
+          ${quiz.isDatabase ? '<div class="tag tag-custom">Custom</div>' : ""}
         </div>
         <h3 class="card-title">${quiz.title}</h3>
         <p class="card-description">${quiz.description}</p>
@@ -499,10 +560,10 @@ function renderQuizzes(quizzesToRender) {
     `
     quizzesGrid.appendChild(quizCard)
 
-    // Add event listener to the start quiz button
+    // Add event listener to the start quiz button - pass the complete quiz list
     quizCard.querySelector(".start-quiz-btn").addEventListener("click", function () {
-      const quizId = Number.parseInt(this.getAttribute("data-quiz-id"))
-      startQuiz(quizId, quizzesToRender)
+      const quizId = this.getAttribute("data-quiz-id")
+      startQuiz(quizId, window.allQuizzes || quizzesToRender)
     })
   })
 }
@@ -530,20 +591,25 @@ function resetQuizState() {
   }
 }
 
-// Start a quiz - UPDATED to handle both static and database quizzes
+// Start a quiz - FIXED to handle prefixed IDs
 function startQuiz(quizId, allQuizzes = null) {
   let quiz = null
 
-  // First try to find in static quizzes
-  quiz = quizzes.find((q) => q.id === quizId)
+  console.log("Looking for quiz with ID:", quizId)
 
-  // If not found and we have allQuizzes, search there
-  if (!quiz && allQuizzes) {
+  // First try to find in allQuizzes (which includes database quizzes)
+  if (allQuizzes) {
     quiz = allQuizzes.find((q) => q.id === quizId)
+  }
+
+  // If not found in allQuizzes, try static quizzes as fallback
+  if (!quiz) {
+    quiz = quizzes.find((q) => q.id === quizId)
   }
 
   if (!quiz) {
     console.error("Quiz not found:", quizId)
+    console.log("Available quizzes:", allQuizzes || quizzes)
     return
   }
 
@@ -756,6 +822,7 @@ function renderQuestion(quizState) {
   })
 
   hintButton.addEventListener("click", () => {
+    console.log("Hint button clicked, hints used:", quizState.hintsUsed)
     if (quizState.hintsUsed < 2) {
       showHintConfirmModal(quizState)
     }
@@ -931,11 +998,13 @@ function timeUp(quizState) {
   document.getElementById("hint-btn").disabled = true
 }
 
-// Show hint confirm modal
+// Show hint confirm modal - FIXED
 function showHintConfirmModal(quizState) {
+  console.log("Showing hint confirm modal")
+
   const modal = document.getElementById("hint-confirm-modal")
   if (!modal) {
-    console.error("Hint modal not found")
+    console.error("Hint confirm modal not found in DOM")
     return
   }
 
@@ -944,41 +1013,60 @@ function showHintConfirmModal(quizState) {
     hintsRemaining.textContent = 2 - quizState.hintsUsed
   }
 
+  // Show the modal
+  modal.style.display = "flex"
   modal.classList.add("active")
 
-  // Remove existing event listeners and add new ones
+  console.log("Modal should now be visible")
+
+  // Get modal buttons
   const cancelButton = document.getElementById("cancel-hint-button")
   const cancelAction = document.getElementById("cancel-hint-action")
   const confirmButton = document.getElementById("confirm-hint-button")
 
+  // Function to close modal
+  const closeModal = () => {
+    modal.style.display = "none"
+    modal.classList.remove("active")
+  }
+
+  // Function to confirm hint usage
+  const confirmHint = () => {
+    closeModal()
+    showHint(quizState)
+  }
+
+  // Remove existing event listeners and add new ones
   if (cancelButton) {
     const newCancelButton = cancelButton.cloneNode(true)
     cancelButton.parentNode.replaceChild(newCancelButton, cancelButton)
-    newCancelButton.addEventListener("click", () => {
-      modal.classList.remove("active")
-    })
+    newCancelButton.addEventListener("click", closeModal)
   }
 
   if (cancelAction) {
     const newCancelAction = cancelAction.cloneNode(true)
     cancelAction.parentNode.replaceChild(newCancelAction, cancelAction)
-    newCancelAction.addEventListener("click", () => {
-      modal.classList.remove("active")
-    })
+    newCancelAction.addEventListener("click", closeModal)
   }
 
   if (confirmButton) {
     const newConfirmButton = confirmButton.cloneNode(true)
     confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton)
-    newConfirmButton.addEventListener("click", () => {
-      modal.classList.remove("active")
-      showHint(quizState)
-    })
+    newConfirmButton.addEventListener("click", confirmHint)
   }
+
+  // Close modal when clicking outside
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal()
+    }
+  })
 }
 
-// Show hint
+// Show hint - FIXED
 function showHint(quizState) {
+  console.log("Showing hint")
+
   const quiz = quizState.quiz
   const questionIndex = quizState.currentQuestionIndex
   const question = quiz.questions[questionIndex]
@@ -987,24 +1075,57 @@ function showHint(quizState) {
   quizState.hintsUsed++
   quizState.hintsUsedThisQuestion = true
 
+  console.log("Hints used:", quizState.hintsUsed)
+
   // Update hints display
-  document.querySelector(".quiz-hints span").textContent = `${2 - quizState.hintsUsed} hints`
+  const hintsDisplay = document.querySelector(".quiz-hints span")
+  if (hintsDisplay) {
+    hintsDisplay.textContent = `${2 - quizState.hintsUsed} hints`
+  }
 
   // Disable hint button if all hints used
-  if (quizState.hintsUsed >= 2) {
-    document.getElementById("hint-btn").disabled = true
+  const hintButton = document.getElementById("hint-btn")
+  if (quizState.hintsUsed >= 2 && hintButton) {
+    hintButton.disabled = true
   }
 
   // Show hint modal
   const hintModal = document.getElementById("hint-modal")
   const hintText = document.getElementById("hint-text")
 
-  hintText.textContent = question.hint
+  if (!hintModal || !hintText) {
+    console.error("Hint modal or hint text element not found")
+    return
+  }
+
+  // Get hint from question object - handle both static and database quiz formats
+  const hint = question.hint || "No hint available for this question."
+  console.log("Hint text:", hint)
+
+  hintText.textContent = hint
+  hintModal.style.display = "flex"
   hintModal.classList.add("active")
 
-  // Add event listener to close button
-  document.getElementById("close-hint").addEventListener("click", () => {
+  // Function to close hint modal
+  const closeHintModal = () => {
+    hintModal.style.display = "none"
     hintModal.classList.remove("active")
+  }
+
+  // Add event listener to close button
+  const closeHintBtn = document.getElementById("close-hint")
+  if (closeHintBtn) {
+    // Remove existing listeners and add new one
+    const newCloseBtn = closeHintBtn.cloneNode(true)
+    closeHintBtn.parentNode.replaceChild(newCloseBtn, closeHintBtn)
+    newCloseBtn.addEventListener("click", closeHintModal)
+  }
+
+  // Close modal when clicking outside
+  hintModal.addEventListener("click", (e) => {
+    if (e.target === hintModal) {
+      closeHintModal()
+    }
   })
 }
 
@@ -1104,7 +1225,7 @@ function showQuizResults(quizState) {
   }
 }
 
-// Update user stats
+// Update user stats - UPDATED to save to database with correct ID
 function updateUserStats(quizState, isPerfectScore, scorePercentage, correctAnswers, totalQuestions) {
   // Add points
   userData.points += quizState.score
@@ -1116,10 +1237,9 @@ function updateUserStats(quizState, isPerfectScore, scorePercentage, correctAnsw
   }
 
   // Update quizzes completed
-  // Add checks to ensure quiz completion is only counted once per quiz attempt
   if (!window.quizCompleted) {
     userData.quizzesCompleted += 1
-    window.quizCompleted = true // Set flag to prevent multiple counts
+    window.quizCompleted = true
   }
 
   // Update streak
@@ -1128,17 +1248,13 @@ function updateUserStats(quizState, isPerfectScore, scorePercentage, correctAnsw
 
   if (lastQuizDate !== today) {
     if (lastQuizDate === new Date(Date.now() - 86400000).toDateString()) {
-      // Last quiz was yesterday, increment streak
       userData.currentStreak += 1
     } else {
-      // Last quiz was not yesterday, reset streak
       userData.currentStreak = 1
     }
 
-    // Update last quiz date
     userData.lastQuizDate = new Date().toISOString()
 
-    // Update longest streak
     if (userData.currentStreak > userData.longestStreak) {
       userData.longestStreak = userData.currentStreak
     }
@@ -1147,17 +1263,20 @@ function updateUserStats(quizState, isPerfectScore, scorePercentage, correctAnsw
   // Calculate level
   userData.level = Math.floor(userData.points / POINTS_PER_LEVEL) + 1
 
-  // Save user data
+  // Save user data to localStorage (for guests)
   saveUserData()
 
-  // Save quiz progress to user profile if logged in
-  if (window.saveQuizProgress) {
-    window.saveQuizProgress(
-      quizState.quiz.id,
-      quizState.score,
-      quizState.quiz.questions.length,
-      quizState.answers.filter((a) => a.isCorrect).length,
+  // Save quiz progress to database if logged in
+  if (window.authManager && window.authManager.isLoggedIn()) {
+    // Use original ID for database operations
+    const quizIdForDatabase = quizState.quiz.originalId || quizState.quiz.id
+    saveQuizProgressToDatabase(
+      quizState,
+      correctAnswers,
+      totalQuestions,
+      scorePercentage,
       isPerfectScore,
+      quizIdForDatabase,
     )
   }
 
@@ -1166,7 +1285,47 @@ function updateUserStats(quizState, isPerfectScore, scorePercentage, correctAnsw
 
   // Reset quiz state properly after completion
   resetQuizState()
-  window.quizCompleted = false // Reset quiz completion flag
+  window.quizCompleted = false
+}
+
+// Save quiz progress to database - UPDATED to use correct quiz ID
+async function saveQuizProgressToDatabase(
+  quizState,
+  correctAnswers,
+  totalQuestions,
+  scorePercentage,
+  isPerfectScore,
+  quizIdForDatabase,
+) {
+  try {
+    const response = await fetch("api/quizzes.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        action: "submit_attempt",
+        quiz_id: quizIdForDatabase, // Use the correct ID for database operations
+        score: quizState.score + (isPerfectScore ? 10 : 0), // Include perfect score bonus
+        total_questions: totalQuestions,
+        correct_answers: correctAnswers,
+        percentage_score: scorePercentage,
+        time_taken: 0, // Could be calculated if needed
+        hints_used: quizState.hintsUsed,
+      }),
+    })
+
+    const result = await response.json()
+
+    if (result.success) {
+      console.log("Quiz progress saved to database successfully")
+    } else {
+      console.error("Failed to save quiz progress:", result.message)
+    }
+  } catch (error) {
+    console.error("Error saving quiz progress:", error)
+  }
 }
 
 // Show streak animation

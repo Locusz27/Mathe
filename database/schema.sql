@@ -130,3 +130,71 @@ INSERT INTO quiz_questions (quiz_id, story_context, question, options, correct_a
 (1, 'As you approach the temple entrance, you notice ancient symbols carved into the stone.', 'To unlock the first door, you must solve for x: 2x + 5 = 13', '["x = 3", "x = 4", "x = 5", "x = 6"]', 'x = 4', 'Subtract 5 from both sides, then divide by 2.', 1),
 (1, 'Inside the temple, you find a series of levers.', 'Find the value of y in the equation: 3y - 7 = 14', '["y = 5", "y = 6", "y = 7", "y = 8"]', 'y = 7', 'Add 7 to both sides, then divide by 3.', 2),
 (1, 'You have reached the inner chamber.', 'Solve for z: 4z + 8 = 2z - 4', '["z = -6", "z = -5", "z = -4", "z = -3"]', 'z = -6', 'Subtract 2z from both sides, then subtract 8 from both sides.', 3);
+
+-- Add additional fields to learning_materials table
+ALTER TABLE learning_materials 
+ADD COLUMN file_name VARCHAR(255) AFTER file_path,
+ADD COLUMN file_size INT AFTER file_name,
+ADD COLUMN mime_type VARCHAR(100) AFTER file_size;
+
+-- Add additional fields to worksheets table
+ALTER TABLE worksheets 
+ADD COLUMN file_name VARCHAR(255) AFTER file_path,
+ADD COLUMN file_size INT AFTER file_name,
+ADD COLUMN mime_type VARCHAR(100) AFTER file_size;
+
+-- Create uploads directory table to track uploaded files
+CREATE TABLE IF NOT EXISTS uploads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    file_path VARCHAR(500) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_size INT NOT NULL,
+    mime_type VARCHAR(100) NOT NULL,
+    uploaded_by INT,
+    upload_type ENUM('learning_material', 'worksheet') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- First, let's see what we're working with
+SELECT 
+    qq.id,
+    qq.quiz_id,
+    qq.question,
+    qq.options,
+    qq.correct_answer,
+    q.title as quiz_title
+FROM quiz_questions qq
+JOIN quizzes q ON qq.quiz_id = q.id
+WHERE q.created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)
+ORDER BY qq.id DESC;
+
+-- Now let's fix the correct_answer values more carefully
+-- This will handle the conversion properly by checking if correct_answer is numeric
+UPDATE quiz_questions 
+SET correct_answer = CASE 
+    WHEN correct_answer REGEXP '^[0-9]+$' THEN
+        CASE 
+            WHEN correct_answer = '0' THEN JSON_UNQUOTE(JSON_EXTRACT(options, '$[0]'))
+            WHEN correct_answer = '1' THEN JSON_UNQUOTE(JSON_EXTRACT(options, '$[1]'))
+            WHEN correct_answer = '2' THEN JSON_UNQUOTE(JSON_EXTRACT(options, '$[2]'))
+            WHEN correct_answer = '3' THEN JSON_UNQUOTE(JSON_EXTRACT(options, '$[3]'))
+            WHEN correct_answer = '4' THEN JSON_UNQUOTE(JSON_EXTRACT(options, '$[4]'))
+            WHEN correct_answer = '5' THEN JSON_UNQUOTE(JSON_EXTRACT(options, '$[5]'))
+            ELSE correct_answer
+        END
+    ELSE correct_answer
+END
+WHERE correct_answer REGEXP '^[0-9]+$';
+
+-- Verify the changes
+SELECT 
+    qq.id,
+    qq.question,
+    qq.options,
+    qq.correct_answer,
+    q.title as quiz_title
+FROM quiz_questions qq
+JOIN quizzes q ON qq.quiz_id = q.id
+WHERE q.created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)
+ORDER BY qq.id DESC;
