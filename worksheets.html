@@ -101,22 +101,6 @@
       margin-top: 1rem;
     }
     
-    /*.worksheet-preview {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 1rem;
-      background-color: var(--muted);
-      border-radius: var(--radius);
-      padding: 1rem;
-      height: 150px;
-      overflow: hidden;
-    }
-    
-    .worksheet-preview img {
-      max-height: 100%;
-      object-fit: contain;
-    }*/
-    
     .search-container {
       margin-bottom: 2rem;
     }
@@ -126,18 +110,10 @@
       margin-bottom: 1rem;
     }
     
-    .search-icon {
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted-foreground);
-    }
-    
     .search-input {
       width: 100%;
       height: 2.5rem;
-      padding: 0 0.75rem 0 2.5rem;
+      padding: 0 0.75rem;
       border-radius: var(--radius);
       border: 1px solid var(--input);
       background-color: var(--background);
@@ -171,6 +147,42 @@
       font-size: 0.875rem;
     }
     
+    /* Loading state */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 0;
+      color: var(--text-light);
+    }
+    
+    .loading-spinner {
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 3px solid var(--muted);
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* No results */
+    .no-results {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-light);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
     @media (min-width: 640px) {
       .worksheets-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -200,8 +212,7 @@
       </nav>
       
       <div class="navbar-actions">
-        <a href="login.html" class="btn btn-ghost">Login</a>
-        <a href="login.html?tab=register" class="btn btn-primary">Register</a>
+        <!-- This will be updated by AuthManager -->
       </div>
       
       <button class="menu-toggle" aria-label="Toggle menu">
@@ -218,23 +229,23 @@
       <a href="quiz.html" class="mobile-link">Quiz</a>
       <a href="about.html" class="mobile-link">About</a>
       <div class="mobile-actions">
-        <a href="login.html" class="btn btn-outline btn-full">Login</a>
-        <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
+        <!-- This will be updated by AuthManager -->
       </div>
     </nav>
   </div>
 
   <main>
-    <div class="worksheets-container">
-      <div class="worksheets-header">
-        <h1 class="worksheets-title">Worksheets</h1>
-        <p class="worksheets-description">Download practice worksheets to reinforce your learning.</p>
+    <div class="container">
+      <div class="page-header">
+        <div class="page-header-content">
+          <h1 class="page-title">Worksheets</h1>
+          <p class="page-description">Practice your skills with these downloadable worksheets.</p>
+        </div>
       </div>
 
       <div class="search-container">
         <div class="search-input-wrapper">
-          <i data-lucide="search" class="search-icon"></i>
-          <input type="text" id="search-worksheets" class="search-input" placeholder="Search by title, description, or subject...">
+          <input type="text" id="search-worksheets" class="search-input" placeholder="Search worksheets...">
         </div>
         
         <div class="filter-container">
@@ -246,6 +257,7 @@
               <option value="geometry">Geometry</option>
               <option value="arithmetic">Arithmetic</option>
               <option value="trigonometry">Trigonometry</option>
+              <option value="statistics">Statistics</option>
             </select>
           </div>
           
@@ -263,7 +275,7 @@
 
       <div class="worksheets-grid" id="worksheets-grid">
         <!-- Algebra Basics -->
-        <div class="worksheet-card">
+        <div class="worksheet-card" data-subject="algebra" data-level="beginner" data-title="algebra basics worksheet" data-description="practice exercises on variables, expressions, and basic equations">
           <div class="worksheet-header">
             <h2 class="worksheet-title">
               <i data-lucide="file-text" class="worksheet-icon"></i>
@@ -289,7 +301,7 @@
         </div>
 
         <!-- Geometry Angles -->
-        <div class="worksheet-card">
+        <div class="worksheet-card" data-subject="geometry" data-level="beginner" data-title="geometry angles worksheet" data-description="practice problems on identifying, measuring, and calculating angles">
           <div class="worksheet-header">
             <h2 class="worksheet-title">
               <i data-lucide="file-text" class="worksheet-icon"></i>
@@ -315,7 +327,7 @@
         </div>
 
         <!-- Fractions Practice -->
-        <div class="worksheet-card">
+        <div class="worksheet-card" data-subject="arithmetic" data-level="beginner" data-title="fractions practice worksheet" data-description="practice problems on adding, subtracting, multiplying, and dividing fractions">
           <div class="worksheet-header">
             <h2 class="worksheet-title">
               <i data-lucide="file-text" class="worksheet-icon"></i>
@@ -341,7 +353,7 @@
         </div>
 
         <!-- Quadratic Equations -->
-        <div class="worksheet-card">
+        <div class="worksheet-card" data-subject="algebra" data-level="intermediate" data-title="quadratic equations worksheet" data-description="practice solving quadratic equations using various methods">
           <div class="worksheet-header">
             <h2 class="worksheet-title">
               <i data-lucide="file-text" class="worksheet-icon"></i>
@@ -367,7 +379,7 @@
         </div>
 
         <!-- Trigonometric Functions -->
-        <div class="worksheet-card">
+        <div class="worksheet-card" data-subject="trigonometry" data-level="intermediate" data-title="trigonometric functions worksheet" data-description="practice problems on trigonometric functions and their applications">
           <div class="worksheet-header">
             <h2 class="worksheet-title">
               <i data-lucide="file-text" class="worksheet-icon"></i>
@@ -392,6 +404,12 @@
           </div>
         </div>
       </div>
+
+      <div id="no-results" class="no-results hidden">
+        <i data-lucide="search-x" style="width: 48px; height: 48px; opacity: 0.5; margin-bottom: 1rem;"></i>
+        <h3>No worksheets found</h3>
+        <p>Try adjusting your search or filters</p>
+      </div>
     </div>
   </main>
 
@@ -410,7 +428,7 @@
           <ul class="footer-links">
             <li><a href="learning-materials.html">Learning Materials</a></li>
             <li><a href="worksheets.html">Worksheets</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
+            <li><a href="quiz.html">Quizzes</a></li>
           </ul>
         </div>
 
@@ -444,54 +462,7 @@
     </div>
   </footer>
 
+  <script src="js/auth.js"></script>
   <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize Lucide icons
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
-      
-      // Search functionality
-      const searchInput = document.getElementById('search-worksheets');
-      const subjectFilter = document.getElementById('subject-filter');
-      const levelFilter = document.getElementById('level-filter');
-      const worksheetCards = document.querySelectorAll('.worksheet-card');
-      
-      function filterWorksheets() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const subjectValue = subjectFilter.value.toLowerCase();
-        const levelValue = levelFilter.value.toLowerCase();
-        
-        worksheetCards.forEach(card => {
-          const title = card.querySelector('.worksheet-title').textContent.toLowerCase();
-          const description = card.querySelector('.worksheet-description').textContent.toLowerCase();
-          const subjectTags = Array.from(card.querySelectorAll('.worksheet-tag')).map(tag => tag.textContent.toLowerCase());
-          
-          const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
-          const matchesSubject = subjectValue === 'all' || subjectTags.some(tag => tag === subjectValue);
-          const matchesLevel = levelValue === 'all' || subjectTags.some(tag => tag === levelValue);
-          
-          if (matchesSearch && matchesSubject && matchesLevel) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      }
-      
-      if (searchInput) {
-        searchInput.addEventListener('input', filterWorksheets);
-      }
-      
-      if (subjectFilter) {
-        subjectFilter.addEventListener('change', filterWorksheets);
-      }
-      
-      if (levelFilter) {
-        levelFilter.addEventListener('change', filterWorksheets);
-      }
-    });
-  </script>
 </body>
 </html>

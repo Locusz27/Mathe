@@ -39,7 +39,7 @@
     .material-card {
       background-color: var(--card);
       border-radius: var(--radius);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-color);
       overflow: hidden;
       transition: all 0.3s ease;
     }
@@ -47,12 +47,12 @@
     .material-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      border-color: var(--primary);
+      border-color: var(--primary-color);
     }
     
     .material-header {
       padding: 1.5rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-color);
     }
     
     .material-title {
@@ -64,7 +64,7 @@
     }
     
     .material-icon {
-      color: var(--primary);
+      color: var(--primary-color);
     }
     
     .material-description {
@@ -101,22 +101,6 @@
       margin-top: 1rem;
     }
     
-    /*.material-preview {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 1rem;
-      background-color: var(--muted);
-      border-radius: var(--radius);
-      padding: 1rem;
-      height: 150px;
-      overflow: hidden;
-    }
-    
-    .material-preview img {
-      max-height: 100%;
-      object-fit: contain;
-    }*/
-    
     .search-container {
       margin-bottom: 2rem;
     }
@@ -126,18 +110,10 @@
       margin-bottom: 1rem;
     }
     
-    .search-icon {
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted-foreground);
-    }
-    
     .search-input {
       width: 100%;
       height: 2.5rem;
-      padding: 0 0.75rem 0 2.5rem;
+      padding: 0 0.75rem;
       border-radius: var(--radius);
       border: 1px solid var(--input);
       background-color: var(--background);
@@ -170,7 +146,80 @@
       background-color: var(--background);
       font-size: 0.875rem;
     }
+
+    .teacher-controls {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--card);
+      padding: 2rem;
+      border-radius: var(--radius);
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
     
+    /* Loading state */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 0;
+      color: var(--text-light);
+    }
+    
+    .loading-spinner {
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 3px solid var(--muted);
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* No results */
+    .no-results {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-light);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
     @media (min-width: 640px) {
       .materials-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -200,8 +249,7 @@
       </nav>
       
       <div class="navbar-actions">
-        <a href="login.html" class="btn btn-ghost">Login</a>
-        <a href="login.html?tab=register" class="btn btn-primary">Register</a>
+        <!-- This will be updated by AuthManager -->
       </div>
       
       <button class="menu-toggle" aria-label="Toggle menu">
@@ -218,23 +266,23 @@
       <a href="quiz.html" class="mobile-link">Quiz</a>
       <a href="about.html" class="mobile-link">About</a>
       <div class="mobile-actions">
-        <a href="login.html" class="btn btn-outline btn-full">Login</a>
-        <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
+        <!-- This will be updated by AuthManager -->
       </div>
     </nav>
   </div>
 
   <main>
-    <div class="materials-container">
-      <div class="materials-header">
-        <h1 class="materials-title">Learning Materials</h1>
-        <p class="materials-description">Access comprehensive learning materials designed by expert educators.</p>
+    <div class="container">
+      <div class="page-header">
+        <div class="page-header-content">
+          <h1 class="page-title">Learning Materials</h1>
+          <p class="page-description">Access educational resources to enhance your learning experience.</p>
+        </div>
       </div>
 
       <div class="search-container">
         <div class="search-input-wrapper">
-          <i data-lucide="search" class="search-icon"></i>
-          <input type="text" id="search-materials" class="search-input" placeholder="Search by title, description, or subject...">
+          <input type="text" id="search-materials" class="search-input" placeholder="Search materials...">
         </div>
         
         <div class="filter-container">
@@ -246,6 +294,7 @@
               <option value="geometry">Geometry</option>
               <option value="arithmetic">Arithmetic</option>
               <option value="trigonometry">Trigonometry</option>
+              <option value="statistics">Statistics</option>
             </select>
           </div>
           
@@ -263,7 +312,7 @@
 
       <div class="materials-grid" id="materials-grid">
         <!-- Algebra Basics -->
-        <div class="material-card">
+        <div class="material-card" data-subject="algebra" data-level="beginner" data-title="algebra basics" data-description="learn the fundamental concepts of algebra including variables, expressions, and equations">
           <div class="material-header">
             <h2 class="material-title">
               <i data-lucide="book-open" class="material-icon"></i>
@@ -289,7 +338,7 @@
         </div>
 
         <!-- Geometry Angles -->
-        <div class="material-card">
+        <div class="material-card" data-subject="geometry" data-level="beginner" data-title="geometry angles" data-description="understand different types of angles, their properties, and how to measure them">
           <div class="material-header">
             <h2 class="material-title">
               <i data-lucide="book-open" class="material-icon"></i>
@@ -315,7 +364,7 @@
         </div>
 
         <!-- Fractions Practice -->
-        <div class="material-card">
+        <div class="material-card" data-subject="arithmetic" data-level="beginner" data-title="fractions practice" data-description="learn how to work with fractions, including addition, subtraction, multiplication, and division">
           <div class="material-header">
             <h2 class="material-title">
               <i data-lucide="book-open" class="material-icon"></i>
@@ -341,7 +390,7 @@
         </div>
 
         <!-- Quadratic Equations -->
-        <div class="material-card">
+        <div class="material-card" data-subject="algebra" data-level="intermediate" data-title="quadratic equations" data-description="master solving quadratic equations using factoring, completing the square, and the quadratic formula">
           <div class="material-header">
             <h2 class="material-title">
               <i data-lucide="book-open" class="material-icon"></i>
@@ -367,7 +416,7 @@
         </div>
 
         <!-- Trigonometric Functions -->
-        <div class="material-card">
+        <div class="material-card" data-subject="trigonometry" data-level="intermediate" data-title="trigonometric functions" data-description="explore sine, cosine, tangent, and other trigonometric functions and their applications">
           <div class="material-header">
             <h2 class="material-title">
               <i data-lucide="book-open" class="material-icon"></i>
@@ -392,6 +441,12 @@
           </div>
         </div>
       </div>
+
+      <div id="no-results" class="no-results hidden">
+        <i data-lucide="search-x" style="width: 48px; height: 48px; opacity: 0.5; margin-bottom: 1rem;"></i>
+        <h3>No materials found</h3>
+        <p>Try adjusting your search or filters</p>
+      </div>
     </div>
   </main>
 
@@ -410,7 +465,7 @@
           <ul class="footer-links">
             <li><a href="learning-materials.html">Learning Materials</a></li>
             <li><a href="worksheets.html">Worksheets</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
+            <li><a href="quiz.html">Quizzes</a></li>
           </ul>
         </div>
 
@@ -444,54 +499,7 @@
     </div>
   </footer>
 
+  <script src="js/auth.js"></script>
   <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize Lucide icons
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
-      
-      // Search functionality
-      const searchInput = document.getElementById('search-materials');
-      const subjectFilter = document.getElementById('subject-filter');
-      const levelFilter = document.getElementById('level-filter');
-      const materialCards = document.querySelectorAll('.material-card');
-      
-      function filterMaterials() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const subjectValue = subjectFilter.value.toLowerCase();
-        const levelValue = levelFilter.value.toLowerCase();
-        
-        materialCards.forEach(card => {
-          const title = card.querySelector('.material-title').textContent.toLowerCase();
-          const description = card.querySelector('.material-description').textContent.toLowerCase();
-          const subjectTags = Array.from(card.querySelectorAll('.material-tag')).map(tag => tag.textContent.toLowerCase());
-          
-          const matchesSearch = title.includes(searchTerm) || description.includes(searchTerm);
-          const matchesSubject = subjectValue === 'all' || subjectTags.some(tag => tag === subjectValue);
-          const matchesLevel = levelValue === 'all' || subjectTags.some(tag => tag === levelValue);
-          
-          if (matchesSearch && matchesSubject && matchesLevel) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      }
-      
-      if (searchInput) {
-        searchInput.addEventListener('input', filterMaterials);
-      }
-      
-      if (subjectFilter) {
-        subjectFilter.addEventListener('change', filterMaterials);
-      }
-      
-      if (levelFilter) {
-        levelFilter.addEventListener('change', filterMaterials);
-      }
-    });
-  </script>
 </body>
 </html>
