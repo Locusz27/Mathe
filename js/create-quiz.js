@@ -1,3 +1,18 @@
+// Quiz creation functionality
+const currentQuiz = {
+  title: "",
+  description: "",
+  subject: "",
+  level: "",
+  backgroundTheme: "default",
+  pointsPerQuestion: 10,
+  timeLimit: 60,
+  questions: [],
+}
+
+let currentQuestionIndex = 0
+
+// Initialize the quiz creator
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Quiz creator loaded")
 
@@ -81,64 +96,57 @@ document.addEventListener("DOMContentLoaded", () => {
     questionCard.setAttribute("data-question-index", index)
 
     questionCard.innerHTML = `
-    <div class="question-header">
-      <span class="question-number">Question ${index + 1}</span>
-      <div class="question-actions">
-        <button type="button" class="btn btn-outline btn-sm move-up-btn" ${index === 0 ? "disabled" : ""}>
-          <i data-lucide="chevron-up"></i>
-        </button>
-        <button type="button" class="btn btn-outline btn-sm move-down-btn" ${index === questions.length - 1 ? "disabled" : ""}>
-          <i data-lucide="chevron-down"></i>
-        </button>
-        <button type="button" class="btn btn-outline btn-sm btn-error remove-btn">
-          <i data-lucide="trash-2"></i>
-        </button>
+      <div class="question-header">
+        <span class="question-number">Question ${index + 1}</span>
+        <div class="question-actions">
+          <button type="button" class="btn btn-outline btn-sm move-up-btn" ${index === 0 ? "disabled" : ""}>
+            <i data-lucide="chevron-up"></i>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm move-down-btn" ${index === questions.length - 1 ? "disabled" : ""}>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <button type="button" class="btn btn-outline btn-sm btn-error remove-btn">
+            <i data-lucide="trash-2"></i>
+          </button>
+        </div>
       </div>
-    </div>
-    
-    <div class="form-group">
-      <label for="${questionData.id}-context">Story Context (Optional)</label>
-      <textarea id="${questionData.id}-context" class="context-input" placeholder="Add a story or context for this question...">${questionData.story_context}</textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="${questionData.id}-question">Question</label>
-      <textarea id="${questionData.id}-question" class="question-input" placeholder="Enter your question here..." required>${questionData.question}</textarea>
-    </div>
-    
-    <div class="form-group">
-      <label>Answer Options</label>
-      <div class="options-container" id="${questionData.id}-options">
-        ${questionData.options
-          .map(
-            (option, optionIndex) => `
-          <div class="option-group" data-option-index="${optionIndex}">
-            <input type="radio" 
-                   name="${questionData.id}-correct" 
-                   value="${optionIndex}" 
-                   class="option-radio" 
-                   id="${questionData.id}-radio-${optionIndex}"
-                   ${questionData.correct_answer === optionIndex ? "checked" : ""}>
-            <input type="text" 
-                   class="option-input" 
-                   placeholder="Option ${optionIndex + 1}" 
-                   value="${option}" 
-                   data-question-index="${index}" 
-                   data-option-index="${optionIndex}">
-            ${questionData.options.length > 2 ? `<button type="button" class="btn btn-outline btn-sm btn-error remove-option-btn" data-option-index="${optionIndex}"><i data-lucide="x"></i></button>` : ""}
-          </div>
-        `,
-          )
-          .join("")}
+      
+      <div class="form-group">
+        <label for="${questionData.id}-context">Story Context (Optional)</label>
+        <textarea id="${questionData.id}-context" class="context-input" placeholder="Add a story or context for this question...">${questionData.story_context}</textarea>
       </div>
-      ${questionData.options.length < 6 ? `<button type="button" class="btn btn-outline btn-sm add-option-btn"><i data-lucide="plus"></i> Add Option</button>` : ""}
+      
+      <div class="form-group">
+        <label for="${questionData.id}-question">Question</label>
+        <textarea id="${questionData.id}-question" class="question-input" placeholder="Enter your question here..." required>${questionData.question}</textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Answer Options</label>
+        <div class="options-container" id="${questionData.id}-options">
+          ${questionData.options
+            .map(
+              (option, optionIndex) => `
+    <div class="simple-option-row" data-option-index="${optionIndex}">
+      <label class="option-label">
+        <input type="radio" name="${questionData.id}-correct" value="${optionIndex}" ${questionData.correct_answer === optionIndex ? "checked" : ""}>
+        <span class="option-number">Option ${optionIndex + 1}:</span>
+      </label>
+      <input type="text" class="simple-option-input" value="${option}" placeholder="Enter option text" data-option-index="${optionIndex}">
+      ${questionData.options.length > 2 ? `<button type="button" class="simple-remove-btn" data-option-index="${optionIndex}">Remove</button>` : ""}
     </div>
-    
-    <div class="form-group">
-      <label for="${questionData.id}-hint">Hint (Optional)</label>
-      <input type="text" id="${questionData.id}-hint" class="hint-input" placeholder="Provide a helpful hint..." value="${questionData.hint}">
-    </div>
-  `
+  `,
+            )
+            .join("")}
+        </div>
+        ${questionData.options.length < 6 ? `<button type="button" class="btn btn-outline btn-sm add-option-btn"><i data-lucide="plus"></i> Add Option</button>` : ""}
+      </div>
+      
+      <div class="form-group">
+        <label for="${questionData.id}-hint">Hint (Optional)</label>
+        <input type="text" id="${questionData.id}-hint" class="hint-input" placeholder="Provide a helpful hint..." value="${questionData.hint}">
+      </div>
+    `
 
     // Add event listeners immediately after creating the card
     setupQuestionEventListeners(questionCard, index)
@@ -173,48 +181,34 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
 
-    // Option inputs - Simplified approach
-    const optionInputs = questionCard.querySelectorAll(".option-input")
-    optionInputs.forEach((input, optionIndex) => {
-      // Clear any existing listeners
-      const newInput = input.cloneNode(true)
-      input.parentNode.replaceChild(newInput, input)
-
-      // Add event listener to the new input
-      newInput.addEventListener("input", (e) => {
-        const value = e.target.value
-        console.log(`Option ${optionIndex} changed to: "${value}"`)
-        if (questions[questionIndex] && questions[questionIndex].options) {
-          questions[questionIndex].options[optionIndex] = value
-          console.log(`Updated question ${questionIndex} options:`, questions[questionIndex].options)
-        }
-      })
-
-      // Also handle paste events
-      newInput.addEventListener("paste", (e) => {
-        setTimeout(() => {
-          const value = e.target.value
-          if (questions[questionIndex] && questions[questionIndex].options) {
-            questions[questionIndex].options[optionIndex] = value
-          }
-        }, 10)
+    // Simple option inputs - new approach
+    const simpleOptionInputs = questionCard.querySelectorAll(".simple-option-input")
+    simpleOptionInputs.forEach((input) => {
+      const optionIndex = Number.parseInt(input.getAttribute("data-option-index"))
+      input.addEventListener("input", (e) => {
+        console.log(`Simple option input - Question ${questionIndex}, Option ${optionIndex}:`, e.target.value)
+        updateQuestionOption(questionIndex, optionIndex, e.target.value)
       })
     })
 
-    // Correct answer radios - Fixed approach
-    const correctRadios = questionCard.querySelectorAll(".option-radio")
-    correctRadios.forEach((radio, optionIndex) => {
+    // Correct answer radios
+    const correctRadios = questionCard.querySelectorAll("input[type='radio']")
+    correctRadios.forEach((radio) => {
       radio.addEventListener("change", (e) => {
         if (e.target.checked) {
-          console.log(`Correct answer set to option ${optionIndex} for question ${questionIndex}`)
-          updateQuestion(questionIndex, "correct_answer", optionIndex)
+          const optionIndex = Number.parseInt(e.target.value)
+          console.log(`Radio button changed: option ${optionIndex} selected for question ${questionIndex}`)
 
-          // Ensure only this radio is checked
-          correctRadios.forEach((otherRadio, otherIndex) => {
-            if (otherIndex !== optionIndex) {
-              otherRadio.checked = false
-            }
-          })
+          // Get the current text value of the selected option
+          const optionInput = questionCard.querySelector(
+            `input.simple-option-input[data-option-index="${optionIndex}"]`,
+          )
+          if (optionInput && optionInput.value.trim()) {
+            updateQuestion(questionIndex, "correct_answer", optionInput.value.trim())
+            console.log(`Correct answer updated to: "${optionInput.value.trim()}"`)
+          } else {
+            console.warn(`Option ${optionIndex} is empty or not found`)
+          }
         }
       })
     })
@@ -243,11 +237,12 @@ document.addEventListener("DOMContentLoaded", () => {
       addOptionBtn.addEventListener("click", () => addOption(questionIndex))
     }
 
-    // Remove option buttons
-    const removeOptionBtns = questionCard.querySelectorAll(".remove-option-btn")
+    // Remove option buttons - FIXED
+    const removeOptionBtns = questionCard.querySelectorAll(".simple-remove-btn")
     removeOptionBtns.forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        const optionIndex = Number.parseInt(e.target.closest("button").dataset.optionIndex)
+        const optionIndex = Number.parseInt(e.target.getAttribute("data-option-index"))
+        console.log(`Removing option ${optionIndex} from question ${questionIndex}`)
         removeOption(questionIndex, optionIndex)
       })
     })
@@ -257,7 +252,16 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`Updating question ${index}, field ${field}:`, value)
     if (questions[index]) {
       questions[index][field] = value
-      console.log(`Question ${index} updated:`, questions[index])
+    }
+  }
+
+  function updateQuestionOption(questionIndex, optionIndex, value) {
+    console.log(`Updating question ${questionIndex}, option ${optionIndex}:`, value)
+    if (questions[questionIndex] && questions[questionIndex].options[optionIndex] !== undefined) {
+      questions[questionIndex].options[optionIndex] = value
+      console.log(`Updated! Current options for question ${questionIndex}:`, questions[questionIndex].options)
+    } else {
+      console.error(`Failed to update - Question ${questionIndex} or option ${optionIndex} not found`)
     }
   }
 
@@ -269,12 +273,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function removeOption(questionIndex, optionIndex) {
+    console.log(`removeOption called: questionIndex=${questionIndex}, optionIndex=${optionIndex}`)
+
     if (questions[questionIndex] && questions[questionIndex].options.length > 2) {
+      // Remove the specific option
       questions[questionIndex].options.splice(optionIndex, 1)
+      console.log(`Removed option ${optionIndex}. New options:`, questions[questionIndex].options)
 
       // Adjust correct answer if necessary
-      if (questions[questionIndex].correct_answer >= optionIndex) {
-        questions[questionIndex].correct_answer = Math.max(0, questions[questionIndex].correct_answer - 1)
+      if (questions[questionIndex].correct_answer > optionIndex) {
+        questions[questionIndex].correct_answer = questions[questionIndex].correct_answer - 1
+      } else if (questions[questionIndex].correct_answer === optionIndex) {
+        questions[questionIndex].correct_answer = 0 // Reset to first option if deleted option was correct
       }
 
       refreshQuestionCard(questionIndex)
@@ -375,44 +385,35 @@ document.addEventListener("DOMContentLoaded", () => {
       return
     }
 
-    // Debug: Log current questions state
-    console.log("Current questions before validation:", questions)
-
     for (let i = 0; i < questions.length; i++) {
       const question = questions[i]
-      console.log(`Validating question ${i + 1}:`, question)
-
       if (!question.question.trim()) {
         alert(`Please enter a question for Question ${i + 1}`)
         return
       }
 
-      // Filter out empty options and count valid ones
-      const validOptions = question.options.filter((option) => option && option.trim() !== "")
-      console.log(`Question ${i + 1} valid options:`, validOptions)
-
+      const validOptions = question.options.filter((option) => option.trim() !== "")
       if (validOptions.length < 2) {
-        alert(
-          `Question ${i + 1} must have at least 2 non-empty options. Currently has ${validOptions.length} valid options.`,
-        )
-        console.log(`Question ${i + 1} all options:`, question.options)
+        alert(`Question ${i + 1} must have at least 2 options`)
         return
       }
 
-      // Check if the correct answer points to a valid option
-      const correctAnswerOption = question.options[question.correct_answer]
-      if (!correctAnswerOption || !correctAnswerOption.trim()) {
-        alert(`Please select a valid correct answer for Question ${i + 1}. The selected option is empty.`)
+      // Check if correct answer is properly set and exists in options
+      if (!question.correct_answer || !question.correct_answer.trim()) {
+        alert(`Please select a correct answer for Question ${i + 1}`)
+        return
+      }
+
+      // Verify the correct answer exists in the options
+      const correctAnswerExists = question.options.some((option) => option.trim() === question.correct_answer.trim())
+
+      if (!correctAnswerExists) {
+        alert(`The correct answer for Question ${i + 1} doesn't match any of the options. Please check your selection.`)
         return
       }
     }
 
-    // Prepare quiz data - clean up empty options
-    const cleanedQuestions = questions.map((q) => ({
-      ...q,
-      options: q.options.filter((option) => option && option.trim() !== ""),
-    }))
-
+    // Prepare quiz data - FIXED: Use the correct API endpoint
     const quizData = {
       title: title,
       description: description,
@@ -421,7 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
       background_theme: backgroundTheme,
       points_per_question: pointsPerQuestion,
       time_limit: timeLimit,
-      questions: cleanedQuestions,
+      questions: questions.filter((q) => q.question.trim() !== ""),
       published: true,
     }
 
@@ -444,9 +445,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (successEl) successEl.style.display = "none"
       if (errorEl) errorEl.style.display = "none"
 
-      // Send request
+      // Send request - FIXED: Use the correct endpoint
       const method = currentQuizId ? "PUT" : "POST"
-      fetch("api/quiz-creator.php", {
+      const endpoint = "api/quizzes.php" // Changed from quiz-creator.php to quizzes.php
+
+      fetch(endpoint, {
         method: method,
         headers: {
           "Content-Type": "application/json",
@@ -455,6 +458,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log("Server response:", data)
           if (data.success) {
             // Show success message
             if (successEl) successEl.style.display = "flex"
@@ -513,7 +517,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadQuizForEditing(quizId) {
-    fetch(`api/quiz-creator.php?id=${quizId}`)
+    fetch(`api/quizzes.php?id=${quizId}`) // Changed endpoint
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -588,3 +592,419 @@ document.addEventListener("DOMContentLoaded", () => {
     timeInput.addEventListener("input", updateQuizStats)
   }
 })
+
+// Quiz creation functionality
+
+// Initialize the quiz creator
+document.addEventListener("DOMContentLoaded", () => {
+  setupEventListeners()
+  updateQuestionCounter()
+})
+
+function setupEventListeners() {
+  // Basic quiz info form
+  const quizForm = document.getElementById("quiz-basic-info")
+  if (quizForm) {
+    quizForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      saveBasicInfo()
+    })
+  }
+
+  // Question form
+  const questionForm = document.getElementById("question-form")
+  if (questionForm) {
+    questionForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      saveCurrentQuestion()
+    })
+  }
+
+  // Add option button
+  const addOptionBtn = document.getElementById("add-option-btn")
+  if (addOptionBtn) {
+    addOptionBtn.addEventListener("click", addOption)
+  }
+
+  // Navigation buttons
+  const prevBtn = document.getElementById("prev-question-btn")
+  const nextBtn = document.getElementById("next-question-btn")
+  const publishBtn = document.getElementById("publish-quiz-btn")
+
+  if (prevBtn) prevBtn.addEventListener("click", previousQuestion)
+  if (nextBtn) nextBtn.addEventListener("click", nextQuestion)
+  if (publishBtn) publishBtn.addEventListener("click", publishQuiz)
+}
+
+function saveBasicInfo() {
+  const form = document.getElementById("quiz-basic-info")
+  const formData = new FormData(form)
+
+  currentQuiz.title = formData.get("title")
+  currentQuiz.description = formData.get("description")
+  currentQuiz.subject = formData.get("subject")
+  currentQuiz.level = formData.get("level")
+  currentQuiz.backgroundTheme = formData.get("background-theme") || "default"
+  currentQuiz.pointsPerQuestion = Number.parseInt(formData.get("points-per-question")) || 10
+  currentQuiz.timeLimit = Number.parseInt(formData.get("time-limit")) || 60
+
+  console.log("Basic info saved:", currentQuiz)
+
+  // Show success message
+  showNotification("Quiz information saved!", "success")
+
+  // Move to questions section
+  showQuestionsSection()
+}
+
+function showQuestionsSection() {
+  const basicInfoSection = document.getElementById("basic-info-section")
+  const questionsSection = document.getElementById("questions-section")
+
+  if (basicInfoSection) basicInfoSection.style.display = "none"
+  if (questionsSection) questionsSection.style.display = "block"
+
+  // Initialize first question if none exist
+  if (currentQuiz.questions.length === 0) {
+    addNewQuestion()
+  }
+
+  loadQuestion(currentQuestionIndex)
+}
+
+function addNewQuestion() {
+  const newQuestion = {
+    storyContext: "",
+    question: "",
+    options: ["", "", "", ""],
+    correctAnswer: "", // This will store the actual text, not index
+    hint: "",
+  }
+
+  currentQuiz.questions.push(newQuestion)
+  updateQuestionCounter()
+}
+
+function loadQuestion(index) {
+  if (index < 0 || index >= currentQuiz.questions.length) return
+
+  const question = currentQuiz.questions[index]
+
+  // Load question data into form
+  document.getElementById("story-context").value = question.storyContext || ""
+  document.getElementById("question-text").value = question.question || ""
+  document.getElementById("hint-text").value = question.hint || ""
+
+  // Load options
+  const optionsContainer = document.getElementById("options-container")
+  optionsContainer.innerHTML = ""
+
+  question.options.forEach((option, optionIndex) => {
+    addOptionToDOM(option, optionIndex, question.correctAnswer === option)
+  })
+
+  // Ensure at least 2 options
+  while (question.options.length < 2) {
+    question.options.push("")
+    addOptionToDOM("", question.options.length - 1, false)
+  }
+
+  updateQuestionCounter()
+  updateNavigationButtons()
+}
+
+function addOptionToDOM(optionText = "", optionIndex = 0, isCorrect = false) {
+  const optionsContainer = document.getElementById("options-container")
+
+  const optionDiv = document.createElement("div")
+  optionDiv.className = "option-row"
+  optionDiv.setAttribute("data-option-index", optionIndex)
+
+  optionDiv.innerHTML = `
+        <div class="option-input-group">
+            <input type="radio" 
+                   name="correct-answer" 
+                   value="${optionIndex}" 
+                   id="correct-${optionIndex}"
+                   ${isCorrect ? "checked" : ""}>
+            <label for="correct-${optionIndex}" class="radio-label">Correct</label>
+            <input type="text" 
+                   class="option-text-input" 
+                   placeholder="Enter answer option" 
+                   value="${optionText}"
+                   data-option-index="${optionIndex}">
+            <button type="button" class="remove-option-btn" onclick="removeOptionFromDOM(${optionIndex})">
+                ✕
+            </button>
+        </div>
+    `
+
+  optionsContainer.appendChild(optionDiv)
+
+  // Add event listeners
+  const textInput = optionDiv.querySelector(".option-text-input")
+  const radioInput = optionDiv.querySelector('input[type="radio"]')
+
+  textInput.addEventListener("input", function () {
+    updateOptionText(optionIndex, this.value)
+  })
+
+  radioInput.addEventListener("change", function () {
+    if (this.checked) {
+      setCorrectAnswer(optionIndex)
+    }
+  })
+}
+
+function updateOptionText(optionIndex, newText) {
+  if (currentQuiz.questions[currentQuestionIndex]) {
+    const question = currentQuiz.questions[currentQuestionIndex]
+    const oldText = question.options[optionIndex]
+
+    // Update the option text
+    question.options[optionIndex] = newText
+
+    // If this was the correct answer, update the correct answer text too
+    if (question.correctAnswer === oldText) {
+      question.correctAnswer = newText
+    }
+
+    // Update the radio button value to match the text
+    const radioInput = document.querySelector(`input[name="correct-answer"][value="${optionIndex}"]`)
+    if (radioInput) {
+      radioInput.setAttribute("data-text", newText)
+    }
+  }
+}
+
+function setCorrectAnswer(optionIndex) {
+  if (currentQuiz.questions[currentQuestionIndex]) {
+    const question = currentQuiz.questions[currentQuestionIndex]
+    // Store the actual text as the correct answer, not the index
+    question.correctAnswer = question.options[optionIndex]
+    console.log(`Correct answer set to: "${question.correctAnswer}" (from option ${optionIndex})`)
+  }
+}
+
+function addOption() {
+  const question = currentQuiz.questions[currentQuestionIndex]
+  if (question && question.options.length < 6) {
+    const newIndex = question.options.length
+    question.options.push("")
+    addOptionToDOM("", newIndex, false)
+    updateOptionIndices()
+  }
+}
+
+function removeOptionFromDOM(optionIndex) {
+  const question = currentQuiz.questions[currentQuestionIndex]
+  if (question && question.options.length > 2) {
+    const removedOption = question.options[optionIndex]
+
+    // If we're removing the correct answer, clear it
+    if (question.correctAnswer === removedOption) {
+      question.correctAnswer = ""
+    }
+
+    // Remove the option
+    question.options.splice(optionIndex, 1)
+
+    // Reload the options display
+    loadQuestion(currentQuestionIndex)
+  }
+}
+
+function updateOptionIndices() {
+  const optionRows = document.querySelectorAll(".option-row")
+  optionRows.forEach((row, index) => {
+    row.setAttribute("data-option-index", index)
+
+    const radioInput = row.querySelector('input[type="radio"]')
+    const textInput = row.querySelector(".option-text-input")
+    const removeBtn = row.querySelector(".remove-option-btn")
+
+    if (radioInput) {
+      radioInput.value = index
+      radioInput.id = `correct-${index}`
+    }
+
+    if (textInput) {
+      textInput.setAttribute("data-option-index", index)
+    }
+
+    if (removeBtn) {
+      removeBtn.setAttribute("onclick", `removeOptionFromDOM(${index})`)
+    }
+
+    const label = row.querySelector(".radio-label")
+    if (label) {
+      label.setAttribute("for", `correct-${index}`)
+    }
+  })
+}
+
+function saveCurrentQuestion() {
+  const question = currentQuiz.questions[currentQuestionIndex]
+  if (!question) return
+
+  // Save form data
+  question.storyContext = document.getElementById("story-context").value
+  question.question = document.getElementById("question-text").value
+  question.hint = document.getElementById("hint-text").value
+
+  // Save options and correct answer
+  const optionInputs = document.querySelectorAll(".option-text-input")
+  question.options = Array.from(optionInputs).map((input) => input.value)
+
+  // Get the correct answer - find which radio is checked and get the corresponding text
+  const checkedRadio = document.querySelector('input[name="correct-answer"]:checked')
+  if (checkedRadio) {
+    const optionIndex = Number.parseInt(checkedRadio.value)
+    question.correctAnswer = question.options[optionIndex]
+  }
+
+  console.log("Question saved:", question)
+  showNotification("Question saved!", "success")
+}
+
+function previousQuestion() {
+  if (currentQuestionIndex > 0) {
+    saveCurrentQuestion()
+    currentQuestionIndex--
+    loadQuestion(currentQuestionIndex)
+  }
+}
+
+function nextQuestion() {
+  saveCurrentQuestion()
+
+  if (currentQuestionIndex < currentQuiz.questions.length - 1) {
+    currentQuestionIndex++
+    loadQuestion(currentQuestionIndex)
+  } else {
+    // Add new question
+    addNewQuestion()
+    currentQuestionIndex = currentQuiz.questions.length - 1
+    loadQuestion(currentQuestionIndex)
+  }
+}
+
+function updateQuestionCounter() {
+  const counter = document.getElementById("question-counter")
+  if (counter) {
+    counter.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuiz.questions.length}`
+  }
+}
+
+function updateNavigationButtons() {
+  const prevBtn = document.getElementById("prev-question-btn")
+  const nextBtn = document.getElementById("next-question-btn")
+
+  if (prevBtn) {
+    prevBtn.disabled = currentQuestionIndex === 0
+  }
+
+  if (nextBtn) {
+    nextBtn.textContent = currentQuestionIndex === currentQuiz.questions.length - 1 ? "Add Question" : "Next Question"
+  }
+}
+
+async function publishQuiz() {
+  // Save current question before publishing
+  saveCurrentQuestion()
+
+  // Validate quiz
+  if (!validateQuiz()) {
+    return
+  }
+
+  try {
+    console.log("Publishing quiz:", currentQuiz)
+
+    const response = await fetch("api/quizzes.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(currentQuiz),
+    })
+
+    const result = await response.json()
+    console.log("Publish response:", result)
+
+    if (result.success) {
+      showNotification("Quiz published successfully!", "success")
+      // Redirect to quiz list or dashboard
+      setTimeout(() => {
+        window.location.href = "quiz.html"
+      }, 2000)
+    } else {
+      showNotification("Failed to publish quiz: " + result.message, "error")
+    }
+  } catch (error) {
+    console.error("Error publishing quiz:", error)
+    showNotification("Error publishing quiz. Please try again.", "error")
+  }
+}
+
+function validateQuiz() {
+  // Check basic info
+  if (!currentQuiz.title || !currentQuiz.description || !currentQuiz.subject || !currentQuiz.level) {
+    showNotification("Please fill in all basic quiz information.", "error")
+    return false
+  }
+
+  // Check questions
+  if (currentQuiz.questions.length === 0) {
+    showNotification("Please add at least one question.", "error")
+    return false
+  }
+
+  // Validate each question
+  for (let i = 0; i < currentQuiz.questions.length; i++) {
+    const question = currentQuiz.questions[i]
+
+    if (!question.question.trim()) {
+      showNotification(`Question ${i + 1} is missing question text.`, "error")
+      return false
+    }
+
+    // Check if there are at least 2 non-empty options
+    const validOptions = question.options.filter((opt) => opt.trim() !== "")
+    if (validOptions.length < 2) {
+      showNotification(`Question ${i + 1} needs at least 2 answer options.`, "error")
+      return false
+    }
+
+    // Check if correct answer is set and valid
+    if (!question.correctAnswer || !question.options.includes(question.correctAnswer)) {
+      showNotification(`Question ${i + 1} needs a valid correct answer selected.`, "error")
+      return false
+    }
+  }
+
+  return true
+}
+
+function showNotification(message, type = "info") {
+  // Create notification element
+  const notification = document.createElement("div")
+  notification.className = `notification notification-${type}`
+  notification.textContent = message
+
+  // Add to page
+  document.body.appendChild(notification)
+
+  // Show notification
+  setTimeout(() => {
+    notification.classList.add("show")
+  }, 100)
+
+  // Hide and remove notification
+  setTimeout(() => {
+    notification.classList.remove("show")
+    setTimeout(() => {
+      document.body.removeChild(notification)
+    }, 300)
+  }, 3000)
+}

@@ -1,355 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Gamified Math Quiz</title>
- <link rel="stylesheet" href="styles.css">
- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
- <!-- Lucide Icons -->
- <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamified Math Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
- <!-- Add this script right after the opening body tag -->
- <script>
- // Immediate access check for guests
- if (!localStorage.getItem('currentUser')) {
-   alert('Please log in to access the quiz.');
-   window.location.href = 'login.html';
- }
- </script>
- <header class="navbar">
-     <div class="container">
-         <div class="navbar-logo">
-             <a href="index.html" class="logo">Mathe</a>
-         </div>
+  <!-- Add this script right after the opening body tag -->
+  <script>
+  // Immediate access check for guests
+  if (!localStorage.getItem('currentUser')) {
+    alert('Please log in to access the quiz.');
+    window.location.href = 'login.html';
+  }
+  </script>
+  <header class="navbar">
+      <div class="container">
+          <div class="navbar-logo">
+              <a href="index.html" class="logo">Mathe</a>
+          </div>
 
-         <nav class="navbar-menu">
-             <a href="index.html" class="navbar-link">Home</a>
-             <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
-             <a href="worksheets.html" class="navbar-link">Worksheets</a>
-             <a href="quiz.html" class="navbar-link active">Quiz</a>
-             <a href="about.html" class="navbar-link">About</a>
-         </nav>
+          <nav class="navbar-menu">
+              <a href="index.html" class="navbar-link">Home</a>
+              <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
+              <a href="worksheets.html" class="navbar-link">Worksheets</a>
+              <a href="quiz.html" class="navbar-link active">Quiz</a>
+              <a href="about.html" class="navbar-link">About</a>
+          </nav>
 
-         <div class="navbar-actions">
-             <!-- This will be replaced by auth.js -->
-             <a href="login.html" class="btn btn-ghost">Login</a>
-             <a href="login.html?tab=register" class="btn btn-primary">Register</a>
-         </div>
+          <div class="navbar-actions">
+              <!-- This will be replaced by auth.js -->
+              <a href="login.html" class="btn btn-ghost">Login</a>
+              <a href="login.html?tab=register" class="btn btn-primary">Register</a>
+          </div>
 
-         <button class="menu-toggle" aria-label="Toggle menu">
-             <i data-lucide="menu"></i>
-         </button>
-     </div>
- </header>
+          <button class="menu-toggle" aria-label="Toggle menu">
+              <i data-lucide="menu"></i>
+          </button>
+      </div>
+  </header>
 
- <div class="mobile-menu">
-     <nav class="mobile-nav">
-         <a href="index.html" class="mobile-link">Home</a>
-         <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
-         <a href="worksheets.html" class="mobile-link">Worksheets</a>
-         <a href="quiz.html" class="mobile-link active">Quiz</a>
-         <a href="about.html" class="mobile-link">About</a>
-         <div class="mobile-actions">
-             <!-- This will be replaced by auth.js -->
-             <a href="login.html" class="btn btn-outline btn-full">Login</a>
-             <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
-         </div>
-     </nav>
- </div>
+  <div class="mobile-menu">
+      <nav class="mobile-nav">
+          <a href="index.html" class="mobile-link">Home</a>
+          <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
+          <a href="worksheets.html" class="mobile-link">Worksheets</a>
+          <a href="quiz.html" class="mobile-link active">Quiz</a>
+          <a href="about.html" class="mobile-link">About</a>
+          <div class="mobile-actions">
+              <!-- This will be replaced by auth.js -->
+              <a href="login.html" class="btn btn-outline btn-full">Login</a>
+              <a href="login.html?tab=register" class="btn btn-primary btn-full">Register</a>
+          </div>
+      </nav>
+  </div>
 
- <main>
-     <div id="quiz-container" class="quiz-container">
-         <div class="container">
-             <!-- This section will be dynamically replaced with quiz content -->
-         </div>
-     </div>
+  <main>
+      <div id="quiz-container" class="quiz-container">
+          <div class="container">
+              <!-- This section will be dynamically replaced with quiz content -->
+          </div>
+      </div>
 
-     <div class="container" id="dashboard-container">
-         <div class="page-header">
-             <div class="page-header-content">
-                 <h1 class="page-title">Math Adventure Quiz</h1>
-                 <p class="page-description">
-                     Embark on a mathematical journey with our interactive story quizzes. Solve problems, earn points, and
-                     unlock achievements as you progress through each adventure.
-                 </p>
-             </div>
-             <div class="user-stats">
-                 <div class="user-stats-row">
-                     <div class="tag tag-primary" id="user-level">Level 1</div>
-                     <div class="tag tag-secondary" id="user-points">0 Points</div>
-                 </div>
-                 <div class="user-stats-row">
-                     <div class="tag" id="user-streak">0 Day Streak</div>
-                 </div>
-             </div>
-         </div>
+      <div class="container" id="dashboard-container">
+          <div class="page-header">
+              <div class="page-header-content">
+                  <h1 class="page-title">Math Adventure Quiz</h1>
+                  <p class="page-description">
+                      Embark on a mathematical journey with our interactive story quizzes. Solve problems, earn points, and
+                      unlock achievements as you progress through each adventure.
+                  </p>
+              </div>
+              <div class="user-stats">
+                  <div class="user-stats-row">
+                      <div class="tag tag-primary" id="user-level">Level 1</div>
+                      <div class="tag tag-secondary" id="user-points">0 Points</div>
+                  </div>
+                  <div class="user-stats-row">
+                      <div class="tag" id="user-streak">0 Day Streak</div>
+                  </div>
+              </div>
+          </div>
 
-         <div class="tabs">
-             <div class="tabs-list">
-                 <button class="tab-item active" data-tab="quizzes">Quizzes</button>
-                 <button class="tab-item" data-tab="profile">My Profile</button>
-                 <button class="tab-item" data-tab="leaderboard">Leaderboard</button>
-             </div>
+          <div class="tabs">
+              <div class="tabs-list">
+                  <button class="tab-item active" data-tab="quizzes">Quizzes</button>
+                  <button class="tab-item" data-tab="profile">My Profile</button>
+                  <button class="tab-item" data-tab="leaderboard">Leaderboard</button>
+              </div>
 
-             <div class="tab-content active" id="quizzes-tab">
-                 <div class="search-container">
-                     <div class="search-input-wrapper">
-                         <input type="text" id="search-quizzes" class="search-input" placeholder="Search by title, description, or subject..." style="padding-left: 1rem;">
-                     </div>
+              <div class="tab-content active" id="quizzes-tab">
+                  <div class="search-container">
+                      <div class="search-input-wrapper">
+                          <input type="text" id="search-quizzes" class="search-input" placeholder="Search by title, description, or subject..." style="padding-left: 1rem;">
+                      </div>
 
-                     <div class="filter-container">
-                         <div class="filter-group" id="subject-filter-container">
-                             <label for="subject-filter" class="filter-label">Subject:</label>
-                             <div class="custom-dropdown-container">
-                                 <div class="custom-dropdown-selected">
-                                     <span>All Subjects</span>
-                                     <i data-lucide="chevron-down" class="dropdown-arrow"></i>
-                                 </div>
-                                 <div class="custom-dropdown-options" style="display: none;">
-                                     <div class="custom-dropdown-option selected" data-value="all">All Subjects</div>
-                                     <div class="custom-dropdown-option" data-value="algebra">Algebra</div>
-                                     <div class="custom-dropdown-option" data-value="geometry">Geometry</div>
-                                     <div class="custom-dropdown-option" data-value="arithmetic">Arithmetic</div>
-                                     <div class="custom-dropdown-option" data-value="trigonometry">Trigonometry</div>
-                                 </div>
-                             </div>
-                         </div>
+                      <div class="filter-container">
+                          <div class="filter-group" id="subject-filter-container">
+                              <label for="subject-filter" class="filter-label">Subject:</label>
+                              <div class="custom-dropdown-container">
+                                  <div class="custom-dropdown-selected">
+                                      <span>All Subjects</span>
+                                      <i data-lucide="chevron-down" class="dropdown-arrow"></i>
+                                  </div>
+                                  <div class="custom-dropdown-options" style="display: none;">
+                                      <div class="custom-dropdown-option selected" data-value="all">All Subjects</div>
+                                      <div class="custom-dropdown-option" data-value="algebra">Algebra</div>
+                                      <div class="custom-dropdown-option" data-value="geometry">Geometry</div>
+                                      <div class="custom-dropdown-option" data-value="arithmetic">Arithmetic</div>
+                                      <div class="custom-dropdown-option" data-value="trigonometry">Trigonometry</div>
+                                  </div>
+                              </div>
+                          </div>
 
-                         <div class="filter-group" id="level-filter-container">
-                             <label for="level-filter" class="filter-label">Level:</label>
-                             <div class="custom-dropdown-container">
-                                 <div class="custom-dropdown-selected">
-                                     <span>All Levels</span>
-                                     <i data-lucide="chevron-down" class="dropdown-arrow"></i>
-                                 </div>
-                                 <div class="custom-dropdown-options" style="display: none;">
-                                     <div class="custom-dropdown-option selected" data-value="all">All Levels</div>
-                                     <div class="custom-dropdown-option" data-value="beginner">Beginner</div>
-                                     <div class="custom-dropdown-option" data-value="intermediate">Intermediate</div>
-                                     <div class="custom-dropdown-option" data-value="advanced">Advanced</div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
+                          <div class="filter-group" id="level-filter-container">
+                              <label for="level-filter" class="filter-label">Level:</label>
+                              <div class="custom-dropdown-container">
+                                  <div class="custom-dropdown-selected">
+                                      <span>All Levels</span>
+                                      <i data-lucide="chevron-down" class="dropdown-arrow"></i>
+                                  </div>
+                                  <div class="custom-dropdown-options" style="display: none;">
+                                      <div class="custom-dropdown-option selected" data-value="all">All Levels</div>
+                                      <div class="custom-dropdown-option" data-value="beginner">Beginner</div>
+                                      <div class="custom-dropdown-option" data-value="intermediate">Intermediate</div>
+                                      <div class="custom-dropdown-option" data-value="advanced">Advanced</div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
 
-                 <div class="quizzes-grid" id="quizzes-grid">
-                     <!-- Quiz cards will be dynamically inserted here -->
-                 </div>
-             </div>
+                  <div class="quizzes-grid" id="quizzes-grid">
+                      <!-- Quiz cards will be dynamically inserted here -->
+                  </div>
+              </div>
 
-             <div class="tab-content" id="profile-tab">
-                 <div class="profile-container">
-                     <div class="profile-header">
-                         <div class="profile-avatar">
-                             <i data-lucide="user"></i>
-                         </div>
-                         <div class="profile-info">
-                             <h2 class="profile-name" id="profile-username">Math Explorer</h2>
-                             <p class="profile-title">Level <span id="profile-level">1</span> Adventurer</p>
-                         </div>
-                     </div>
+              <div class="tab-content" id="profile-tab">
+                  <div class="profile-container">
+                      <div class="profile-header">
+                          <div class="profile-avatar">
+                              <i data-lucide="user"></i>
+                          </div>
+                          <div class="profile-info">
+                              <h2 class="profile-name" id="profile-username">Math Explorer</h2>
+                              <p class="profile-title">Level <span id="profile-level">1</span> Adventurer</p>
+                          </div>
+                      </div>
 
-                     <div class="stats-grid">
-                         <div class="card">
-                             <div class="card-header">
-                                 <div class="card-icon">
-                                     <i data-lucide="bar-chart"></i>
-                                 </div>
-                                 <h3 class="card-title">Level Progress</h3>
-                             </div>
-                             <div class="card-content">
-                                 <div class="level-display">
-                                     <span class="level-number" id="level-number">1</span>
-                                     <span class="level-points"><span id="total-points">0</span> points</span>
-                                 </div>
-                                 <div class="progress-container">
-                                     <div class="progress-bar" id="level-progress" style="width: 0%"></div>
-                                 </div>
-                                 <p class="progress-text"><span id="points-to-next-level">100</span> more points needed for next level</p>
-                             </div>
-                         </div>
+                      <div class="stats-grid">
+                          <div class="card">
+                              <div class="card-header">
+                                  <div class="card-icon">
+                                      <i data-lucide="bar-chart"></i>
+                                  </div>
+                                  <h3 class="card-title">Level Progress</h3>
+                              </div>
+                              <div class="card-content">
+                                  <div class="level-display">
+                                      <span class="level-number" id="level-number">1</span>
+                                      <span class="level-points"><span id="total-points">0</span> points</span>
+                                  </div>
+                                  <div class="progress-container">
+                                      <div class="progress-bar" id="level-progress" style="width: 0%"></div>
+                                  </div>
+                                  <p class="progress-text"><span id="points-to-next-level">100</span> more points needed for next level</p>
+                              </div>
+                          </div>
 
-                         <div class="card">
-                             <div class="card-header">
-                                 <div class="card-icon">
-                                     <i data-lucide="flame"></i>
-                                 </div>
-                                 <h3 class="card-title">Learning Streak</h3>
-                             </div>
-                             <div class="card-content">
-                                 <div class="streak-display">
-                                     <span class="streak-number" id="current-streak">0</span>
-                                     <span class="streak-label">days</span>
-                                 </div>
-                                 <div class="streak-stats">
-                                     <div class="streak-stat">
-                                         <span class="streak-stat-label">Longest Streak</span>
-                                         <span class="streak-stat-value" id="longest-streak">0 days</span>
-                                     </div>
-                                     <div class="streak-stat">
-                                         <span class="streak-stat-label">Last Quiz</span>
-                                         <span class="streak-stat-value" id="last-quiz-date">Never</span>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
+                          <div class="card">
+                              <div class="card-header">
+                                  <div class="card-icon">
+                                      <i data-lucide="flame"></i>
+                                  </div>
+                                  <h3 class="card-title">Learning Streak</h3>
+                              </div>
+                              <div class="card-content">
+                                  <div class="streak-display">
+                                      <span class="streak-number" id="current-streak">0</span>
+                                      <span class="streak-label">days</span>
+                                  </div>
+                                  <div class="streak-stats">
+                                      <div class="streak-stat">
+                                          <span class="streak-stat-label">Longest Streak</span>
+                                          <span class="streak-stat-value" id="longest-streak">0 days</span>
+                                      </div>
+                                      <div class="streak-stat">
+                                          <span class="streak-stat-label">Last Quiz</span>
+                                          <span class="streak-stat-value" id="last-quiz-date">Never</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
 
-                         <div class="card">
-                             <div class="card-header">
-                                 <div class="card-icon">
-                                     <i data-lucide="trophy"></i>
-                                 </div>
-                                 <h3 class="card-title">Achievements</h3>
-                             </div>
-                             <div class="card-content">
-                                 <div class="achievement-stats">
-                                     <div class="achievement-stat">
-                                         <span class="achievement-stat-label">Quizzes Completed</span>
-                                         <span class="achievement-stat-value" id="quizzes-completed">0</span>
-                                     </div>
-                                     <div class="achievement-stat">
-                                         <span class="achievement-stat-label">Perfect Scores</span>
-                                         <span class="achievement-stat-value" id="perfect-scores">0</span>
-                                     </div>
-                                     <div class="achievement-stat">
-                                         <span class="achievement-stat-label">Total Points</span>
-                                         <span class="achievement-stat-value" id="achievement-total-points">0</span>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
+                          <div class="card">
+                              <div class="card-header">
+                                  <div class="card-icon">
+                                      <i data-lucide="trophy"></i>
+                                  </div>
+                                  <h3 class="card-title">Achievements</h3>
+                              </div>
+                              <div class="card-content">
+                                  <div class="achievement-stats">
+                                      <div class="achievement-stat">
+                                          <span class="achievement-stat-label">Quizzes Completed</span>
+                                          <span class="achievement-stat-value" id="quizzes-completed">0</span>
+                                      </div>
+                                      <div class="achievement-stat">
+                                          <span class="achievement-stat-label">Perfect Scores</span>
+                                          <span class="achievement-stat-value" id="perfect-scores">0</span>
+                                      </div>
+                                      <div class="achievement-stat">
+                                          <span class="achievement-stat-label">Total Points</span>
+                                          <span class="achievement-stat-value" id="achievement-total-points">0</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
 
-                     <div class="card badges-card">
-                         <div class="card-header">
-                             <div class="card-icon">
-                                 <i data-lucide="award"></i>
-                             </div>
-                             <h3 class="card-title">Badges</h3>
-                         </div>
-                         <div class="card-content">
-                             <div class="no-badges" id="no-badges-container">
-                                 <i data-lucide="award" class="no-badges-icon"></i>
-                                 <p>Complete quizzes to earn badges!</p>
-                             </div>
-                             <div class="badges-grid" id="badges-grid" style="display: none;">
-                                 <!-- Badges will be dynamically inserted here -->
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
+                      <div class="card badges-card">
+                          <div class="card-header">
+                              <div class="card-icon">
+                                  <i data-lucide="award"></i>
+                              </div>
+                              <h3 class="card-title">Badges</h3>
+                          </div>
+                          <div class="card-content">
+                              <div class="no-badges" id="no-badges-container">
+                                  <i data-lucide="award" class="no-badges-icon"></i>
+                                  <p>Complete quizzes to earn badges!</p>
+                              </div>
+                              <div class="badges-grid" id="badges-grid" style="display: none;">
+                                  <!-- Badges will be dynamically inserted here -->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
 
-             <div class="tab-content" id="leaderboard-tab">
-                 <div class="leaderboard-container">
-                     <div class="leaderboard-header">
-                         <div class="leaderboard-tabs">
-                             <button class="leaderboard-tab active" data-leaderboard-type="points">Points</button>
-                             <button class="leaderboard-tab" data-leaderboard-type="level">Level</button>
-                             <button class="leaderboard-tab" data-leaderboard-type="perfect">Perfect Scores</button>
-                         </div>
-                     </div>
+              <div class="tab-content" id="leaderboard-tab">
+                  <div class="leaderboard-container">
+                      <div class="leaderboard-header">
+                          <div class="leaderboard-tabs">
+                              <button class="leaderboard-tab active" data-leaderboard-type="points">Points</button>
+                              <button class="leaderboard-tab" data-leaderboard-type="level">Level</button>
+                              <button class="leaderboard-tab" data-leaderboard-type="perfect">Perfect Scores</button>
+                          </div>
+                      </div>
 
-                     <div class="leaderboard-content" id="leaderboard-content">
-                         <!-- Leaderboard items will be dynamically inserted here -->
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
- </main>
+                      <div class="leaderboard-content" id="leaderboard-content">
+                          <!-- Leaderboard items will be dynamically inserted here -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </main>
 
- <footer class="footer">
-     <div class="container">
-         <div class="footer-grid">
-             <div class="footer-section">
-                 <h3 class="footer-title">Mathe</h3>
-                 <p class="footer-text">Free basic math education platform for learners without access to school.</p>
-             </div>
+  <footer class="footer">
+      <div class="container">
+          <div class="footer-grid">
+              <div class="footer-section">
+                  <h3 class="footer-title">Mathe</h3>
+                  <p class="footer-text">Free basic math education platform for learners without access to school.</p>
+              </div>
 
-             <div class="footer-section">
-                 <h3 class="footer-title">Resources</h3>
-                 <ul class="footer-links">
-                     <li><a href="learning-materials.html">Learning Materials</a></li>
-                     <li><a href="worksheets.html">Worksheets</a></li>
-                     <li><a href="quiz.html">Quiz</a></li>
-                 </ul>
-             </div>
+              <div class="footer-section">
+                  <h3 class="footer-title">Resources</h3>
+                  <ul class="footer-links">
+                      <li><a href="learning-materials.html">Learning Materials</a></li>
+                      <li><a href="worksheets.html">Worksheets</a></li>
+                      <li><a href="quiz.html">Quiz</a></li>
+                  </ul>
+              </div>
 
-             <div class="footer-section">
-                 <h3 class="footer-title">About</h3>
-                 <ul class="footer-links">
-                     <li><a href="about.html">Our Mission</a></li>
-                     <li><a href="#">Team</a></li>
-                     <li><a href="#">Partners</a></li>
-                 </ul>
-             </div>
+              <div class="footer-section">
+                  <h3 class="footer-title">About</h3>
+                  <ul class="footer-links">
+                      <li><a href="about.html">Our Mission</a></li>
+                      <li><a href="#">Team</a></li>
+                      <li><a href="#">Partners</a></li>
+                  </ul>
+              </div>
 
-             <div class="footer-section">
-                 <h3 class="footer-title">Contact</h3>
-                 <ul class="footer-links">
-                     <li>Email: info@mathe-education.org</li>
-                     <li><a href="#">Contact Form</a></li>
-                     <li><a href="#">Support</a></li>
-                 </ul>
-             </div>
-         </div>
+              <div class="footer-section">
+                  <h3 class="footer-title">Contact</h3>
+                  <ul class="footer-links">
+                      <li>Email: info@mathe-education.org</li>
+                      <li><a href="#">Contact Form</a></li>
+                      <li><a href="#">Support</a></li>
+                  </ul>
+              </div>
+          </div>
 
-         <div class="footer-bottom">
-             <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
-             <div class="footer-legal">
-                 <a href="#">Privacy Policy</a>
-                 <a href="#">Terms of Service</a>
-                 <a href="#">Cookie Policy</a>
-             </div>
-         </div>
-     </div>
- </footer>
+          <div class="footer-bottom">
+              <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+              <div class="footer-legal">
+                  <a href="#">Privacy Policy</a>
+                  <a href="#">Terms of Service</a>
+                  <a href="#">Cookie Policy</a>
+              </div>
+          </div>
+      </div>
+  </footer>
 
- <!-- Modal Templates -->
- <div class="modal" id="hint-confirm-modal">
-     <div class="modal-content">
-         <div class="modal-header">
-             <h3 class="modal-title">Use Hint?</h3>
-             <button class="modal-close" id="cancel-hint-button">×</button>
-         </div>
-         <div class="modal-body">
-             <p>Are you sure you want to use a hint? You have <span id="hints-remaining">2</span> hint(s) remaining for this quiz.</p>
-             <p class="hint-warning">Using a hint will reduce the points earned for this question.</p>
-             <div class="modal-actions">
-                 <button class="btn btn-outline" id="cancel-hint-action">Cancel</button>
-                 <button class="btn btn-primary" id="confirm-hint-button">Use Hint</button>
-             </div>
-         </div>
-     </div>
- </div>
+  <!-- Modal Templates -->
+  <div class="modal" id="hint-confirm-modal">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h3 class="modal-title">Use Hint?</h3>
+              <button class="modal-close" id="cancel-hint-button">×</button>
+          </div>
+          <div class="modal-body">
+              <p>Are you sure you want to use a hint? You have <span id="hints-remaining">2</span> hint(s) remaining for this quiz.</p>
+              <p class="hint-warning">Using a hint will reduce the points earned for this question.</p>
+              <div class="modal-actions">
+                  <button class="btn btn-outline" id="cancel-hint-action">Cancel</button>
+                  <button class="btn btn-primary" id="confirm-hint-button">Use Hint</button>
+              </div>
+          </div>
+      </div>
+  </div>
 
- <div class="modal" id="hint-modal">
-     <div class="modal-content">
-         <div class="modal-header">
-             <h3 class="modal-title">Hint</h3>
-             <button class="modal-close" id="close-hint">×</button>
-         </div>
-         <div class="modal-body">
-             <p id="hint-text"></p>
-             <p class="hint-warning">Points for this question have been reduced.</p>
-         </div>
-     </div>
- </div>
+  <div class="modal" id="hint-modal">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h3 class="modal-title">Hint</h3>
+              <button class="modal-close" id="close-hint">×</button>
+          </div>
+          <div class="modal-body">
+              <p id="hint-text"></p>
+              <p class="hint-warning">Points for this question have been reduced.</p>
+          </div>
+      </div>
+  </div>
 
- <div class="streak-animation" id="streak-animation" style="display: none;">
-     <div class="streak-content">
-         <i data-lucide="zap"></i>
-         <span id="streak-count">3 Streak!</span>
-     </div>
- </div>
+  <div class="streak-animation" id="streak-animation" style="display: none;">
+      <div class="streak-content">
+          <i data-lucide="zap"></i>
+          <span id="streak-count">3 Streak!</span>
+      </div>
+  </div>
 
- <!-- SCRIPTS -->
- <script src="js/auth.js"></script>
- <script src="script.js"></script>
- <script src="quiz.js"></script>
+  <!-- SCRIPTS -->
+  <script src="js/auth.js"></script>
+  <script src="script.js"></script>
+  <script src="quiz.js"></script>
 </body>
 </html>

@@ -44,9 +44,17 @@ function getQuizzes($pdo) {
             $stmt->execute([$quiz['id']]);
             $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            // Decode JSON options
+            // Decode JSON options and fix correct_answer format
             foreach ($questions as &$question) {
                 $question['options'] = json_decode($question['options'], true);
+                
+                // FIXED: Convert correct_answer from index to actual text if it's numeric
+                if (is_numeric($question['correct_answer'])) {
+                    $correctIndex = (int)$question['correct_answer'];
+                    if (isset($question['options'][$correctIndex])) {
+                        $question['correct_answer'] = $question['options'][$correctIndex];
+                    }
+                }
             }
             
             $quiz['questions'] = $questions;
@@ -75,9 +83,17 @@ function getQuiz($pdo, $id) {
         $stmt->execute([$id]);
         $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // Decode JSON options
+        // Decode JSON options and fix correct_answer format
         foreach ($questions as &$question) {
             $question['options'] = json_decode($question['options'], true);
+            
+            // FIXED: Convert correct_answer from index to actual text if it's numeric
+            if (is_numeric($question['correct_answer'])) {
+                $correctIndex = (int)$question['correct_answer'];
+                if (isset($question['options'][$correctIndex])) {
+                    $question['correct_answer'] = $question['options'][$correctIndex];
+                }
+            }
         }
         
         $quiz['questions'] = $questions;
@@ -119,12 +135,23 @@ function createQuiz($pdo, $data) {
             $stmt = $pdo->prepare("INSERT INTO quiz_questions (quiz_id, story_context, question, options, correct_answer, hint, question_order) VALUES (?, ?, ?, ?, ?, ?, ?)");
             
             foreach ($data['questions'] as $index => $question) {
+                // FIXED: Ensure correct_answer is stored as text, not index
+                $correctAnswer = $question['correct_answer'];
+                
+                // If correct_answer is numeric (index), convert to actual text
+                if (is_numeric($correctAnswer)) {
+                    $correctIndex = (int)$correctAnswer;
+                    if (isset($question['options'][$correctIndex])) {
+                        $correctAnswer = $question['options'][$correctIndex];
+                    }
+                }
+                
                 $stmt->execute([
                     $quizId,
                     $question['story_context'] ?? '',
                     $question['question'],
                     json_encode($question['options']),
-                    $question['correct_answer'],
+                    $correctAnswer, // Store the actual text, not the index
                     $question['hint'] ?? '',
                     $index + 1
                 ]);
