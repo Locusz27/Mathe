@@ -119,17 +119,8 @@ INSERT INTO worksheets (title, description, subject, level, file_path) VALUES
 ('Quadratic Equations Worksheet', 'Practice solving quadratic equations using various methods.', 'Algebra', 'intermediate', 'Quadratic Equations Worksheets.pdf'),
 ('Trigonometric Functions Worksheet', 'Practice problems on trigonometric functions and their applications.', 'Trigonometry', 'intermediate', 'Trigonometric Functions Worksheets.pdf');
 
--- Insert default quizzes for testing
-INSERT INTO quizzes (title, description, subject, level, background_theme, points_per_question, time_limit) VALUES
-('Basic Algebra Adventure', 'Solve algebraic puzzles to unlock the secrets of the ancient temple', 'Algebra', 'beginner', 'temple', 10, 60),
-('Geometry Quest', 'Navigate through the enchanted forest by solving geometry problems', 'Geometry', 'intermediate', 'forest', 15, 45),
-('Arithmetic Kingdom', 'Help the kingdom solve arithmetic challenges to defeat the dragon', 'Arithmetic', 'beginner', 'kingdom', 10, 30);
-
--- Insert sample quiz questions
-INSERT INTO quiz_questions (quiz_id, story_context, question, options, correct_answer, hint, question_order) VALUES
-(1, 'As you approach the temple entrance, you notice ancient symbols carved into the stone.', 'To unlock the first door, you must solve for x: 2x + 5 = 13', '["x = 3", "x = 4", "x = 5", "x = 6"]', 'x = 4', 'Subtract 5 from both sides, then divide by 2.', 1),
-(1, 'Inside the temple, you find a series of levers.', 'Find the value of y in the equation: 3y - 7 = 14', '["y = 5", "y = 6", "y = 7", "y = 8"]', 'y = 7', 'Add 7 to both sides, then divide by 3.', 2),
-(1, 'You have reached the inner chamber.', 'Solve for z: 4z + 8 = 2z - 4', '["z = -6", "z = -5", "z = -4", "z = -3"]', 'z = -6', 'Subtract 2z from both sides, then subtract 8 from both sides.', 3);
+-- REMOVED: Default quiz insertions that were causing duplicates
+-- The quizzes will be handled by the JavaScript frontend instead
 
 -- Add additional fields to learning_materials table
 ALTER TABLE learning_materials 

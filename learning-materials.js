@@ -71,10 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           
           <div class="material-actions">
-            <a href="${escapeHtml(material.file_path)}" class="btn btn-primary" target="_blank">
-              <i data-lucide="file-text" class="btn-icon"></i> View PDF
+            <a href="serve-pdf.php?file=${encodeURIComponent(material.file_path)}" class="btn btn-primary" target="_blank">
+              <i data-lucide="eye" class="btn-icon"></i> View PDF
             </a>
-            <a href="${escapeHtml(material.file_path)}" class="btn btn-outline" download>
+            <a href="serve-pdf.php?file=${encodeURIComponent(material.file_path)}" class="btn btn-outline" download="${escapeHtml(material.title)}.pdf">
               <i data-lucide="download" class="btn-icon"></i> Download
             </a>
           </div>

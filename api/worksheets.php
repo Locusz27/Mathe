@@ -23,6 +23,21 @@ switch($method) {
 
 function getWorksheets($pdo) {
     try {
+        // First, let's update the database with correct file paths if they're wrong
+        $updateStmt = $pdo->prepare("UPDATE worksheets SET file_path = ? WHERE title = ?");
+        
+        $worksheets_mapping = [
+            'Algebra Basics Worksheet' => 'pdfs/worksheets/Algebra Basics Worksheets.pdf',
+            'Geometry Angles Worksheet' => 'pdfs/worksheets/Geometry Angles Worksheets.pdf',
+            'Fractions Practice Worksheet' => 'pdfs/worksheets/Fractions Practice Worksheets.pdf',
+            'Quadratic Equations Worksheet' => 'pdfs/worksheets/Quadratic Equations Worksheets.pdf',
+            'Trigonometric Functions Worksheet' => 'pdfs/worksheets/Trigonometric Functions Worksheets.pdf'
+        ];
+        
+        foreach ($worksheets_mapping as $title => $path) {
+            $updateStmt->execute([$path, $title]);
+        }
+        
         $stmt = $pdo->query("SELECT * FROM worksheets ORDER BY created_at DESC");
         $worksheets = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode(['success' => true, 'data' => $worksheets]);
