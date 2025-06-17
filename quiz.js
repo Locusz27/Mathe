@@ -226,7 +226,7 @@ async function fetchUserProfileData() {
         average_score: stats.average_score || 0,
         last_quiz_date: stats.last_quiz_date,
         badges: profileData.badges || [],
-        user: profileData.user || null,
+        user: profileData.user || null, // Add user data to the formatted response
       }
 
       console.log("Formatted data:", formattedData)
