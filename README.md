@@ -4,7 +4,7 @@ This guide will help you set up and run the Mathe Education Platform on your loc
 
 ## 📋 Prerequisites
 
-- **XAMPP** (Apache, MySQL, PHP) - Download from [https://www.apachefriends.org/](https://www.apachefriends.org/)
+- **XAMPP** (Apache, MySQL, PHP)
 - **Modern Web Browser** (Chrome, Firefox, Safari, Edge)
 - **Text Editor** (VS Code, Sublime Text, Notepad++, etc.)
 
@@ -22,8 +22,6 @@ This guide will help you set up and run the Mathe Education Platform on your loc
 2. Start **Apache** (click "Start" button)
 3. Start **MySQL** (click "Start" button)
 4. Verify both services show **green "Running"** status
-
-![XAMPP Control Panel](https://via.placeholder.com/600x300?text=XAMPP+Control+Panel)
 
 ### Step 3: Download/Clone the Project
 
