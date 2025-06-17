@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Content | Mathe</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .manage-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+    
+    .content-tabs {
+      margin-bottom: 2rem;
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .content-item {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .content-icon {
+      color: var(--primary-color);
+      flex-shrink: 0;
+    }
+    
+    .content-info {
+      flex: 1;
+    }
+    
+    .content-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .content-meta {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .content-description {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+    }
+    
+    .content-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    
+    .action-btn {
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      background-color: var(--background);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .action-btn:hover {
+      background-color: var(--muted);
+    }
+    
+    .action-btn.edit {
+      color: var(--primary-color);
+    }
+    
+    .action-btn.delete {
+      color: var(--error-color);
+    }
+    
+    .action-btn.view {
+      color: var(--success-color);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted-foreground);
+    }
+    
+    .empty-state-icon {
+      margin-bottom: 1rem;
+      color: var(--muted-foreground);
+    }
+    
+    .empty-state-title {
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .empty-state-description {
+      margin-bottom: 1.5rem;
+    }
+    
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .filter-group label {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .filter-group select,
+    .filter-group input {
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      background-color: var(--background);
+      font-size: 0.875rem;
+    }
+    
+    @media (min-width: 768px) {
+      .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .content-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Add this script right after the opening body tag -->
+  <script>
+  // Check if user is logged in and is a teacher
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  if (!currentUser.id || currentUser.role !== 'teacher') {
+    alert('Access denied. Only teachers can manage content.');
+    window.location.href = 'login.html';
+  }
+  </script>
+  
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-logo">
+        <a href="index.html" class="logo">Mathe</a>
+      </div>
+      
+      <nav class="navbar-menu">
+        <a href="index.html" class="navbar-link">Home</a>
+        <a href="learning-materials.html" class="navbar-link">Learning Materials</a>
+        <a href="worksheets.html" class="navbar-link">Worksheets</a>
+        <a href="quiz.html" class="navbar-link">Quiz</a>
+        <a href="about.html" class="navbar-link">About</a>
+        <a href="dashboard.html" class="navbar-link">Dashboard</a>
+      </nav>
+      
+      <div class="navbar-actions">
+        <!-- This will be updated by AuthManager -->
+      </div>
+      
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <nav class="mobile-nav">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="learning-materials.html" class="mobile-link">Learning Materials</a>
+      <a href="worksheets.html" class="mobile-link">Worksheets</a>
+      <a href="quiz.html" class="mobile-link">Quiz</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <a href="dashboard.html" class="mobile-link">Dashboard</a>
+      <div class="mobile-actions">
+        <!-- This will be updated by AuthManager -->
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <div class="page-header-content">
+          <h1 class="page-title">Manage Content</h1>
+          <p class="page-description">View and manage all your uploaded materials and created quizzes.</p>
+        </div>
+        <div class="page-actions">
+          <a href="upload-material.html" class="btn btn-outline">
+            <i data-lucide="upload"></i>
+            Upload Material
+          </a>
+          <a href="create-quiz.html" class="btn btn-primary">
+            <i data-lucide="plus"></i>
+            Create Quiz
+          </a>
+        </div>
+      </div>
+
+      <div class="manage-container">
+        <div class="content-tabs">
+          <div class="tabs">
+            <div class="tabs-list">
+              <button class="tab-item active" data-tab="learning-materials">Learning Materials</button>
+              <button class="tab-item" data-tab="worksheets">Worksheets</button>
+              <button class="tab-item" data-tab="quizzes">Quizzes</button>
+            </div>
+
+            <div class="tab-content active" id="learning-materials-tab">
+              <div class="filters">
+                <div class="filter-group">
+                  <label for="materials-search">Search:</label>
+                  <input type="text" id="materials-search" placeholder="Search materials...">
+                </div>
+                <div class="filter-group">
+                  <label for="materials-subject">Subject:</label>
+                  <select id="materials-subject">
+                    <option value="">All Subjects</option>
+                    <option value="Algebra">Algebra</option>
+                    <option value="Geometry">Geometry</option>
+                    <option value="Arithmetic">Arithmetic</option>
+                    <option value="Trigonometry">Trigonometry</option>
+                    <option value="Statistics">Statistics</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="materials-level">Level:</label>
+                  <select id="materials-level">
+                    <option value="">All Levels</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="content-grid" id="materials-grid">
+                <div class="loading">
+                  <div class="loading-spinner"></div>
+                  <p>Loading learning materials...</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content" id="worksheets-tab">
+              <div class="filters">
+                <div class="filter-group">
+                  <label for="worksheets-search">Search:</label>
+                  <input type="text" id="worksheets-search" placeholder="Search worksheets...">
+                </div>
+                <div class="filter-group">
+                  <label for="worksheets-subject">Subject:</label>
+                  <select id="worksheets-subject">
+                    <option value="">All Subjects</option>
+                    <option value="Algebra">Algebra</option>
+                    <option value="Geometry">Geometry</option>
+                    <option value="Arithmetic">Arithmetic</option>
+                    <option value="Trigonometry">Trigonometry</option>
+                    <option value="Statistics">Statistics</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="worksheets-level">Level:</label>
+                  <select id="worksheets-level">
+                    <option value="">All Levels</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="content-grid" id="worksheets-grid">
+                <div class="loading">
+                  <div class="loading-spinner"></div>
+                  <p>Loading worksheets...</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content" id="quizzes-tab">
+              <div class="filters">
+                <div class="filter-group">
+                  <label for="quizzes-search">Search:</label>
+                  <input type="text" id="quizzes-search" placeholder="Search quizzes...">
+                </div>
+                <div class="filter-group">
+                  <label for="quizzes-subject">Subject:</label>
+                  <select id="quizzes-subject">
+                    <option value="">All Subjects</option>
+                    <option value="Algebra">Algebra</option>
+                    <option value="Geometry">Geometry</option>
+                    <option value="Arithmetic">Arithmetic</option>
+                    <option value="Trigonometry">Trigonometry</option>
+                    <option value="Statistics">Statistics</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="quizzes-status">Status:</label>
+                  <select id="quizzes-status">
+                    <option value="">All Status</option>
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="content-grid" id="quizzes-grid">
+                <div class="loading">
+                  <div class="loading-spinner"></div>
+                  <p>Loading quizzes...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3 class="footer-title">Mathe</h3>
+          <p class="footer-text">
+            Free basic math education platform for learners without access to school.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Resources</h3>
+          <ul class="footer-links">
+            <li><a href="learning-materials.html">Learning Materials</a></li>
+            <li><a href="worksheets.html">Worksheets</a></li>
+            <li><a href="quiz.html">Quizzes</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">About</h3>
+          <ul class="footer-links">
+            <li><a href="about.html">Our Mission</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Contact</h3>
+          <ul class="footer-links">
+            <li>Email: info@mathe-education.org</li>
+            <li><a href="#">Contact Form</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="current-year"></span> Mathe Education. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="script.js"></script>
+  <script src="js/manage-content.js"></script>
+</body>
+</html>
