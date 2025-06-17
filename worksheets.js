@@ -1,297 +1,330 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Sample worksheets data
-  const worksheets = [
-    {
-      id: 1,
-      title: "Algebra Basics Worksheet",
-      description: "Practice solving simple algebraic equations.",
-      subject: "Algebra",
-      level: "Beginner"
-    },
-    {
-      id: 2,
-      title: "Geometry Angles Worksheet",
-      description: "Exercises on measuring and calculating angles.",
-      subject: "Geometry",
-      level: "Beginner"
-    },
-    {
-      id: 3,
-      title: "Fractions Practice",
-      description: "Addition and subtraction of fractions.",
-      subject: "Arithmetic",
-      level: "Beginner"
-    },
-    {
-      id: 4,
-      title: "Quadratic Equations",
-      description: "Solve quadratic equations using different methods.",
-      subject: "Algebra",
-      level: "Intermediate"
-    },
-    {
-      id: 5,
-      title: "Trigonometric Functions",
-      description: "Practice problems on sine, cosine, and tangent.",
-      subject: "Trigonometry",
-      level: "Intermediate"
-    }
-  ];
-
+document.addEventListener("DOMContentLoaded", () => {
   // DOM elements
-  const worksheetsGrid = document.getElementById('worksheets-grid');
-  const searchInput = document.getElementById('search-worksheets');
-  const subjectFilter = document.getElementById('subject-filter');
-  const levelFilter = document.getElementById('level-filter');
-  const noResults = document.getElementById('no-results');
-  const createWorksheetBtn = document.getElementById('create-worksheet-btn');
-  const worksheetModal = document.getElementById('worksheet-modal');
-  const closeWorksheetModal = document.getElementById('close-worksheet-modal');
-  const worksheetForm = document.getElementById('worksheet-form');
-  const teacherActions = document.getElementById('teacher-actions');
-  const worksheetActionsMenu = document.getElementById('worksheet-actions-menu');
-  const editWorksheetBtn = document.getElementById('edit-worksheet');
-  const deleteWorksheetBtn = document.getElementById('delete-worksheet');
+  const worksheetsGrid = document.getElementById("worksheets-grid")
+  const searchInput = document.getElementById("search-worksheets")
+  const subjectFilter = document.getElementById("subject-filter")
+  const levelFilter = document.getElementById("level-filter")
+  const noResults = document.getElementById("no-results")
+  const createWorksheetBtn = document.getElementById("create-worksheet-btn")
+  const worksheetModal = document.getElementById("worksheet-modal")
+  const closeWorksheetModal = document.getElementById("close-worksheet-modal")
+  const worksheetForm = document.getElementById("worksheet-form")
+  const teacherActions = document.getElementById("teacher-actions")
+  const worksheetActionsMenu = document.getElementById("worksheet-actions-menu")
+  const editWorksheetBtn = document.getElementById("edit-worksheet")
+  const deleteWorksheetBtn = document.getElementById("delete-worksheet")
+  const loading = document.getElementById("loading")
+
+  let allWorksheets = []
 
   // Check if user is a teacher (for demo purposes)
-  const isTeacher = localStorage.getItem('userRole') === 'teacher';
-  if (isTeacher) {
-    teacherActions.classList.remove('hidden');
+  const isTeacher = localStorage.getItem("userRole") === "teacher"
+  if (isTeacher && teacherActions) {
+    teacherActions.classList.remove("hidden")
   }
 
   // Current worksheet being edited
-  let currentWorksheetId = null;
+  let currentWorksheetId = null
+
+  // Load worksheets from database
+  async function loadWorksheets() {
+    try {
+      console.log("Loading worksheets from database...")
+      if (loading) loading.classList.remove("hidden")
+      worksheetsGrid.innerHTML = ""
+
+      const response = await fetch("api/worksheets.php")
+      const result = await response.json()
+
+      if (result.success) {
+        allWorksheets = result.data || []
+        console.log("Loaded worksheets:", allWorksheets)
+        renderWorksheets(allWorksheets)
+      } else {
+        console.error("Failed to load worksheets:", result.message)
+        showError("Failed to load worksheets. Please try again later.")
+      }
+    } catch (error) {
+      console.error("Error loading worksheets:", error)
+      showError("Error loading worksheets. Please check your connection.")
+    } finally {
+      if (loading) loading.classList.add("hidden")
+    }
+  }
+
+  // Show error message
+  function showError(message) {
+    worksheetsGrid.innerHTML = `
+      <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--destructive);">
+        <i data-lucide="alert-circle" style="width: 48px; height: 48px; margin-bottom: 1rem;"></i>
+        <h3>Error Loading Worksheets</h3>
+        <p>${message}</p>
+        <button onclick="location.reload()" class="btn btn-outline" style="margin-top: 1rem;">
+          <i data-lucide="refresh-cw"></i> Try Again
+        </button>
+      </div>
+    `
+
+    if (typeof window.lucide !== "undefined") {
+      window.lucide.createIcons()
+    }
+  }
+
+  // Escape HTML to prevent XSS
+  function escapeHtml(text) {
+    if (!text) return ""
+    const map = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;",
+    }
+    return text.replace(/[&<>"']/g, (m) => map[m])
+  }
 
   // Render worksheets
   function renderWorksheets(worksheetsToRender) {
-    worksheetsGrid.innerHTML = '';
-    
+    worksheetsGrid.innerHTML = ""
+
     if (worksheetsToRender.length === 0) {
-      noResults.classList.remove('hidden');
-      return;
+      if (noResults) noResults.classList.remove("hidden")
+      return
     }
-    
-    noResults.classList.add('hidden');
-    
-    worksheetsToRender.forEach(worksheet => {
-      const worksheetCard = document.createElement('div');
-      worksheetCard.className = 'card';
-      worksheetCard.dataset.id = worksheet.id;
-      
+
+    if (noResults) noResults.classList.add("hidden")
+
+    worksheetsToRender.forEach((worksheet) => {
+      const worksheetCard = document.createElement("div")
+      worksheetCard.className = "card"
+      worksheetCard.dataset.id = worksheet.id
+
+      // Format date
+      const createdDate = worksheet.created_at ? new Date(worksheet.created_at).toLocaleDateString() : "Unknown date"
+
       worksheetCard.innerHTML = `
         <div class="card-header">
           <div class="card-header-content">
             <div class="card-icon-title">
               <i data-lucide="file-text" class="card-icon-small text-primary"></i>
-              <h3 class="card-title">${worksheet.title}</h3>
+              <h3 class="card-title">${escapeHtml(worksheet.title)}</h3>
             </div>
-            ${isTeacher ? `
+            ${
+              isTeacher
+                ? `
               <button class="btn btn-icon btn-ghost worksheet-menu-btn" data-id="${worksheet.id}">
                 <i data-lucide="more-vertical"></i>
               </button>
-            ` : ''}
+            `
+                : ""
+            }
           </div>
-          <p class="card-description">${worksheet.description}</p>
+          <p class="card-description">${escapeHtml(worksheet.description || "No description available")}</p>
+          <div class="material-date">Uploaded: ${createdDate}</div>
         </div>
         <div class="card-content">
           <div class="tags">
-            <span class="tag tag-primary">${worksheet.subject}</span>
-            <span class="tag tag-secondary">${worksheet.level}</span>
+            <span class="tag tag-primary">${escapeHtml(worksheet.subject)}</span>
+            <span class="tag tag-secondary">${escapeHtml(worksheet.level)}</span>
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-primary btn-full">
-            <i data-lucide="download" class="btn-icon"></i> Download Worksheet
-          </button>
+          <div class="material-actions">
+            <a href="${escapeHtml(worksheet.file_path)}" class="btn btn-primary" target="_blank">
+              <i data-lucide="eye" class="btn-icon"></i> View PDF
+            </a>
+            <a href="${escapeHtml(worksheet.file_path)}" class="btn btn-outline" download="${escapeHtml(worksheet.title)}.pdf">
+              <i data-lucide="download" class="btn-icon"></i> Download
+            </a>
+          </div>
         </div>
-      `;
-      
-      worksheetsGrid.appendChild(worksheetCard);
-    });
-    
+      `
+
+      worksheetsGrid.appendChild(worksheetCard)
+    })
+
     // Initialize Lucide icons
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons()
     }
-    
+
     // Add event listeners to menu buttons
-    const menuButtons = document.querySelectorAll('.worksheet-menu-btn');
-    menuButtons.forEach(button => {
-      button.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const worksheetId = parseInt(this.dataset.id);
-        currentWorksheetId = worksheetId;
-        
+    const menuButtons = document.querySelectorAll(".worksheet-menu-btn")
+    menuButtons.forEach((button) => {
+      button.addEventListener("click", function (e) {
+        e.stopPropagation()
+        const worksheetId = Number.parseInt(this.dataset.id)
+        currentWorksheetId = worksheetId
+
         // Position the menu
-        const rect = this.getBoundingClientRect();
-        worksheetActionsMenu.style.top = `${rect.bottom + window.scrollY}px`;
-        worksheetActionsMenu.style.left = `${rect.left - 100 + window.scrollX}px`;
-        worksheetActionsMenu.classList.add('active');
-        
+        const rect = this.getBoundingClientRect()
+        if (worksheetActionsMenu) {
+          worksheetActionsMenu.style.top = `${rect.bottom + window.scrollY}px`
+          worksheetActionsMenu.style.left = `${rect.left - 100 + window.scrollX}px`
+          worksheetActionsMenu.classList.add("active")
+        }
+
         // Close menu when clicking outside
-        document.addEventListener('click', closeMenu);
-      });
-    });
+        document.addEventListener("click", closeMenu)
+      })
+    })
   }
 
   // Close the worksheet actions menu
   function closeMenu() {
-    worksheetActionsMenu.classList.remove('active');
-    document.removeEventListener('click', closeMenu);
+    worksheetActionsMenu.classList.remove("active")
+    document.removeEventListener("click", closeMenu)
   }
 
   // Filter worksheets
   function filterWorksheets() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const subjectValue = subjectFilter.value;
-    const levelValue = levelFilter.value;
-    
-    const filteredWorksheets = worksheets.filter(worksheet => {
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : ""
+    const subjectValue = subjectFilter ? subjectFilter.value : "all"
+    const levelValue = levelFilter ? levelFilter.value : "all"
+
+    const filteredWorksheets = allWorksheets.filter((worksheet) => {
       // Search term filter
-      const matchesSearch = 
+      const matchesSearch =
+        !searchTerm ||
         worksheet.title.toLowerCase().includes(searchTerm) ||
-        worksheet.description.toLowerCase().includes(searchTerm) ||
-        worksheet.subject.toLowerCase().includes(searchTerm);
-      
+        (worksheet.description && worksheet.description.toLowerCase().includes(searchTerm)) ||
+        worksheet.subject.toLowerCase().includes(searchTerm)
+
       // Subject filter
-      const matchesSubject = 
-        subjectValue === 'all' || 
-        worksheet.subject.toLowerCase() === subjectValue.toLowerCase();
-      
+      const matchesSubject = subjectValue === "all" || worksheet.subject.toLowerCase() === subjectValue.toLowerCase()
+
       // Level filter
-      const matchesLevel = 
-        levelValue === 'all' || 
-        worksheet.level.toLowerCase() === levelValue.toLowerCase();
-      
-      return matchesSearch && matchesSubject && matchesLevel;
-    });
-    
-    renderWorksheets(filteredWorksheets);
+      const matchesLevel = levelValue === "all" || worksheet.level.toLowerCase() === levelValue.toLowerCase()
+
+      return matchesSearch && matchesSubject && matchesLevel
+    })
+
+    renderWorksheets(filteredWorksheets)
   }
 
   // Event listeners
   if (searchInput) {
-    searchInput.addEventListener('input', filterWorksheets);
+    searchInput.addEventListener("input", filterWorksheets)
   }
-  
+
   if (subjectFilter) {
-    subjectFilter.addEventListener('change', filterWorksheets);
+    subjectFilter.addEventListener("change", filterWorksheets)
   }
-  
+
   if (levelFilter) {
-    levelFilter.addEventListener('change', filterWorksheets);
+    levelFilter.addEventListener("change", filterWorksheets)
   }
-  
+
   // Create worksheet modal
   if (createWorksheetBtn) {
-    createWorksheetBtn.addEventListener('click', function() {
+    createWorksheetBtn.addEventListener("click", () => {
       // Reset form for new worksheet
-      worksheetForm.reset();
-      currentWorksheetId = null;
-      document.querySelector('.modal-title').textContent = 'Create New Worksheet';
-      document.querySelector('button[type="submit"]').textContent = 'Create';
-      
-      worksheetModal.classList.add('active');
-    });
+      worksheetForm.reset()
+      currentWorksheetId = null
+      document.querySelector(".modal-title").textContent = "Create New Worksheet"
+      document.querySelector('button[type="submit"]').textContent = "Create"
+
+      worksheetModal.classList.add("active")
+    })
   }
-  
+
   if (closeWorksheetModal) {
-    closeWorksheetModal.addEventListener('click', function() {
-      worksheetModal.classList.remove('active');
-    });
-    
+    closeWorksheetModal.addEventListener("click", () => {
+      worksheetModal.classList.remove("active")
+    })
+
     // Close modal when clicking outside
-    worksheetModal.addEventListener('click', function(e) {
+    worksheetModal.addEventListener("click", (e) => {
       if (e.target === worksheetModal) {
-        worksheetModal.classList.remove('active');
+        worksheetModal.classList.remove("active")
       }
-    });
+    })
   }
-  
+
   // Handle form submission
   if (worksheetForm) {
-    worksheetForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
+    worksheetForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+
       if (currentWorksheetId) {
         // Edit existing worksheet
-        const worksheetIndex = worksheets.findIndex(w => w.id === currentWorksheetId);
+        const worksheetIndex = allWorksheets.findIndex((w) => w.id === currentWorksheetId)
         if (worksheetIndex !== -1) {
-          worksheets[worksheetIndex] = {
-            ...worksheets[worksheetIndex],
-            title: document.getElementById('worksheet-title').value,
-            description: document.getElementById('worksheet-description').value,
-            subject: document.getElementById('worksheet-subject').value,
-            level: document.getElementById('worksheet-level').value
-          };
-          
+          allWorksheets[worksheetIndex] = {
+            ...allWorksheets[worksheetIndex],
+            title: document.getElementById("worksheet-title").value,
+            description: document.getElementById("worksheet-description").value,
+            subject: document.getElementById("worksheet-subject").value,
+            level: document.getElementById("worksheet-level").value,
+          }
+
           // Show success message (in a real app)
-          alert('Worksheet updated successfully!');
+          alert("Worksheet updated successfully!")
         }
       } else {
         // Create new worksheet
         const newWorksheet = {
-          id: worksheets.length + 1,
-          title: document.getElementById('worksheet-title').value,
-          description: document.getElementById('worksheet-description').value,
-          subject: document.getElementById('worksheet-subject').value,
-          level: document.getElementById('worksheet-level').value
-        };
-        
-        worksheets.push(newWorksheet);
-        
+          id: allWorksheets.length + 1,
+          title: document.getElementById("worksheet-title").value,
+          description: document.getElementById("worksheet-description").value,
+          subject: document.getElementById("worksheet-subject").value,
+          level: document.getElementById("worksheet-level").value,
+        }
+
+        allWorksheets.push(newWorksheet)
+
         // Show success message (in a real app)
-        alert('Worksheet created successfully!');
+        alert("Worksheet created successfully!")
       }
-      
-      worksheetModal.classList.remove('active');
-      worksheetForm.reset();
-      
+
+      worksheetModal.classList.remove("active")
+      worksheetForm.reset()
+
       // Re-render worksheets
-      filterWorksheets();
-    });
+      filterWorksheets()
+    })
   }
-  
+
   // Edit worksheet
   if (editWorksheetBtn) {
-    editWorksheetBtn.addEventListener('click', function() {
-      const worksheet = worksheets.find(w => w.id === currentWorksheetId);
+    editWorksheetBtn.addEventListener("click", () => {
+      const worksheet = allWorksheets.find((w) => w.id === currentWorksheetId)
       if (worksheet) {
-        document.getElementById('worksheet-title').value = worksheet.title;
-        document.getElementById('worksheet-description').value = worksheet.description;
-        document.getElementById('worksheet-subject').value = worksheet.subject;
-        document.getElementById('worksheet-level').value = worksheet.level;
-        
-        document.querySelector('.modal-title').textContent = 'Edit Worksheet';
-        document.querySelector('button[type="submit"]').textContent = 'Save Changes';
-        
-        worksheetModal.classList.add('active');
+        document.getElementById("worksheet-title").value = worksheet.title
+        document.getElementById("worksheet-description").value = worksheet.description
+        document.getElementById("worksheet-subject").value = worksheet.subject
+        document.getElementById("worksheet-level").value = worksheet.level
+
+        document.querySelector(".modal-title").textContent = "Edit Worksheet"
+        document.querySelector('button[type="submit"]').textContent = "Save Changes"
+
+        worksheetModal.classList.add("active")
       }
-      
-      closeMenu();
-    });
+
+      closeMenu()
+    })
   }
-  
+
   // Delete worksheet
   if (deleteWorksheetBtn) {
-    deleteWorksheetBtn.addEventListener('click', function() {
-      if (confirm('Are you sure you want to delete this worksheet?')) {
-        const worksheetIndex = worksheets.findIndex(w => w.id === currentWorksheetId);
+    deleteWorksheetBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to delete this worksheet?")) {
+        const worksheetIndex = allWorksheets.findIndex((w) => w.id === currentWorksheetId)
         if (worksheetIndex !== -1) {
-          worksheets.splice(worksheetIndex, 1);
-          filterWorksheets();
-          
+          allWorksheets.splice(worksheetIndex, 1)
+          filterWorksheets()
+
           // Show success message (in a real app)
-          alert('Worksheet deleted successfully!');
+          alert("Worksheet deleted successfully!")
         }
       }
-      
-      closeMenu();
-    });
+
+      closeMenu()
+    })
   }
 
   // Add CSS for worksheets page
-  const style = document.createElement('style');
+  const style = document.createElement("style")
   style.textContent = `
     .page-header {
       display: flex;
@@ -517,12 +550,12 @@ document.addEventListener('DOMContentLoaded', function() {
         grid-template-columns: repeat(3, 1fr);
       }
     }
-  `;
-  
-  document.head.appendChild(style);
+  `
+
+  document.head.appendChild(style)
 
   // Add CSS for about page
-  const aboutStyle = document.createElement('style');
+  const aboutStyle = document.createElement("style")
   aboutStyle.textContent = `
     .about-header {
       text-align: center;
@@ -645,10 +678,10 @@ document.addEventListener('DOMContentLoaded', function() {
         grid-template-columns: repeat(4, 1fr);
       }
     }
-  `;
-  
-  document.head.appendChild(aboutStyle);
+  `
 
-  // Initial render
-  renderWorksheets(worksheets);
-});
+  document.head.appendChild(aboutStyle)
+
+  // Initial load from database
+  loadWorksheets()
+})

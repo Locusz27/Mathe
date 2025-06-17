@@ -23,6 +23,21 @@ switch($method) {
 
 function getMaterials($pdo) {
     try {
+        // First, let's update the database with correct file paths if they're wrong
+        $updateStmt = $pdo->prepare("UPDATE learning_materials SET file_path = ? WHERE title = ?");
+        
+        $materials_mapping = [
+            'Algebra Basics' => 'pdfs/learning-materials/Algebra Basics Learning Materials.pdf',
+            'Geometry Angles' => 'pdfs/learning-materials/Geometry Angles Learning Materials.pdf',
+            'Fractions Practice' => 'pdfs/learning-materials/Fractions Practice Learning Materials.pdf',
+            'Quadratic Equations' => 'pdfs/learning-materials/Quadratic Equations Learning Materials.pdf',
+            'Trigonometric Functions' => 'pdfs/learning-materials/Trigonometric Functions Learning Materials.pdf'
+        ];
+        
+        foreach ($materials_mapping as $title => $path) {
+            $updateStmt->execute([$path, $title]);
+        }
+        
         $stmt = $pdo->query("SELECT * FROM learning_materials ORDER BY created_at DESC");
         $materials = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode(['success' => true, 'data' => $materials]);

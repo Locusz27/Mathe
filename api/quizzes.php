@@ -285,17 +285,24 @@ function deleteQuiz($pdo, $data) {
 function getLeaderboard($pdo, $type = 'points') {
     try {
         $orderBy = '';
+        $selectFields = '';
+        
         switch($type) {
             case 'points':
+                $selectFields = 'uqs.total_points';
                 $orderBy = 'uqs.total_points DESC';
                 break;
             case 'level':
-                $orderBy = 'uqs.average_score DESC';
+                // Calculate level based on points (100 points per level)
+                $selectFields = 'FLOOR(uqs.total_points / 100) + 1 as user_level';
+                $orderBy = 'user_level DESC, uqs.total_points DESC';
                 break;
             case 'perfect':
-                $orderBy = 'uqs.perfect_scores DESC';
+                $selectFields = 'uqs.perfect_scores';
+                $orderBy = 'uqs.perfect_scores DESC, uqs.total_points DESC';
                 break;
             default:
+                $selectFields = 'uqs.total_points';
                 $orderBy = 'uqs.total_points DESC';
         }
         
@@ -306,7 +313,8 @@ function getLeaderboard($pdo, $type = 'points') {
                 uqs.total_points,
                 uqs.perfect_scores,
                 uqs.average_score,
-                uqs.total_quizzes
+                uqs.total_quizzes,
+                $selectFields
             FROM users u
             LEFT JOIN user_quiz_stats uqs ON u.id = uqs.user_id
             WHERE uqs.total_quizzes > 0
@@ -321,6 +329,8 @@ function getLeaderboard($pdo, $type = 'points') {
         if (isset($_SESSION['user_id'])) {
             foreach ($leaderboard as &$user) {
                 $user['isCurrentUser'] = ($user['id'] == $_SESSION['user_id']);
+                // Add calculated level for all users
+                $user['user_level'] = floor(($user['total_points'] || 0) / 100) + 1;
             }
         }
         

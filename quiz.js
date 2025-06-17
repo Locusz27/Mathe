@@ -1,179 +1,6 @@
-// Quiz data - REVERTED back to include static quizzes
-const quizzes = [
-  {
-    id: 1,
-    title: "Basic Algebra Adventure",
-    description: "Solve algebraic puzzles to unlock the secrets of the ancient temple",
-    subject: "Algebra",
-    level: "Beginner",
-    backgroundTheme: "temple",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "As you approach the temple entrance, you notice ancient symbols carved into the stone. The door is sealed with a magical lock that requires solving an equation.",
-        question: "To unlock the first door, you must solve for x: 2x + 5 = 13",
-        options: ["x = 3", "x = 4", "x = 5", "x = 6"],
-        correctAnswer: "x = 4",
-        hint: "Subtract 5 from both sides, then divide by 2.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext:
-          "Inside the temple, you find a series of levers. According to the ancient text, you must pull the lever that corresponds to the correct value.",
-        question: "Find the value of y in the equation: 3y - 7 = 14",
-        options: ["y = 5", "y = 6", "y = 7", "y = 8"],
-        correctAnswer: "y = 7",
-        hint: "Add 7 to both sides, then divide by 3.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext:
-          "You've reached the inner chamber. A final challenge awaits - a series of symbols that form an equation.",
-        question: "Solve for z: 4z + 8 = 2z - 4",
-        options: ["z = -6", "z = -5", "z = -4", "z = -3"],
-        correctAnswer: "z = -6",
-        hint: "Subtract 2z from both sides, then subtract 8 from both sides.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 10,
-    timeLimit: 60, // seconds per question
-    totalPoints: 30,
-  },
-  {
-    id: 2,
-    title: "Geometry Quest",
-    description: "Navigate through the enchanted forest by solving geometry problems",
-    subject: "Geometry",
-    level: "Intermediate",
-    backgroundTheme: "forest",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "You enter the enchanted forest and come across a peculiar tree with geometric shapes carved into its trunk.",
-        question: "What is the area of a circle with radius 5 units?",
-        options: ["25π square units", "10π square units", "25 square units", "50 square units"],
-        correctAnswer: "25π square units",
-        hint: "The area of a circle is πr².",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext:
-          "A magical bridge appears before you, but to cross it safely, you must answer the guardian's question.",
-        question: "In a right triangle, if one angle is 30° and another is 60°, what is the third angle?",
-        options: ["30°", "60°", "90°", "120°"],
-        correctAnswer: "90°",
-        hint: "The sum of all angles in a triangle is 180°.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext:
-          "You reach a clearing with a mysterious stone tablet. It shows a rectangle with specific dimensions.",
-        question: "What is the perimeter of a rectangle with length 8 units and width 5 units?",
-        options: ["13 units", "26 units", "40 units", "30 units"],
-        correctAnswer: "26 units",
-        hint: "Perimeter = 2(length + width).",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 15,
-    timeLimit: 45,
-    totalPoints: 45,
-  },
-  {
-    id: 3,
-    title: "Arithmetic Kingdom",
-    description: "Help the kingdom solve arithmetic challenges to defeat the dragon",
-    subject: "Arithmetic",
-    level: "Beginner",
-    backgroundTheme: "kingdom",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "The kingdom is under threat from a dragon. The royal mathematician has devised a plan, but you need to solve the first calculation.",
-        question:
-          "If the dragon flies at 45 mph and the castle is 135 miles away, how many hours will it take the dragon to reach the castle?",
-        options: ["2 hours", "3 hours", "4 hours", "5 hours"],
-        correctAnswer: "3 hours",
-        hint: "Use the formula: time = distance ÷ speed.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext:
-          "The royal armory needs to distribute shields to the knights. Each knight needs exactly 2 shields.",
-        question:
-          "If there are 85 knights and the armory has 200 shields, how many shields will be left after distribution?",
-        options: ["15 shields", "20 shields", "25 shields", "30 shields"],
-        correctAnswer: "30 shields",
-        hint: "Calculate 85 × 2 = 170, then subtract from 200.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext: "The royal treasurer needs to calculate the cost of the feast to celebrate the dragon's defeat.",
-        question: "If each guest consumes food worth $25 and there are 120 guests, what is the total cost of food?",
-        options: ["$2,500", "$3,000", "$3,500", "$4,000"],
-        correctAnswer: "$3,000",
-        hint: "Multiply the cost per guest by the number of guests.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 10,
-    timeLimit: 30,
-    totalPoints: 30,
-  },
-  {
-    id: 4,
-    title: "Trigonometry Mountain",
-    description: "Scale the mountain peaks by mastering trigonometric concepts",
-    subject: "Trigonometry",
-    level: "Advanced",
-    backgroundTheme: "mountain",
-    questions: [
-      {
-        id: 1,
-        storyContext:
-          "You begin your ascent of the mathematical mountain. The first challenge involves calculating the height of a peak.",
-        question:
-          "From a point 100 meters from the base of a mountain, the angle of elevation to the peak is 30°. How tall is the mountain?",
-        options: ["50 meters", "57.7 meters", "100 meters", "173.2 meters"],
-        correctAnswer: "57.7 meters",
-        hint: "Use the tangent function: tan(30°) = height/100.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 2,
-        storyContext: "Halfway up the mountain, you encounter a trigonometric puzzle carved into the rock face.",
-        question: "What is the value of sin(45°)?",
-        options: ["0.5", "0.707", "0.866", "1"],
-        correctAnswer: "0.707",
-        hint: "sin(45°) = 1/√2 ≈ 0.707.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-      {
-        id: 3,
-        storyContext: "Near the summit, a final challenge awaits. A mysterious triangle is drawn in the snow.",
-        question:
-          "In a right triangle, if one angle is 60° and the hypotenuse is 10 units, what is the length of the side opposite to the 60° angle?",
-        options: ["5 units", "8.66 units", "7.5 units", "10 units"],
-        correctAnswer: "8.66 units",
-        hint: "Use the sine function: sin(60°) = opposite/hypotenuse.",
-        image: "/placeholder.svg?height=200&width=300",
-      },
-    ],
-    pointsPerQuestion: 20,
-    timeLimit: 60,
-    totalPoints: 60,
-  },
-]
+// Quiz data - REMOVED hardcoded quizzes since they're not working properly
+// Keep this empty so only database quizzes are loaded
+const quizzes = []
 
 // Remove the fake leaderboard data and replace with empty array
 const leaderboardData = []
@@ -245,6 +72,9 @@ const mobileMenuToggle = document.querySelector(".menu-toggle")
 const mobileMenu = document.querySelector(".mobile-menu")
 const customDropdowns = document.querySelectorAll(".custom-dropdown-container")
 
+// Global variable to store all quizzes
+let allQuizzes = []
+
 // Lucide icons library
 const lucide = {
   createIcons: () => {
@@ -274,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("current-year").textContent = new Date().getFullYear()
 })
 
-// Load quizzes from database - FIXED to handle ID conflicts
+// Load quizzes from database - UPDATED to only use database quizzes
 async function loadQuizzesFromDatabase() {
   try {
     console.log("Loading quizzes from database...")
@@ -283,12 +113,13 @@ async function loadQuizzesFromDatabase() {
 
     console.log("Quiz API response:", result)
 
-    let allQuizzes = [...quizzes] // Start with static quizzes
+    // Start with empty array since we removed hardcoded quizzes
+    allQuizzes = []
 
     if (result.success && result.data) {
-      // Convert database format to expected format and add prefix to avoid ID conflicts
+      // Convert database format to expected format
       const databaseQuizzes = result.data.map((quiz) => ({
-        id: `db_${quiz.id}`, // Add prefix to database quiz IDs
+        id: quiz.id, // Use original database ID
         originalId: quiz.id, // Keep original ID for database operations
         title: quiz.title,
         description: quiz.description,
@@ -304,8 +135,8 @@ async function loadQuizzesFromDatabase() {
 
       console.log("Processed database quizzes:", databaseQuizzes)
 
-      // Add database quizzes to the list
-      allQuizzes = [...allQuizzes, ...databaseQuizzes]
+      // Use only database quizzes
+      allQuizzes = databaseQuizzes
     } else {
       console.log("No database quizzes found or error:", result.message)
     }
@@ -313,13 +144,14 @@ async function loadQuizzesFromDatabase() {
     // Store the complete quiz list globally for use in startQuiz
     window.allQuizzes = allQuizzes
 
-    // Render all quizzes
+    // Render all quizzes initially
     renderQuizzes(allQuizzes)
   } catch (error) {
     console.error("Error loading quizzes from database:", error)
-    // Fallback to static quizzes
-    window.allQuizzes = quizzes
-    renderQuizzes(quizzes)
+    // Fallback to empty array since we removed hardcoded quizzes
+    allQuizzes = []
+    window.allQuizzes = []
+    renderQuizzes([])
   }
 }
 
@@ -361,94 +193,43 @@ async function fetchUserProfile() {
   }
 }
 
-// Update user stats display - UPDATED to fetch from database
-async function updateUserStatsDisplay() {
-  // Fetch real user profile data from database
-  const profileData = await fetchUserProfileData()
-
-  if (profileData) {
-    // Update userData with database values
-    userData = {
-      points: profileData.total_points || 0,
-      level: Math.floor((profileData.total_points || 0) / POINTS_PER_LEVEL) + 1,
-      currentStreak: profileData.current_streak || 0,
-      longestStreak: profileData.longest_streak || 0,
-      lastQuizDate: profileData.last_quiz_date,
-      quizzesCompleted: profileData.total_quizzes || 0,
-      perfectScores: profileData.perfect_scores || 0,
-      earnedBadges: profileData.badges || [],
-      averageScore: profileData.average_score || 0,
-    }
-  }
-
-  // Get username from user profile
-  const userProfile = await fetchUserProfile()
-  const username = userProfile ? userProfile.username : "MathExplorer"
-
-  // Update dashboard header stats
-  const userLevelEl = document.getElementById("user-level")
-  const userPointsEl = document.getElementById("user-points")
-  const userStreakEl = document.getElementById("user-streak")
-
-  if (userLevelEl) userLevelEl.textContent = `Level ${userData.level}`
-  if (userPointsEl) userPointsEl.textContent = `${userData.points} Points`
-  if (userStreakEl) userStreakEl.textContent = `${userData.currentStreak} Day Streak`
-
-  // Update profile tab stats
-  const profileLevelEl = document.getElementById("profile-level")
-  const levelNumberEl = document.getElementById("level-number")
-  const totalPointsEl = document.getElementById("total-points")
-  const profileUsernameEl = document.getElementById("profile-username")
-
-  if (profileLevelEl) profileLevelEl.textContent = userData.level
-  if (levelNumberEl) levelNumberEl.textContent = userData.level
-  if (totalPointsEl) totalPointsEl.textContent = userData.points
-  if (profileUsernameEl) profileUsernameEl.textContent = username
-
-  const pointsToNextLevel = POINTS_PER_LEVEL - (userData.points % POINTS_PER_LEVEL)
-  const pointsToNextLevelEl = document.getElementById("points-to-next-level")
-  if (pointsToNextLevelEl) pointsToNextLevelEl.textContent = pointsToNextLevel
-
-  const progressPercentage = ((userData.points % POINTS_PER_LEVEL) / POINTS_PER_LEVEL) * 100
-  const levelProgressEl = document.getElementById("level-progress")
-  if (levelProgressEl) levelProgressEl.style.width = `${progressPercentage}%`
-
-  const currentStreakEl = document.getElementById("current-streak")
-  const longestStreakEl = document.getElementById("longest-streak")
-  const lastQuizDateEl = document.getElementById("last-quiz-date")
-  const quizzesCompletedEl = document.getElementById("quizzes-completed")
-  const perfectScoresEl = document.getElementById("perfect-scores")
-  const achievementTotalPointsEl = document.getElementById("achievement-total-points")
-
-  if (currentStreakEl) currentStreakEl.textContent = userData.currentStreak
-  if (longestStreakEl) longestStreakEl.textContent = `${userData.longestStreak} days`
-  if (lastQuizDateEl) {
-    lastQuizDateEl.textContent = userData.lastQuizDate ? new Date(userData.lastQuizDate).toLocaleDateString() : "Never"
-  }
-  if (quizzesCompletedEl) quizzesCompletedEl.textContent = userData.quizzesCompleted
-  if (perfectScoresEl) perfectScoresEl.textContent = userData.perfectScores
-  if (achievementTotalPointsEl) achievementTotalPointsEl.textContent = userData.points
-
-  // Update badges
-  updateBadgesDisplay()
-}
-
 // Fetch user profile data from database
 async function fetchUserProfileData() {
   if (!window.authManager || !window.authManager.isLoggedIn()) {
-    // Return localStorage data for guests
+    console.log("User not logged in, using localStorage data")
     return userData
   }
 
   try {
-    const response = await fetch("api/quizzes.php?action=user_progress", {
+    console.log("Fetching profile data from database...")
+    const response = await fetch("api/profile.php", {
       method: "GET",
       credentials: "include",
     })
     const result = await response.json()
 
+    console.log("Profile API response:", result)
+
     if (result.success && result.data) {
-      return result.data
+      const profileData = result.data
+      const stats = profileData.stats
+
+      console.log("Profile stats:", stats)
+
+      // Return properly formatted data
+      const formattedData = {
+        total_points: stats.total_points || 0,
+        total_quizzes: stats.total_quizzes || 0,
+        perfect_scores: stats.perfect_scores || 0,
+        current_streak: stats.current_streak || 0,
+        longest_streak: stats.longest_streak || 0,
+        average_score: stats.average_score || 0,
+        last_quiz_date: stats.last_quiz_date,
+        badges: profileData.badges || [],
+      }
+
+      console.log("Formatted data:", formattedData)
+      return formattedData
     } else {
       console.error("Failed to fetch user profile data:", result.message)
       return userData // Fallback to localStorage
@@ -459,60 +240,225 @@ async function fetchUserProfileData() {
   }
 }
 
+// Update user stats display - UPDATED to fetch from database
+async function updateUserStatsDisplay() {
+  console.log("Updating user stats display...")
+
+  // Check if user is logged in
+  const isLoggedIn = window.authManager && window.authManager.isLoggedIn()
+  console.log("User logged in:", isLoggedIn)
+
+  if (!isLoggedIn) {
+    console.log("User not logged in, skipping profile update")
+    return
+  }
+
+  // Fetch real user profile data from database
+  const profileData = await fetchUserProfileData()
+  console.log("Profile data received:", profileData)
+
+  if (!profileData) {
+    console.log("No profile data received")
+    return
+  }
+
+  // Update profile tab stats - USE DATABASE DATA ONLY
+  const currentStreakEl = document.getElementById("current-streak")
+  const longestStreakEl = document.getElementById("longest-streak")
+  const lastQuizDateEl = document.getElementById("last-quiz-date")
+  const quizzesCompletedEl = document.getElementById("quizzes-completed")
+  const perfectScoresEl = document.getElementById("perfect-scores")
+  const totalPointsEl = document.getElementById("total-points")
+  const achievementTotalPointsEl = document.getElementById("achievement-total-points")
+
+  console.log("Updating profile elements with database data...")
+
+  if (currentStreakEl) {
+    currentStreakEl.textContent = profileData.current_streak || 0
+    console.log("Updated current streak:", profileData.current_streak)
+  }
+  if (longestStreakEl) {
+    longestStreakEl.textContent = `${profileData.longest_streak || 0} days`
+    console.log("Updated longest streak:", profileData.longest_streak)
+  }
+  if (lastQuizDateEl) {
+    const dateText = profileData.last_quiz_date ? new Date(profileData.last_quiz_date).toLocaleDateString() : "Never"
+    lastQuizDateEl.textContent = dateText
+    console.log("Updated last quiz date:", dateText)
+  }
+  if (quizzesCompletedEl) {
+    quizzesCompletedEl.textContent = profileData.total_quizzes || 0
+    console.log("Updated quizzes completed:", profileData.total_quizzes)
+  }
+  if (perfectScoresEl) {
+    perfectScoresEl.textContent = profileData.perfect_scores || 0
+    console.log("Updated perfect scores:", profileData.perfect_scores)
+  }
+  if (totalPointsEl) {
+    totalPointsEl.textContent = profileData.total_points || 0
+    console.log("Updated total points:", profileData.total_points)
+  }
+  if (achievementTotalPointsEl) {
+    achievementTotalPointsEl.textContent = profileData.total_points || 0
+    console.log("Updated achievement total points:", profileData.total_points)
+  }
+
+  // Calculate level from database points, not localStorage
+  const databaseLevel = Math.floor((profileData.total_points || 0) / POINTS_PER_LEVEL) + 1
+
+  // Update dashboard header stats with DATABASE DATA
+  const userLevelEl = document.getElementById("user-level")
+  const userPointsEl = document.getElementById("user-points")
+  const userStreakEl = document.getElementById("user-streak")
+
+  if (userLevelEl) userLevelEl.textContent = `Level ${databaseLevel}`
+  if (userPointsEl) userPointsEl.textContent = `${profileData.total_points || 0} Points`
+  if (userStreakEl) userStreakEl.textContent = `${profileData.current_streak || 0} Day Streak`
+
+  // Update profile tab level info with DATABASE DATA
+  const profileLevelEl = document.getElementById("profile-level")
+  const levelNumberEl = document.getElementById("level-number")
+
+  if (profileLevelEl) profileLevelEl.textContent = databaseLevel
+  if (levelNumberEl) levelNumberEl.textContent = databaseLevel
+
+  // Calculate points to next level based on database points
+  const pointsToNextLevel = POINTS_PER_LEVEL - ((profileData.total_points || 0) % POINTS_PER_LEVEL)
+  const pointsToNextLevelEl = document.getElementById("points-to-next-level")
+  if (pointsToNextLevelEl) pointsToNextLevelEl.textContent = pointsToNextLevel
+
+  // Calculate progress percentage based on database points
+  const progressPercentage = (((profileData.total_points || 0) % POINTS_PER_LEVEL) / POINTS_PER_LEVEL) * 100
+  const levelProgressEl = document.getElementById("level-progress")
+  if (levelProgressEl) levelProgressEl.style.width = `${progressPercentage}%`
+
+  // REMOVE THIS DUPLICATE SECTION:
+  // const achievementTotalPointsEl = document.getElementById("achievement-total-points")
+  // if (achievementTotalPointsEl) {
+  //   achievementTotalPointsEl.textContent = userData.points
+  //   console.log("Updated total points:", userData.points)
+  // }
+
+  // Update badges
+  updateBadgesDisplay()
+}
+
 // Update badges display - UPDATED to use database badges
-function updateBadgesDisplay() {
+async function updateBadgesDisplay() {
   const noBadgesContainer = document.getElementById("no-badges-container")
   const badgesGrid = document.getElementById("badges-grid")
 
-  // Check for newly earned badges based on current stats
-  checkForNewBadges()
+  // Check if user is logged in
+  const isLoggedIn = window.authManager && window.authManager.isLoggedIn()
 
-  if (userData.earnedBadges.length === 0) {
+  if (!isLoggedIn) {
+    // For guests, use localStorage badges
+    if (userData.earnedBadges.length === 0) {
+      noBadgesContainer.style.display = "flex"
+      badgesGrid.style.display = "none"
+    } else {
+      noBadgesContainer.style.display = "none"
+      badgesGrid.style.display = "grid"
+
+      // Clear existing badges
+      badgesGrid.innerHTML = ""
+
+      // Add earned badges from localStorage
+      userData.earnedBadges.forEach((badgeId) => {
+        const badge = badges.find((b) => b.id === badgeId)
+        if (badge) {
+          const badgeElement = document.createElement("div")
+          badgeElement.className = "badge-item"
+          badgeElement.innerHTML = `
+            <div class="badge-icon">
+              <i data-lucide="${badge.icon}"></i>
+            </div>
+            <div class="badge-info">
+              <div class="badge-name">${badge.name}</div>
+              <div class="badge-description">${badge.description}</div>
+            </div>
+          `
+          badgesGrid.appendChild(badgeElement)
+        }
+      })
+    }
+
+    // Initialize Lucide icons
+    lucide.createIcons()
+    return
+  }
+
+  // For logged-in users, fetch badges from database
+  try {
+    console.log("Fetching badges from database...")
+    const response = await fetch("api/profile.php?action=badges", {
+      method: "GET",
+      credentials: "include",
+    })
+    const result = await response.json()
+
+    console.log("Badges API response:", result)
+
+    if (result.success && result.data) {
+      const databaseBadges = result.data.filter((badge) => badge.earned === 1 || badge.earned === "1")
+
+      console.log("Database badges earned:", databaseBadges)
+
+      if (databaseBadges.length === 0) {
+        noBadgesContainer.style.display = "flex"
+        badgesGrid.style.display = "none"
+      } else {
+        noBadgesContainer.style.display = "none"
+        badgesGrid.style.display = "grid"
+
+        // Clear existing badges
+        badgesGrid.innerHTML = ""
+
+        // Add earned badges from database
+        databaseBadges.forEach((badge) => {
+          const badgeElement = document.createElement("div")
+          badgeElement.className = "badge-item"
+          badgeElement.innerHTML = `
+            <div class="badge-icon">
+              <i data-lucide="${badge.icon || "award"}"></i>
+            </div>
+            <div class="badge-info">
+              <div class="badge-name">${badge.name}</div>
+              <div class="badge-description">${badge.description}</div>
+              ${badge.earned_at ? `<div class="badge-date">Earned: ${new Date(badge.earned_at).toLocaleDateString()}</div>` : ""}
+            </div>
+          `
+          badgesGrid.appendChild(badgeElement)
+        })
+      }
+    } else {
+      console.error("Failed to fetch badges:", result.message)
+      // Fallback to no badges
+      noBadgesContainer.style.display = "flex"
+      badgesGrid.style.display = "none"
+    }
+  } catch (error) {
+    console.error("Error fetching badges:", error)
+    // Fallback to no badges
     noBadgesContainer.style.display = "flex"
     badgesGrid.style.display = "none"
-  } else {
-    noBadgesContainer.style.display = "none"
-    badgesGrid.style.display = "grid"
-
-    // Clear existing badges
-    badgesGrid.innerHTML = ""
-
-    // Add earned badges
-    userData.earnedBadges.forEach((badgeData) => {
-      // Handle both old format (just ID) and new format (object with details)
-      let badge, earnedDate
-      if (typeof badgeData === "string") {
-        badge = badges.find((b) => b.id === badgeData)
-        earnedDate = null
-      } else {
-        badge = badges.find((b) => b.id === badgeData.badge_id) || badgeData
-        earnedDate = badgeData.earned_at
-      }
-
-      if (badge) {
-        const badgeElement = document.createElement("div")
-        badgeElement.className = "badge-item"
-        badgeElement.innerHTML = `
-          <div class="badge-icon">
-            <i data-lucide="${badge.icon || "award"}"></i>
-          </div>
-          <div class="badge-info">
-            <div class="badge-name">${badge.name || badge.badge_name}</div>
-            <div class="badge-description">${badge.description || badge.badge_description}</div>
-            ${earnedDate ? `<div class="badge-date">Earned: ${new Date(earnedDate).toLocaleDateString()}</div>` : ""}
-          </div>
-        `
-        badgesGrid.appendChild(badgeElement)
-      }
-    })
-
-    // Initialize Lucide icons for new badges
-    lucide.createIcons()
   }
+
+  // Initialize Lucide icons for new badges
+  lucide.createIcons()
 }
 
 // Check for new badges
 function checkForNewBadges() {
+  // Only check for new badges if user is not logged in (guest mode)
+  const isLoggedIn = window.authManager && window.authManager.isLoggedIn()
+
+  if (isLoggedIn) {
+    // For logged-in users, badges are managed by the database
+    return
+  }
+
+  // For guests, check localStorage badges
   badges.forEach((badge) => {
     if (!userData.earnedBadges.includes(badge.id) && badge.requirement(userData)) {
       userData.earnedBadges.push(badge.id)
@@ -568,16 +514,40 @@ function renderQuizzes(quizzesToRender) {
   })
 }
 
-// Filter quizzes
+// Filter quizzes - FIXED IMPLEMENTATION
 function filterQuizzes() {
-  const searchTerm = searchInput.value.toLowerCase()
+  console.log("Filtering quizzes...")
+
+  const searchTerm = searchInput.value.toLowerCase().trim()
   const subjectFilter = document.querySelector("#subject-filter-container .custom-dropdown-selected span").textContent
   const levelFilter = document.querySelector("#level-filter-container .custom-dropdown-selected span").textContent
 
-  // Get current quiz list (need to store this globally)
-  loadQuizzesFromDatabase().then(() => {
-    // This will re-render with filters applied
+  console.log("Search term:", searchTerm)
+  console.log("Subject filter:", subjectFilter)
+  console.log("Level filter:", levelFilter)
+
+  // Filter the quizzes based on search and filters
+  const filteredQuizzes = allQuizzes.filter((quiz) => {
+    // Search filter - check title, description, and subject
+    const matchesSearch =
+      searchTerm === "" ||
+      quiz.title.toLowerCase().includes(searchTerm) ||
+      quiz.description.toLowerCase().includes(searchTerm) ||
+      quiz.subject.toLowerCase().includes(searchTerm)
+
+    // Subject filter
+    const matchesSubject = subjectFilter === "All Subjects" || quiz.subject === subjectFilter
+
+    // Level filter
+    const matchesLevel = levelFilter === "All Levels" || quiz.level === levelFilter
+
+    return matchesSearch && matchesSubject && matchesLevel
   })
+
+  console.log("Filtered quizzes:", filteredQuizzes.length, "out of", allQuizzes.length)
+
+  // Re-render the filtered quizzes
+  renderQuizzes(filteredQuizzes)
 }
 
 // Add a new function `resetQuizState` to properly clean up between quiz attempts:
@@ -591,25 +561,20 @@ function resetQuizState() {
   }
 }
 
-// Start a quiz - FIXED to handle prefixed IDs
+// Start a quiz - UPDATED to work with database quizzes only
 function startQuiz(quizId, allQuizzes = null) {
   let quiz = null
 
   console.log("Looking for quiz with ID:", quizId)
 
-  // First try to find in allQuizzes (which includes database quizzes)
+  // Find quiz in the provided quiz list
   if (allQuizzes) {
-    quiz = allQuizzes.find((q) => q.id === quizId)
-  }
-
-  // If not found in allQuizzes, try static quizzes as fallback
-  if (!quiz) {
-    quiz = quizzes.find((q) => q.id === quizId)
+    quiz = allQuizzes.find((q) => q.id == quizId) // Use == to handle both string and number IDs
   }
 
   if (!quiz) {
     console.error("Quiz not found:", quizId)
-    console.log("Available quizzes:", allQuizzes || quizzes)
+    console.log("Available quizzes:", allQuizzes)
     return
   }
 
@@ -1351,6 +1316,9 @@ function returnToDashboard() {
   // Clear quiz container
   quizContainer.querySelector(".container").innerHTML = ""
 
+  // Refresh user stats from database
+  updateUserStatsDisplay()
+
   // Update leaderboard with fresh data
   setTimeout(() => {
     renderLeaderboard("points")
@@ -1396,7 +1364,8 @@ function renderLeaderboard(type = "points") {
       if (type === "points") {
         scoreDisplay = `${user.total_points || 0} pts`
       } else if (type === "level") {
-        scoreDisplay = `${user.average_score || 0}% avg`
+        const userLevel = Math.floor((user.total_points || 0) / 100) + 1
+        scoreDisplay = `Level ${userLevel}`
       } else if (type === "perfect") {
         scoreDisplay = `${user.perfect_scores || 0} <i data-lucide="target" class="perfect-icon"></i>`
       }
@@ -1457,6 +1426,8 @@ function setupEventListeners() {
     tab.addEventListener("click", function () {
       const tabId = this.getAttribute("data-tab")
 
+      console.log(`Tab clicked: ${tabId}`)
+
       // Remove active class from all tabs and contents
       tabItems.forEach((t) => t.classList.remove("active"))
       tabContents.forEach((c) => c.classList.remove("active"))
@@ -1468,6 +1439,12 @@ function setupEventListeners() {
       // If leaderboard tab, render leaderboard
       if (tabId === "leaderboard") {
         renderLeaderboard("points")
+      }
+
+      // If profile tab, refresh user stats
+      if (tabId === "profile") {
+        console.log("Profile tab clicked, refreshing stats...")
+        updateUserStatsDisplay()
       }
     })
   })
@@ -1488,62 +1465,73 @@ function setupEventListeners() {
     })
   })
 
-  // Search input
-  searchInput.addEventListener("input", filterQuizzes)
+  // Search input - FIXED EVENT LISTENER
+  if (searchInput) {
+    searchInput.addEventListener("input", filterQuizzes)
+    console.log("Search input event listener added")
+  }
 
   // Mobile menu toggle
-  mobileMenuToggle.addEventListener("click", () => {
-    mobileMenu.classList.toggle("active")
-  })
+  if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("active")
+    })
+  }
 
-  // Custom dropdowns
+  // Custom dropdowns - FIXED EVENT LISTENERS
   customDropdowns.forEach((dropdown) => {
     const selected = dropdown.querySelector(".custom-dropdown-selected")
     const options = dropdown.querySelector(".custom-dropdown-options")
     const arrow = dropdown.querySelector(".dropdown-arrow")
 
-    selected.addEventListener("click", () => {
-      options.style.display = options.style.display === "none" ? "block" : "none"
-      arrow.classList.toggle("open")
-      dropdown.classList.toggle("open")
-    })
-
-    const optionItems = dropdown.querySelectorAll(".custom-dropdown-option")
-    optionItems.forEach((option) => {
-      option.addEventListener("click", function () {
-        const value = this.getAttribute("data-value")
-        const text = this.textContent
-
-        // Update selected text
-        selected.querySelector("span").textContent = text
-
-        // Update selected option
-        optionItems.forEach((o) => o.classList.remove("selected"))
-        this.classList.add("selected")
-
-        // Close dropdown
-        options.style.display = "none"
-        arrow.classList.remove("open")
-        dropdown.classList.remove("open")
-
-        // Add animation class
-        selected.classList.add("filter-animate")
-        setTimeout(() => {
-          selected.classList.remove("filter-animate")
-        }, 500)
-
-        // Filter quizzes
-        filterQuizzes()
+    if (selected && options && arrow) {
+      selected.addEventListener("click", () => {
+        options.style.display = options.style.display === "none" ? "block" : "none"
+        arrow.classList.toggle("open")
+        dropdown.classList.toggle("open")
       })
-    })
 
-    // Close dropdown when clicking outside
-    document.addEventListener("click", (event) => {
-      if (!dropdown.contains(event.target)) {
-        options.style.display = "none"
-        arrow.classList.remove("open")
-        dropdown.classList.remove("open")
-      }
-    })
+      const optionItems = dropdown.querySelectorAll(".custom-dropdown-option")
+      optionItems.forEach((option) => {
+        option.addEventListener("click", function () {
+          const value = this.getAttribute("data-value")
+          const text = this.textContent
+
+          console.log("Dropdown option selected:", value, text)
+
+          // Update selected text
+          selected.querySelector("span").textContent = text
+
+          // Update selected option
+          optionItems.forEach((o) => o.classList.remove("selected"))
+          this.classList.add("selected")
+
+          // Close dropdown
+          options.style.display = "none"
+          arrow.classList.remove("open")
+          dropdown.classList.remove("open")
+
+          // Add animation class
+          selected.classList.add("filter-animate")
+          setTimeout(() => {
+            selected.classList.remove("filter-animate")
+          }, 500)
+
+          // Filter quizzes
+          filterQuizzes()
+        })
+      })
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (event) => {
+        if (!dropdown.contains(event.target)) {
+          options.style.display = "none"
+          arrow.classList.remove("open")
+          dropdown.classList.remove("open")
+        }
+      })
+    }
   })
+
+  console.log("All event listeners set up successfully")
 }

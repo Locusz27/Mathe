@@ -4,6 +4,14 @@ class AuthManager {
     this.currentUser = null
     this.initialized = false
     this.lucide = window.lucide
+    console.log("Initializing AuthManager")
+    this.authToken = localStorage.getItem("authToken") || null
+    this.user = this.authToken ? this.decodeToken(this.authToken) : null
+    this.isAuthenticated = !!this.authToken // Boolean: true if authToken exists
+    this.listeners = [] // Array of callback functions to be called on auth state change
+
+    // Initialize auth state from localStorage
+    this.updateAuthState()
   }
 
   async init() {
@@ -334,6 +342,122 @@ class AuthManager {
     }
     // Default redirect to dashboard
     window.location.href = "dashboard.html"
+  }
+
+  /**
+   * Registers a listener function to be called whenever the authentication state changes.
+   * @param {function} listener - The callback function to be executed.
+   * @returns {void}
+   */
+  registerListener(listener) {
+    if (typeof listener === "function") {
+      this.listeners.push(listener)
+    } else {
+      console.error("Invalid listener: Listener must be a function.")
+    }
+  }
+
+  /**
+   * Unregisters a listener function.
+   * @param {function} listener - The callback function to be removed.
+   * @returns {void}
+   */
+  unregisterListener(listener) {
+    this.listeners = this.listeners.filter((l) => l !== listener)
+  }
+
+  /**
+   * Notifies all registered listeners about a change in the authentication state.
+   * @returns {void}
+   */
+  notifyListeners() {
+    this.listeners.forEach((listener) => {
+      listener(this.isAuthenticated, this.user)
+    })
+  }
+
+  /**
+   * Sets the authentication token and updates the authentication state.
+   * @param {string} token - The authentication token.
+   * @returns {void}
+   */
+  setToken(token) {
+    this.authToken = token
+    localStorage.setItem("authToken", token)
+    this.user = this.decodeToken(token)
+    this.updateAuthState()
+  }
+
+  /**
+   * Removes the authentication token and resets the authentication state.
+   * @returns {void}
+   */
+  clearToken() {
+    this.authToken = null
+    localStorage.removeItem("authToken")
+    this.user = null
+    this.updateAuthState()
+  }
+
+  /**
+   * Decodes the authentication token and returns the user information.
+   * @param {string} token - The authentication token.
+   * @returns {object | null} - The user information, or null if the token is invalid.
+   */
+  decodeToken(token) {
+    try {
+      // Basic JWT decoding (without verification)
+      const base64Url = token.split(".")[1]
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/")
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join(""),
+      )
+
+      return JSON.parse(jsonPayload)
+    } catch (error) {
+      console.error("Error decoding token:", error)
+      return null
+    }
+  }
+
+  /**
+   * Updates the authentication state based on the presence of an authentication token.
+   * @returns {void}
+   */
+  updateAuthState() {
+    this.isAuthenticated = !!this.authToken
+    this.notifyListeners()
+  }
+
+  /**
+   * Gets the current authentication token.
+   * @returns {string | null} - The authentication token, or null if not authenticated.
+   */
+  getToken() {
+    return this.authToken
+  }
+
+  /**
+   * Gets the current user object.
+   * @returns {object | null} - The user object, or null if not authenticated.
+   */
+  getUser() {
+    return this.user
+  }
+
+  /**
+   * Checks if the user has a specific role.
+   * @param {string} role - The role to check for.
+   * @returns {boolean} - True if the user has the role, false otherwise.
+   */
+  hasRole(role) {
+    if (!this.user || !this.user.roles) {
+      return false
+    }
+    return this.user.roles.includes(role)
   }
 }
 
