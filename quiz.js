@@ -216,7 +216,7 @@ async function fetchUserProfileData() {
 
       console.log("Profile stats:", stats)
 
-      // Return properly formatted data
+      // Return properly formatted data including user info
       const formattedData = {
         total_points: stats.total_points || 0,
         total_quizzes: stats.total_quizzes || 0,
@@ -226,6 +226,7 @@ async function fetchUserProfileData() {
         average_score: stats.average_score || 0,
         last_quiz_date: stats.last_quiz_date,
         badges: profileData.badges || [],
+        user: profileData.user || null,
       }
 
       console.log("Formatted data:", formattedData)
@@ -301,6 +302,13 @@ async function updateUserStatsDisplay() {
   if (achievementTotalPointsEl) {
     achievementTotalPointsEl.textContent = profileData.total_points || 0
     console.log("Updated achievement total points:", profileData.total_points)
+  }
+
+  // Update profile username with actual user data
+  const profileUsernameEl = document.getElementById("profile-username")
+  if (profileUsernameEl && profileData.user && profileData.user.username) {
+    profileUsernameEl.textContent = profileData.user.username
+    console.log("Updated profile username:", profileData.user.username)
   }
 
   // Calculate level from database points, not localStorage
